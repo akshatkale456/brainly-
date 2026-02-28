@@ -1,9 +1,7 @@
 import type { ReactElement } from "react";
+import type { SidebarItemProps } from "../types/type";
 
-interface SidebarItemProps {
-    title: string;
-    icon?: ReactElement;
-}
+
 
 export const SidebarItem = ({ title, icon }: SidebarItemProps) => {
     return (

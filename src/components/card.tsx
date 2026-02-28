@@ -1,12 +1,8 @@
 import type { ReactElement } from "react"
+import type { Card } from "../types/type"
 
-interface card {
 
-  string: string,
-  stock: number,
-  img: ReactElement
-}
-export function Card(card: card) {
+export function Card(card: Card) {
   return <div className="flex items-center justify-center p-4 md:p-10 w-full sm:w-auto">
     <div className="
         min-h-96 w-full sm:w-72 rounded-xl
