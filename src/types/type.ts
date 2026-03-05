@@ -20,4 +20,9 @@ export interface socialcard{
    type: "youtube"|"twitter"
    read:boolean
    link: string
-}   
+}  
+export interface Modl{
+  setclose:React.Dispatch<React.SetStateAction<boolean>>
+  open:boolean
+   
+} 

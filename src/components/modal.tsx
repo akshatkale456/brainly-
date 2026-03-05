@@ -1,8 +1,10 @@
+
 import { motion } from 'motion/react';
+import { useState } from 'react'
+import type { Modl } from '../types/type';
 
-export const Modal = ({ isOpen = true, onClose }: { isOpen?: boolean; onClose?: () => void }) => {
-    if (!isOpen) return null;
-
+export const Modal = ({setclose,open}:Modl)=>{
+    
     return (
         <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/60 backdrop-blur-sm p-4">
             <motion.div
@@ -15,7 +17,7 @@ export const Modal = ({ isOpen = true, onClose }: { isOpen?: boolean; onClose?: 
                 <div className="flex justify-between items-center p-6 border-b border-gray-100">
                     <h2 className="text-xl font-bold text-gray-800 font-sans tracking-tight">Add New Content</h2>
                     <button
-                        onClick={onClose}
+                        onClick={()=>{setclose(!open)}}
                         className="text-gray-400 hover:text-gray-700 transition-colors p-1 rounded-full hover:bg-gray-100 cursor-pointer"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
@@ -62,7 +64,7 @@ export const Modal = ({ isOpen = true, onClose }: { isOpen?: boolean; onClose?: 
                 {/* Footer */}
                 <div className="p-6 bg-gray-50/50 border-t border-gray-100 flex justify-end gap-3">
                     <button
-                        onClick={onClose}
+                        // onClick={}
                         className="px-5 py-2.5 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-200/50 transition-colors cursor-pointer"
                     >
                         Cancel
