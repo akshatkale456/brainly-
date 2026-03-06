@@ -23,6 +23,6 @@ export interface socialcard{
 }  
 export interface Modl{
   setclose:React.Dispatch<React.SetStateAction<boolean>>
-  open:boolean
+  
    
 } 

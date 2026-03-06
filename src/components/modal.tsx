@@ -3,28 +3,29 @@ import { motion } from 'motion/react';
 import { useState } from 'react'
 import type { Modl } from '../types/type';
 
-export const Modal = ({setclose,open}:Modl)=>{
-    
+export const Modal = ({ setclose }: Modl) => {
+
     return (
         <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/60 backdrop-blur-sm p-4">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 className="relative bg-white/90 backdrop-blur-md border border-white/20 shadow-2xl rounded-2xl w-full max-w-md overflow-hidden"
             >
-                {/* Header */}
+
                 <div className="flex justify-between items-center p-6 border-b border-gray-100">
                     <h2 className="text-xl font-bold text-gray-800 font-sans tracking-tight">Add New Content</h2>
                     <button
-                        onClick={()=>{setclose(!open)}}
+                        onClick={() => { setclose((dash) => { return (!dash) }) }}
                         className="text-gray-400 hover:text-gray-700 transition-colors p-1 rounded-full hover:bg-gray-100 cursor-pointer"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
                     </button>
                 </div>
 
-                {/* Body */}
+
                 <div className="p-6 space-y-5">
                     <div className="space-y-2">
                         <label className="text-sm font-semibold text-gray-700">Title</label>
@@ -61,10 +62,10 @@ export const Modal = ({setclose,open}:Modl)=>{
                     </div>
                 </div>
 
-                {/* Footer */}
+
                 <div className="p-6 bg-gray-50/50 border-t border-gray-100 flex justify-end gap-3">
                     <button
-                        // onClick={}
+                        onClick={() => { setclose((dash) => { return (!dash) }) }}
                         className="px-5 py-2.5 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-200/50 transition-colors cursor-pointer"
                     >
                         Cancel

@@ -6,7 +6,9 @@ big: " pl-2 pr-2  pt-2 pb-2 ",
 small : " pl-2 pr-2  pt-1 pb-1 "
 }
 
+
 export function Button(prop:Button){
+    
      return<div>
         <motion.button  initial={{ backgroundColor:"rgba(255, 255, 255, 0.6)",
             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)"
@@ -17,7 +19,7 @@ export function Button(prop:Button){
                 {prop.icon}
 
             </div>
-            <div className='pl-1 '>
+            <div className='pl-1 font-roboto '>
                 {prop.text}
                  
             </div>
