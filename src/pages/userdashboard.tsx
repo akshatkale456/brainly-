@@ -5,7 +5,7 @@ import { useState } from "react";
 
 
 export const Dashboard = () => {
-   const[open ,setclose]=useState(true)  
+  
    return (
       <div className="p-6">
          <div>

@@ -5,6 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Sidebaar } from "../assets/icon";
 import { Sidebar } from "../components/sidebar"
 import { useState } from "react";
+import { AnimatePresence } from "motion/react";
 import { Modal } from "./modal";
 
 const notification = false;
@@ -63,9 +64,11 @@ export const Dashnav = () => {
 
             </div>
          </Paper>
+         <AnimatePresence>
          {sidebar && <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]" onClick={toggleSidebar}>
             <Sidebar />
          </div>}
+         </AnimatePresence>
 
 
       </div>

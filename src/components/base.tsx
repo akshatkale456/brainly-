@@ -1,5 +1,18 @@
 import { Card } from "./card"
 import { Youtube } from "../assets/youtube"
+import {motion}from "motion/react"
+const parenveiw = {
+    hidden :{ opacity:0},
+    visible:{opacity:1,
+      transition:{
+         staggerChildren:0.7
+      }
+    }
+}
+const childveiw = {
+   hidden: { opacity: 0, y: -10 },
+  visible: { opacity: 1, y:0 },
+}
 export function Base() {
    return <div className="w-full overflow-x-hidden">
       <div>
@@ -13,12 +26,24 @@ export function Base() {
 
             </div>
          </div>
-         <div className="flex flex-col md:flex-row gap-6 mx-5 md:mx-60 justify-between items-center">
-            <Card name="save your youtube video" />
-            <Card />
-            <Card />
+         <motion.div
+         variants ={parenveiw}
+      className="flex flex-col md:flex-row gap-6 mx-5 md:mx-60 justify-between items-center"
+        initial="hidden"
+        whileInView="visible" // <--- This triggers the stagger on scroll!
+        viewport={{ once: true, amount: 0.3 }}>
+        <motion.div variants={childveiw}>
+    <Card string="save your youtube video" stock={0} img="" />
+  </motion.div>
 
-         </div>
+  <motion.div variants={childveiw}>
+    <Card string="" stock={0} img="" />
+  </motion.div>
+
+  <motion.div variants={childveiw}>
+    <Card string="" stock={0} img="" />
+  </motion.div>
+</motion.div>
       </div>
       <div >
          hii

@@ -3,7 +3,6 @@ import { Hero } from "../components/hero"
 import { Base } from "../components/base"
 import { Nav } from "../components/nav"
 
-import { Trigger } from "../components/trigger"
 import { Footer } from "../components/footer"
 
 export function Maincontent() {
@@ -12,7 +11,7 @@ export function Maincontent() {
  <Nav />
       <Hero />
       <Base />
-      <Trigger />
+      
       <Footer />
     </div>
   </div>

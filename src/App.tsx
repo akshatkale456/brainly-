@@ -1,6 +1,6 @@
 
 import { Routes, Route } from 'react-router-dom'
-import { Maincontent } from "./pages/maincontent"
+import { Maincontent } from "./pages/Landing"
 import { Signin } from "./pages/signin"
 import { Signup } from "./pages/signup"
 import { Dashboard } from './pages/userdashboard'
@@ -24,7 +24,7 @@ function App() {
 
         {/* Protected/Dashboard Routes with Common Layout */}
         <Route element={<Layout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/chat" element={<Chat />} />
           <Route path="/youtube" element={<Youtube />} />
           <Route path="/twitter" element={<Twitter />} />

@@ -1,14 +1,14 @@
 import type { ReactElement } from "react"
 import type { Card } from "../types/type"
-
+//
 
 export function Card(card: Card) {
   return <div className="flex items-center justify-center p-4 md:p-10 w-full sm:w-auto">
     <div className="
         min-h-96 w-full sm:w-72 rounded-xl
         font-roboto
-   
-  bg-white/10
+     bg-white/10
+
  flex
 flex-col
 items-center

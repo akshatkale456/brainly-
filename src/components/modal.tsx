@@ -10,6 +10,7 @@ export const Modal = ({ setclose }: Modl) => {
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
+            
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 className="relative bg-white/90 backdrop-blur-md border border-white/20 shadow-2xl rounded-2xl w-full max-w-md overflow-hidden"
