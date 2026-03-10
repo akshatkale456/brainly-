@@ -22,7 +22,7 @@ function App() {
         <Route path="/" element={<Maincontent />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-         <Route path="/loading" element={<Loading/>} />
+         {/* <Route path="/loading" element={<Loading/>} /> */}
 
         {/* Protected/Dashboard Routes with Common Layout */}
         <Route element={<Layout />}>

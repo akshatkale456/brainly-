@@ -6,7 +6,7 @@ export const Loading = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.7
+        staggerChildren: 0.5
       }
     }
   }
@@ -24,7 +24,7 @@ export const Loading = () => {
   };
 
   return (
-    <div className="h-screen bg-black w-screen flex justify-center items-center">
+    <div className="fixed inset-0 bg-black flex justify-center items-center z-100">
       <motion.div variants={parent} initial="hidden" animate="visible" className="flex gap-2">
         <motion.div variants={child} className="h-20 w-2 bg-white rounded-xl mt-6 shadow-2xl shadow-white"></motion.div>
         <motion.div variants={child} className="h-20 w-2 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>

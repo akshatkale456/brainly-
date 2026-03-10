@@ -26,3 +26,7 @@ export interface Modl{
   
    
 } 
+export interface load{
+  load:boolean,
+  setLoad:()=>void
+}

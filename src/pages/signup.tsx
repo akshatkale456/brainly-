@@ -1,11 +1,14 @@
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from "@mui/material";
 import axios from "axios";
 import { signupSchema } from "../schemas";
 import { Link } from "react-router-dom";
+import { Loading } from '../components/loading';
 
 export const Signup = () => {
+    const [loading, setLoading] = useState(true);
+
     const firstNameRef = useRef<HTMLInputElement>(null);
     const lastNameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
@@ -52,11 +55,14 @@ export const Signup = () => {
     }
 
     return (
-        <div className='flex justify-center items-center min-h-screen bg-black p-4 relative'>
-            <Link to="/" className="absolute top-6 left-6 text-neutral-400 hover:text-white transition-colors flex items-center gap-2">
-                ← Back to Home
-            </Link>
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mt-20 overflow-hidden">
+        <div className='flex flex-col justify-center items-center min-h-screen bg-black p-4 md:p-6 relative'>
+            {loading && <Loading />}
+            <div className="w-full max-w-2xl mb-6">
+                <Link to="/" className="text-neutral-400 hover:text-white transition-colors flex items-center gap-2 w-max">
+                    ← Back to Home
+                </Link>
+            </div>
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
                 <div className="p-8 md:p-10">
                     <h2 className="text-3xl font-bold text-neutral-900 mb-2">Create Account</h2>
                     <p className="text-neutral-500 mb-8">Please fill in your details to get started.</p>
@@ -129,6 +135,5 @@ export const Signup = () => {
                 </div>
             </div>
         </div>
-
     )
 }
