@@ -2,6 +2,7 @@
 import { Hero } from "../components/hero"
 import { Base } from "../components/base"
 import { Nav } from "../components/nav"
+import { Loading } from "../components/loading"
 
 import { Footer } from "../components/footer"
 

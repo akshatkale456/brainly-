@@ -31,7 +31,7 @@ export function Base() {
       className="flex flex-col md:flex-row gap-6 mx-5 md:mx-60 justify-between items-center"
         initial="hidden"
         whileInView="visible" // <--- This triggers the stagger on scroll!
-        viewport={{ once: true, amount: 0.3 }}>
+        viewport={{ once: false, amount: 0.3 }}>
         <motion.div variants={childveiw}>
     <Card string="save your youtube video" stock={0} img="" />
   </motion.div>

@@ -10,6 +10,7 @@ import { ErrorPage } from './pages/error'
 import { Youtube } from './pages/youtube'
 import { Twitter } from './pages/twitter'
 import { Todo } from './pages/todo'
+import { Loading } from './components/loading'
 import { Pdf } from './pages/pdf'
 import './App.css'
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Maincontent />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+         <Route path="/loading" element={<Loading/>} />
 
         {/* Protected/Dashboard Routes with Common Layout */}
         <Route element={<Layout />}>
@@ -29,7 +31,8 @@ function App() {
           <Route path="/youtube" element={<Youtube />} />
           <Route path="/twitter" element={<Twitter />} />
           <Route path="/todo" element={<Todo />} />
-          <Route path="/pdf" element={<Pdf />} />
+          
+         
         </Route>
 
         {/* Catch-all Route for 404 Error Page */}
