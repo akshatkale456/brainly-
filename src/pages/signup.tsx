@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Loading } from '../components/loading';
 
 export const Signup = () => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState();
 
     const firstNameRef = useRef<HTMLInputElement>(null);
     const lastNameRef = useRef<HTMLInputElement>(null);
@@ -18,7 +18,7 @@ export const Signup = () => {
     async function signup() {
         const firstName = firstNameRef.current?.value;
         const lastName = lastNameRef.current?.value;
-        const EmailID = emailRef.current?.value;
+        const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
         const confirmPassword = confirmPasswordRef.current?.value;
 
@@ -27,7 +27,7 @@ export const Signup = () => {
         const validationResult = signupSchema.safeParse({
             firstName,
             lastName,
-            EmailID,
+            email,
             password,
             confirmPassword,
 
@@ -39,11 +39,12 @@ export const Signup = () => {
         }
 
         try {
-            await axios.post("https://localhost:7052/api/UserManagement/UserRegistration", {
+            await axios.post("http://localhost:3000/api/signup", {
                 firstName,
                 lastName,
-                EmailID,
+                email,
                 password,
+                 confirmPassword
 
             });
             alert("Signup successful!");
