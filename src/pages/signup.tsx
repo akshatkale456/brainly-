@@ -5,9 +5,12 @@ import axios from "axios";
 import { signupSchema } from "../schemas";
 import { Link } from "react-router-dom";
 import { Loading } from '../components/loading';
+import { useNavigate } from 'react-router-dom';
+import { set } from 'zod';
 
 export const Signup = () => {
-    const [loading, setLoading] = useState();
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
 
     const firstNameRef = useRef<HTMLInputElement>(null);
     const lastNameRef = useRef<HTMLInputElement>(null);
@@ -16,6 +19,7 @@ export const Signup = () => {
     const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
     async function signup() {
+        setLoading(true);
         const firstName = firstNameRef.current?.value;
         const lastName = lastNameRef.current?.value;
         const email = emailRef.current?.value;
@@ -34,6 +38,8 @@ export const Signup = () => {
         });
 
         if (!validationResult.success) {
+            
+            setLoading(false)
             alert(validationResult.error.issues[0].message);
             return;
         }
@@ -47,11 +53,17 @@ export const Signup = () => {
                  confirmPassword
 
             });
+            
+            setLoading(false);
+            navigate("/signin")
             alert("Signup successful!");
         } catch (e: any) {
             console.error("Signup error details:", e.response?.data);
             console.error("Signup status:", e.response?.status);
-            alert("Signup failed");
+           setTimeout(() => {
+            setLoading(false)
+           }, 3000); ;
+            // alert("Signup failed");
         }
     }
 

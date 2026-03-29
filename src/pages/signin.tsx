@@ -2,43 +2,49 @@
 import { TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom"
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { signinSchema } from "../schemas";
+import { Loading } from "../components/loading";
 
 export const Signin = () => {
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
     const handleSignin = async () => {
+        setLoading(true);
         const email = emailRef.current?.value;
         const password = passwordRef.current?.value;
 
         const validationResult = signinSchema.safeParse({ email, password });
 
         if (!validationResult.success) {
+            setLoading(false);
             alert(validationResult.error.issues[0].message);
             return;
         }
 
-
         try {
-            await axios.post("/api/UserManagement/AuthenticateUser/Login", {
+            await axios.post("http://localhost:3000/api/signin", {
                 email,
                 password
-            })
-            alert("signin succesfull")
-
-
-
+            });
+            navigate("/youtube")
+            setLoading(false);
+            // alert("signin succesfull");
         } catch (e) {
-            alert("signin failed")
+            setLoading(false);
+            alert("signin failed" + e);
         }
     };
 
     return (
         <div className='flex justify-center items-center min-h-screen bg-neutral-950 p-4 relative'>
+            {loading && <Loading />}
             <Link to="/" className="absolute top-6 left-6 text-neutral-400 hover:text-white transition-colors flex items-center gap-2">
                 ← Back to Home
             </Link>
@@ -49,6 +55,7 @@ export const Signin = () => {
                 <div className="space-y-6">
                     <div className="space-y-4">
                         <TextField
+                        sx ={{marginBottom:"12px"}}
                             inputRef={emailRef}
                             label="Email Address"
                             variant="outlined"

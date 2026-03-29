@@ -23,16 +23,21 @@ export const Loading = () => {
     },
   };
 
-  return (
+  return (<div >
     <div className="fixed inset-0 bg-black flex justify-center items-center z-100">
-      <motion.div variants={parent} initial="hidden" animate="visible" className="flex gap-2">
-        <motion.div variants={child} className="h-20 w-2 bg-white rounded-xl mt-6 shadow-2xl shadow-white"></motion.div>
-        <motion.div variants={child} className="h-20 w-2 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>
-        <motion.div variants={child} className="h-20 w-2 bg-white rounded-xl mt-6 shadow-2xl shadow-white"></motion.div>
-        <motion.div variants={child} className="h-20 w-2 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>
-        <motion.div variants={child} className="h-20 w-2 bg-white rounded-xl mt-4 shadow-2xl shadow-white"></motion.div>
-        <motion.div variants={child} className="h-20 w-2 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>
+      <motion.div variants={parent} initial="hidden" animate="visible" className="flex gap-1 sm:gap-1.5 md:gap-2">
+        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl mt-3 sm:mt-4 md:mt-6 shadow-2xl shadow-white"></motion.div>
+        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>
+        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl mt-3 sm:mt-4 md:mt-6 shadow-2xl shadow-white"></motion.div>
+        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>
+        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl mt-2 sm:mt-3 md:mt-4 shadow-2xl shadow-white"></motion.div>
+        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>
       </motion.div>
+      
+    </div>
+    <div className="z-150 absolute text-gray-300 text-xl sm:text-2xl md:text-3xl top-1/2 left-1/2 -translate-x-1/2 mt-16 sm:mt-20 md:mt-28" >
+      Loading...
+    </div>
     </div>
   )
 }
