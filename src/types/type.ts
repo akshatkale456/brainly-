@@ -26,7 +26,15 @@ export interface Modl{
   
    
 } 
-export interface load{
-  load:boolean,
-  setLoad:()=>void
+interface card {
+  type:string,
+  title:string,
+  read:boolean,
+  link:string
+}
+export interface  cardGlobalState {
+  card:card[]
+  addcard:()=>void
+  deletcard:()=>void
+   
 }

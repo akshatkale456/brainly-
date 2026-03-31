@@ -11,7 +11,7 @@ import { Loading } from "../components/loading";
 
 export const Signin = () => {
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 

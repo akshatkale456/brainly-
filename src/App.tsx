@@ -5,7 +5,7 @@ import { Signin } from "./pages/signin"
 import { Signup } from "./pages/signup"
 import { Dashboard } from './pages/userdashboard'
 import { Layout } from './components/layout'
-import { Chat } from './pages/chat'
+import { Pin } from './pages/pin'
 import { ErrorPage } from './pages/error'
 import { Youtube } from './pages/youtube'
 import { Twitter } from './pages/twitter'
@@ -27,7 +27,7 @@ function App() {
         {/* Protected/Dashboard Routes with Common Layout */}
         <Route element={<Layout />}>
           {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-          <Route path="/chat" element={<Chat />} />
+          <Route path="/chat" element={<Pin />} />
           <Route path="/youtube" element={<Youtube />} />
           <Route path="/twitter" element={<Twitter />} />
           <Route path="/todo" element={<Todo />} />
