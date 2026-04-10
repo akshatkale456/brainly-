@@ -26,7 +26,7 @@ export interface Modl{
   
    
 } 
-interface card {
+ export interface card {
   type:string,
   title:string,
   read:boolean,
@@ -37,4 +37,10 @@ export interface  cardGlobalState {
   addcard:()=>void
   deletcard:()=>void
    
+}
+export  interface mediumcard{
+   heading:string 
+   content?: string 
+   icon:ReactNode
+   variant:"large"|"medium"|"small"
 }

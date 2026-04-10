@@ -22,7 +22,7 @@ export const PasswordReset = () => {
     };
 
     return (
-        <div className='flex justify-center items-center min-h-screen bg-neutral-950 p-4'>
+        <div className='flex justify-center items-center min-h-screen bg-neutral-main p-4'>
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden p-8 md:p-10">
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold text-neutral-900 mb-2">Reset Password</h2>

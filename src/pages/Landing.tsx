@@ -7,7 +7,7 @@ import { Loading } from "../components/loading"
 import { Footer } from "../components/footer"
 
 export function Maincontent() {
-  return <div className="bg-black min-h-screen w-full" >
+  return <div className="bg-neutral-main min-h-screen w-full" >
     <div className="relative">
  <Nav />
       <Hero />

@@ -26,7 +26,7 @@ function App() {
 
         {/* Protected/Dashboard Routes with Common Layout */}
         <Route element={<Layout />}>
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/chat" element={<Pin />} />
           <Route path="/youtube" element={<Youtube />} />
           <Route path="/twitter" element={<Twitter />} />
@@ -42,125 +42,7 @@ function App() {
   )
 }
 
-//   interface score  {
-//   high:number,
-//   medium:number,
-//   low:number,
-// }
-// interface todo {
-//    title: string
-//    id?:number,
-//    compelete?:boolean
-//    priority?:"high"|"low"|"medium"
-// }
+// App.tsx
 
-// let todos:todo[] =  []
-// function App() {
-//   let dashref = useRef<HTMLInputElement>(null)
-//   let proref = useRef<HTMLSelectElement>(null)
-//   const [ todo , settodo] = useState(todos);
-//   function add(){
-
-
-
-// if( dashref.current === null){
-//   console.log( "you are not put any todos")
-// }
-// else if(proref.current === null){
-// console.log( "you are not put any todos")
-// }
-// else{
-//   const  newtodo:todo = {
-//     title:dashref.current.value,
-//     id: Date.now(),
-//     priority:proref.current.value as "high"|"low"|"medium"
-
-
-//   }
-//   settodo((prevTodos)=>{
-//     const updated = [...prevTodos, newtodo]
-//      return sort(updated)
-
-
-//   })
-//   dashref.current.value = '';
-//   proref.current.value = 'low';
-// }
-
-// }
-// function sort(todo:todo[]){
-//   todo.sort((a,b)=>{
-//     const score:score = {
-//   high:3,
-//   medium:2,
-//   low:1,}
-//     const dasha = score[a.priority||"low"]
-//     const dashB = score[b.priority||"low"]  
-//       return dasha - dashB
-//    }
-
-// )
-//  return todo
-// }
-
-//  function doe (id:number){
-
-//   settodo( (todo)=>
-//   { return todo.filter((a)=>{
-//     a.id === id 
-//   } )
-
-//   })
-
-//  }
-
-
-// console.log( todo )
-
-//   return (<div>
-
-//  <input type="text" placeholder="type your title" ref = {dashref} /> 
-//  <select ref = {proref}>
-//   <option>
-//     high
-//   </option>
-//   <option>
-//     low
-//   </option>
-//   <option>
-//     medium
-//   </option>
-//  </select>
-
-//  <div>
-// <button onClick={add}>
-//   add
-// </button>
-//   </div> 
-//   <div>
-//     {todo.map((item) => {
-//           return (
-//             <div >
-//               <h3>Title: {item.title}</h3>
-
-//               <p>
-//                 priority:{item.priority}
-//               </p>
-
-//                 <button onClick={() => {
-//     // Only call deletodo if item.id is not undefined/null
-//     if (item.id !== undefined) {
-//         doe(item.id);
-//     }
-// }}>
-//     delete
-// </button>
-
-//             </div>
-//           )
-//         })}
-//   </div>
-//   </div>
-// )}}
 
 export default App

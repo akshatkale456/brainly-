@@ -24,7 +24,7 @@ export const Loading = () => {
   };
 
   return (<div >
-    <div className="fixed inset-0 bg-black flex justify-center items-center z-100">
+    <div className="fixed inset-0 bg-neutral-main flex justify-center items-center z-100">
       <motion.div variants={parent} initial="hidden" animate="visible" className="flex gap-1 sm:gap-1.5 md:gap-2">
         <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl mt-3 sm:mt-4 md:mt-6 shadow-2xl shadow-white"></motion.div>
         <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>

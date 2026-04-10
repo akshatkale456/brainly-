@@ -10,7 +10,7 @@ export function Nav() {
 
     const toggleSidebar = () => setIsOpen(!isOpen);
 
-    return <div className="fixed top-0 z-50 w-full bg-black border-b border-white/10">
+    return <div className="fixed top-0 z-50 w-full bg-neutral-main border-b border-white/10">
         <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
             <div className="relative z-50">
                 <Logo />
@@ -18,23 +18,23 @@ export function Nav() {
 
 
             <div className="hidden md:flex flex-wrap justify-center gap-6 text-white">
-                <Link to="/" className="cursor-pointer tracking-tight relative hover:text-gray-300 transition-colors duration-300 font-sans-serif">
+                <Link to="/" className="cursor-pointer tracking-tight relative hover:text-secondary transition-colors duration-300 ">
                     HOME
                 </Link>
-                <div className="cursor-pointer tracking-tight font-roboto relative hover:text-gray-300 transition-colors duration-300">
+                <div className="cursor-pointer tracking-tight relative hover:text-secondary transition-colors duration-300">
                     ABOUTUS
                 </div>
-                <div className="cursor-pointer tracking-tight font-roboto relative hover:text-gray-300 transition-colors duration-300">
+                <div className="cursor-pointer tracking-tight relative hover:text-secondary transition-colors duration-300">
                     CONTACT
                 </div>
-                <div className="cursor-pointer tracking-tight font-roboto relative hover:text-gray-300 transition-colors duration-300">
+                <div className="cursor-pointer tracking-tight relative hover:text-secondary transition-colors duration-300">
                     FAQ
                 </div>
             </div>
 
             <div className="hidden md:flex items-center gap-6">
                 <div className="">
-                    <Link to="/signin" className="font-roboto font-bold text-md underline-offset-1 text-white hover:text-gray-300">sign in</Link>
+                    <Link to="/signin" className="font-bold text-md underline-offset-1 text-white hover:text-secondary">sign in</Link>
                 </div>
                 <div>
                     <Link to="/signup">
@@ -65,22 +65,22 @@ export function Nav() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={toggleSidebar}
-                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+                            className="fixed inset-0 bg-neutral-main/60 backdrop-blur-sm z-40 md:hidden"
                         />
                         <motion.div
                             initial={{ x: "100%" }}
                             animate={{ x: 0 }}
                             exit={{ x: "100%" }}
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                            className="fixed right-0 top-0 h-full w-64 bg-black border-l border-white/10 z-50 flex flex-col pt-24 pl-8 gap-8 shadow-2xl md:hidden"
+                            className="fixed right-0 top-0 h-full w-64 bg-neutral-main border-l border-white/10 z-50 flex flex-col pt-24 pl-8 gap-8 shadow-2xl md:hidden"
                         >
-                            <div className="flex flex-col gap-6 text-white text-lg font-roboto">
-                                <Link to="/" className="cursor-pointer hover:text-gray-300" onClick={toggleSidebar}>HOME</Link>
-                                <div className="cursor-pointer hover:text-gray-300" onClick={toggleSidebar}>ABOUTUS</div>
-                                <div className="cursor-pointer hover:text-gray-300" onClick={toggleSidebar}>CONTACT</div>
-                                <div className="cursor-pointer hover:text-gray-300" onClick={toggleSidebar}>FAQ</div>
-                                <Link to="/signin" className="cursor-pointer hover:text-gray-300" onClick={toggleSidebar}>signin</Link>
-                                <Link to="/signup" className="cursor-pointer hover:text-gray-300" onClick={toggleSidebar}>signup</Link>
+                            <div className="flex flex-col gap-6 text-white text-lg ">
+                                <Link to="/" className="cursor-pointer hover:text-secondary" onClick={toggleSidebar}>HOME</Link>
+                                <div className="cursor-pointer hover:text-secondary" onClick={toggleSidebar}>ABOUTUS</div>
+                                <div className="cursor-pointer hover:text-secondary" onClick={toggleSidebar}>CONTACT</div>
+                                <div className="cursor-pointer hover:text-secondary" onClick={toggleSidebar}>FAQ</div>
+                                <Link to="/signin" className="cursor-pointer hover:text-secondary" onClick={toggleSidebar}>signin</Link>
+                                <Link to="/signup" className="cursor-pointer hover:text-secondary" onClick={toggleSidebar}>signup</Link>
 
 
                             </div>

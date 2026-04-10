@@ -2,75 +2,56 @@ import { Avatar, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AddIcon from "@mui/icons-material/Add";
-import { Sidebaar } from "../assets/icon";
-import { Sidebar } from "../components/sidebar"
+import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
-import { AnimatePresence } from "motion/react";
 import { Modal } from "./modal";
 
 const notification = false;
-export const Dashnav = () => {
-   const [sidebar, setSidebar] = useState(false);
+
+interface DashnavProps {
+   toggleSidebar: () => void;
+}
+
+export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
    const [open, setClose] = useState(false);
 
-   function toggleSidebar() {
-      setSidebar(!sidebar);
-   }
    return (
-      <div>
-
-         <Paper elevation={9} sx={{
-            backgroundColor: "#EEEEEE",
-            height: "60px",
-            display: "flex",
-            alignItems: "center",
-            paddingX: "16px"
-         }}>
-            <div className="flex items-center justify-between w-full h-full gap-4">
-
-               <div onClick={toggleSidebar} className="cursor-pointer flex-shrink-0 p-1 rounded-full hover:bg-gray-200 transition-colors">
-                  <Sidebaar />
-               </div>
-
-               <div className="hidden md:flex items-center bg-white rounded-xl h-10 flex-1 max-w-xl shadow-sm px-3">
-                  <SearchIcon className="text-gray-500" />
-                  <input
-                     type="search"
-                     placeholder="Search..."
-                     className="bg-transparent border-0 outline-none w-full ml-2 text-gray-700 placeholder-gray-400"
-                  />
-               </div>
-
-               <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0 ml-auto">
-                  <button onClick={() => setClose(true)} className="px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl flex items-center gap-1 sm:gap-2 text-sm font-bold text-white bg-purple-600 hover:bg-purple-500 hover:shadow-md transition-all duration-200 cursor-pointer">
-                     <AddIcon fontSize="small" />
-                     <span className="hidden sm:block">Add content</span>
-                  </button>
-                  {open && <Modal setclose={setClose} />}
-
-                  <div className="relative flex items-center cursor-pointer p-1 rounded-full hover:bg-gray-200 transition-colors">
-                     <div className="relative inline-flex">
-                        <NotificationsNoneIcon fontSize="medium" className="text-gray-700" />
-                        {notification && <div className="absolute -top-1 -right-1 flex h-4 w-4 sm:h-5 sm:w-5 items-center justify-center rounded-full bg-red-500 text-[10px] sm:text-xs text-white font-bold border-2 border-white">
-                           1
-                        </div>}
-                     </div>
-                  </div>
-
-                  <div className="cursor-pointer ml-1 sm:ml-2">
-                     <Avatar sx={{ width: { xs: 32, sm: 40 }, height: { xs: 32, sm: 40 } }} />
-                  </div>
-               </div>
-
+      <header className="sticky top-0 z-40 w-full border-b border-zinc-800 bg-neutral-main text-white">
+         <div className="flex h-16 items-center px-4 md:px-6">
+            <button onClick={toggleSidebar} className="mr-4 text-zinc-400 hover:text-white transition-colors cursor-pointer">
+               <MenuIcon />
+            </button>
+            <div className="flex items-center gap-2 font-bold text-xl tracking-tight">
+               <span>Dashboard</span>
             </div>
-         </Paper>
-         <AnimatePresence>
-         {sidebar && <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]" onClick={toggleSidebar}>
-            <Sidebar />
-         </div>}
-         </AnimatePresence>
 
+            <div className="hidden md:flex items-center bg-neutral-main border border-zinc-800 rounded-xl h-10 flex-1 max-w-xl mx-auto px-3 shadow-sm transition-colors focus-within:border-zinc-700 focus-within:bg-zinc-800">
+               <SearchIcon className="text-zinc-400" />
+               <input
+                  type="search"
+                  placeholder="Search..."
+                  className="bg-transparent border-0 outline-none w-full ml-2 text-white placeholder-zinc-500"
+               />
+            </div>
 
-      </div>
+            <div className="flex items-center gap-4 ml-auto">
+               <button onClick={() => setClose(true)} className="px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold text-white bg-primary hover:bg-secondary transition-colors shadow-sm">
+                  <AddIcon fontSize="small" />
+                  <span className="hidden sm:block">Add content</span>
+               </button>
+               {open && <Modal setclose={setClose} />}
+
+               <div className="relative flex items-center justify-center h-10 w-10 rounded-full hover:bg-neutral-main transition-colors cursor-pointer text-zinc-300 hover:text-white">
+                  <NotificationsNoneIcon />
+                  {notification && <span className="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-red-500" />}
+               </div>
+
+               <div className="cursor-pointer ml-2">
+                  <Avatar sx={{ width: 36, height: 36, bgcolor: '#A855F7' }} />
+               </div>
+            </div>
+
+         </div>
+      </header>
    );
 };

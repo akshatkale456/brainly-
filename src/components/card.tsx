@@ -6,8 +6,8 @@ export function Card(card: Card) {
   return <div className="flex items-center justify-center p-4 md:p-10 w-full sm:w-auto">
     <div className="
         min-h-96 w-full sm:w-72 rounded-xl
-        font-roboto
-     bg-white/10
+        
+     bg-gradient-to-br from-neutral-800 via-neutral-800 to-primary/50
 
  flex
 flex-col
