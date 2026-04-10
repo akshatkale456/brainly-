@@ -5,6 +5,6 @@ const variants ={
 }
 export const Alerttdot =(propps:{variants:keyof typeof variants})=>{
      return <div>
-         <div className={`w-4 h-4 ${variants[propps.variants]} rounded-full `} >
+         <div className={`w-3 h-3 ${variants[propps.variants]} rounded-full `} >
          </div>
      </div>}
