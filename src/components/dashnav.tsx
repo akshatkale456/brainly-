@@ -3,8 +3,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import AddIcon from "@mui/icons-material/Add";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal } from "./modal";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Alerttdot } from "./alertdot";
 
 const notification = false;
 
@@ -14,6 +17,28 @@ interface DashnavProps {
 
 export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
    const [open, setClose] = useState(false);
+   const [profilePic, setProfilePic] = useState<string | null>(null);
+   const navigate = useNavigate();
+
+   useEffect(() => {
+      const fetchUser = async () => {
+         try {
+            const token = localStorage.getItem("Authorization");
+            if (!token) return;
+            const res = await axios.get("http://localhost:3000/api/me", {
+               headers: {
+                  Authorization: token
+               }
+            });
+            if (res.data?.user?.profilePic) {
+               setProfilePic(`http://localhost:3000${res.data.user.profilePic}`);
+            }
+         } catch (e) {
+            console.error("Failed to fetch user profile", e);
+         }
+      };
+      fetchUser();
+   }, []);
 
    return (
       <header className="sticky top-0 z-40 w-full border-b border-zinc-800 bg-neutral-main text-white">
@@ -41,13 +66,13 @@ export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
                </button>
                {open && <Modal setclose={setClose} />}
 
-               <div className="relative flex items-center justify-center h-10 w-10 rounded-full hover:bg-neutral-main transition-colors cursor-pointer text-zinc-300 hover:text-white">
+               <div onClick={() => navigate('/notifications')} className="relative flex items-center justify-center h-10 w-10 rounded-full hover:bg-neutral-700 transition-colors cursor-pointer text-zinc-300 hover:text-white">
                   <NotificationsNoneIcon />
-                  {notification && <span className="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-red-500" />}
+                  <Alerttdot variants="red" pulse={true} className="absolute top-2 right-2 flex" />
                </div>
 
-               <div className="cursor-pointer ml-2">
-                  <Avatar sx={{ width: 36, height: 36, bgcolor: '#A855F7' }} />
+               <div className="cursor-pointer ml-2" onClick={() => navigate('/profile')}>
+                  <Avatar src={profilePic || undefined} sx={{ width: 36, height: 36, bgcolor: '#A855F7' }} />
                </div>
             </div>
 

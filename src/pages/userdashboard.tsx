@@ -7,8 +7,8 @@ export const Dashboard = () => {
        
 
          <div className="flex  gap-4 pr-">
-            <Mediumcard heading="prior task" icon={<Alerttdot variants= "green" />} variant="small" />
-              <Mediumcard heading="prior task" icon={<Alerttdot variants= "green" />} variant="small" /> 
+            <Mediumcard heading="prior task" icon={<Alerttdot variants= "green" />} variant="medium" />
+              <Mediumcard heading="prior task" icon={<Alerttdot variants= "green" />} variant="medium" /> 
                <Mediumcard heading="prior task" icon={<Alerttdot variants= "green" />} variant="small" />
          </div>
       </div>

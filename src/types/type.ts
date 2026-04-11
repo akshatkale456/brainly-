@@ -42,5 +42,7 @@ export  interface mediumcard{
    heading:string 
    content?: string 
    icon:ReactNode
-   variant:"large"|"medium"|"small"
+   variant:"large"|"medium"|"small"|"notification"
+   time?:string
+   isNew?:boolean
 }
