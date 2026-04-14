@@ -27,9 +27,9 @@ export const Layout = () => {
             <div className="flex-1 flex flex-col">
                 <Dashnav toggleSidebar={() => setSidebarOpen(true)} />
                 <main className="flex-1 overflow-y-auto">
-                    {/* <Protected> */}
+                    <Protected> 
                         <Outlet />
-                    {/* </Protected> */}
+                    </Protected>
                 </main>
             </div>
         </div>

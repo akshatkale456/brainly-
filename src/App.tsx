@@ -13,7 +13,7 @@ import { Todo } from './pages/todo'
 import { Loading } from './components/loading'
 import { Pdf } from './pages/pdf'
 import { NotificationPage } from './pages/notification'
-import { UploadAvatar } from './pages/uploadavatar'
+import { Uploadavatar } from './pages/uploadavatar'
 import './App.css'
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
           <Route path="/twitter" element={<Twitter />} />
           <Route path="/todo" element={<Todo />} />
           <Route path="/notifications" element={<NotificationPage />} />
-          <Route path="/profile" element={<UploadAvatar />} />
+          <Route path="/profile" element={<Uploadavatar />} />
          
         </Route>
 
