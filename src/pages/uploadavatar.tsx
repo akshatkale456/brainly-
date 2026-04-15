@@ -12,13 +12,17 @@ const selectedfile = avatarref.current?.files?.[0]
 if( selectedfile === undefined){
     return seterror("it is empty")
 }
-if (selectedfile?.name === "image/webp"||"image/HEIC"||"image/GIF"){
+if (
+     selectedfile.type === "image/webp" ||
+            selectedfile.type === "image/heic" ||
+            selectedfile.type === "image/gif"
+){
     return seterror("this is not correct format ")
 }
 const formData = new FormData();
   formData.append("avatar", selectedfile);
 
-      await axios.post("http://localhost:3000/uploads//upload-profile-pic",formData,{
+      await axios.post("http://localhost:3000/api/upload-pic",formData,{
 headers:{
     authorization:token
 
