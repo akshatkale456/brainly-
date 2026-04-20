@@ -3,6 +3,7 @@ import { Hero } from "../components/hero"
 import { Base } from "../components/base"
 import { Nav } from "../components/nav"
 import { Loading } from "../components/loading"
+import { PinSection } from "../components/scrollpin"
 
 import { Footer } from "../components/footer"
 
@@ -12,8 +13,10 @@ export function Maincontent() {
  <Nav />
       <Hero />
       <Base />
+<PinSection/>
       
       <Footer />
+
     </div>
   </div>
 }

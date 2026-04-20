@@ -8,6 +8,8 @@ import { Modal } from "./modal";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Alerttdot } from "./alertdot";
+import { Loading } from "./loading";
+import { string } from "zod";
 
 const notification = false;
 
@@ -17,7 +19,7 @@ interface DashnavProps {
 
 export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
    const [open, setClose] = useState(false);
-   const [profilePic, setProfilePic] = useState<string | null>(null);
+   const [profilepic, setProfilePic] = useState<string | null>(null);
    const navigate = useNavigate();
 
    useEffect(() => {
@@ -30,15 +32,21 @@ export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
                   Authorization: token
                }
             });
-            if (res.data?.user?.profilePic) {
-               setProfilePic(`http://localhost:3000${res.data.user.profilePic}`);
+            console.log(res)
+            if (res.data?.User?.url) {
+               setProfilePic(`http://localhost:3000${res.data.User.url}`);
             }
          } catch (e) {
             console.error("Failed to fetch user profile", e);
          }
       };
       fetchUser();
+      console.log(profilepic)
    }, []);
+   if (profilepic === null)return<div>
+      <Loading/>
+   </div>
+    console.log(profilepic)
 
    return (
       <header className="sticky top-0 z-40 w-full border-b border-zinc-800 bg-neutral-main text-white">
@@ -71,8 +79,8 @@ export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
                   <Alerttdot variants="red" pulse={true} className="absolute top-2 right-2 flex" />
                </div>
 
-               <div className="cursor-pointer ml-2" onClick={() => navigate('/profile')}>
-                  <Avatar src={profilePic || undefined} sx={{ width: 36, height: 36, bgcolor: '#A855F7' }} />
+               <div className="cursor-pointer ml-2" >
+                  <Avatar src={profilepic || undefined} sx={{ width: 36, height: 36, bgcolor: '#A855F7' }} />
                </div>
             </div>
 
