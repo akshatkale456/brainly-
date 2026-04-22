@@ -1,6 +1,9 @@
 import { Card } from "./card"
 import { Youtube } from "../assets/youtube"
+
 import {motion}from "motion/react"
+
+
 const parenveiw = {
     hidden :{ opacity:0},
     visible:{opacity:1,
@@ -34,6 +37,7 @@ export function Base() {
         viewport={{ once: false, amount: 0.3 }}>
         <motion.div variants={childveiw}>
     <Card string="save your youtube video" stock={0} img="" />
+    
   </motion.div>
 
   <motion.div variants={childveiw}>
@@ -44,6 +48,8 @@ export function Base() {
     <Card string="" stock={0} img="" />
   </motion.div>
 </motion.div>
+
+
       </div>
       <div >
          hii
