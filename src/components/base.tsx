@@ -1,6 +1,7 @@
 import { Card } from "./card"
 import { Youtube } from "../assets/youtube"
-
+import TwitterIcon from '@mui/icons-material/Twitter';
+import PushPinIcon from '@mui/icons-material/PushPin';
 import {motion}from "motion/react"
 
 
@@ -35,17 +36,16 @@ export function Base() {
         initial="hidden"
         whileInView="visible" // <--- This triggers the stagger on scroll!
         viewport={{ once: false, amount: 0.3 }}>
-        <motion.div variants={childveiw}>
-    <Card string="save your youtube video" stock={0} img="" />
-    
+        <motion.div variants={childveiw} className="w-full flex justify-center perspective-1000">
+    <Card title="YouTube Library" string="Save and organize your favorite YouTube videos and tutorials in one place." stock={0} img={<Youtube />} />
   </motion.div>
 
-  <motion.div variants={childveiw}>
-    <Card string="" stock={0} img="" />
+  <motion.div variants={childveiw} className="w-full flex justify-center perspective-1000">
+    <Card title="Twitter Bookmarks" string="Bookmark important Twitter threads and posts so you never lose them." stock={0} img={<TwitterIcon className="w-6 h-6" sx={{ fontSize: 32 }} />} />
   </motion.div>
 
-  <motion.div variants={childveiw}>
-    <Card string="" stock={0} img="" />
+  <motion.div variants={childveiw} className="w-full flex justify-center perspective-1000">
+    <Card title="Live Pinning" string="Our app offers Live Pin functionality to keep your most important tasks accessible right now." stock={0} img={<PushPinIcon className="w-6 h-6" sx={{ fontSize: 32 }} />} />
   </motion.div>
 </motion.div>
 

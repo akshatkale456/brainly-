@@ -1,7 +1,7 @@
   import React, {  type ReactNode } from "react";
   export interface Card {
-
   string: string,
+  title?: string,
   stock: number,
   img: ReactNode
 }

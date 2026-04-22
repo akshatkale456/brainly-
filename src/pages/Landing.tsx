@@ -2,9 +2,10 @@
 import { Hero } from "../components/hero"
 import { Base } from "../components/base"
 import { Nav } from "../components/nav"
-import { Loading } from "../components/loading"
+import { Gridspancomponenet} from "../components/infolanding"
 import { PinSection } from "../components/scrollpin"
-import { Cardanimatelines } from "../components/cardline"
+
+
 
 
 import { Footer } from "../components/footer"
@@ -16,7 +17,8 @@ export function Maincontent() {
       <Hero />
       <Base />
 <PinSection/>
-<Cardanimatelines/>
+
+<Gridspancomponenet/>
 
       
       <Footer />
