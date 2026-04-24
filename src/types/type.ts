@@ -31,11 +31,12 @@ export interface Modl{
   title:string,
   read:boolean,
   link:string
+  id:number
 }
 export interface  cardGlobalState {
   card:card[]
-  addcard:()=>void
-  deletcard:()=>void
+  addcard:(newCard: card)=>void
+  deletcard:(id: number)=>void
    
 }
 export  interface mediumcard{
