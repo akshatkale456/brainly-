@@ -1,43 +1,53 @@
 import { motion } from "framer-motion"
-
+import type { Variants } from "framer-motion";
 export const Loading = () => {
   const parent = {
-    hidden: { opacity: 1 },
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.5
+        staggerChildren: 0.1
       }
     }
   }
 
-  const child = {
-    hidden: { y: 0 },
+  const child:Variants = {
+    hidden: { scaleY: 0.3, opacity: 0.3 },
     visible: {
-      y: [-15, 15, -15], // Moves up 15px, down 15px, then back
+      scaleY: [0.3, 1, 0.3], 
+      opacity: [0.3, 1, 0.3],
       transition: {
-        duration: 0.8, // How fast one full bounce takes
-        repeat: Infinity, // Keep l
-        ease: "easeInOut" as const,
+        duration: 1, 
+        repeat: Infinity, 
+        ease: "easeInOut",
       },
     },
   };
 
-  return (<div >
-    <div className="fixed inset-0 bg-neutral-main flex justify-center items-center z-100">
-      <motion.div variants={parent} initial="hidden" animate="visible" className="flex gap-1 sm:gap-1.5 md:gap-2">
-        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl mt-3 sm:mt-4 md:mt-6 shadow-2xl shadow-white"></motion.div>
-        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>
-        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl mt-3 sm:mt-4 md:mt-6 shadow-2xl shadow-white"></motion.div>
-        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>
-        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl mt-2 sm:mt-3 md:mt-4 shadow-2xl shadow-white"></motion.div>
-        <motion.div variants={child} className="h-12 w-1 sm:w-1.5 md:w-2 sm:h-16 md:h-20 bg-white rounded-xl shadow-2xl shadow-white"></motion.div>
+  return (
+    <div className="fixed inset-0 bg-neutral-main/80 backdrop-blur-xl flex flex-col justify-center items-center z-[100]">
+      <motion.div 
+        variants={parent} 
+        initial="hidden" 
+        animate="visible" 
+        className="flex items-center gap-2 md:gap-3"
+      >
+        {[...Array(5)].map((_, i) => (
+          <motion.div 
+            key={i} 
+            variants={child} 
+            className="w-1.5 sm:w-2 md:w-2.5 h-12 sm:h-16 md:h-20 bg-gradient-to-t from-zinc-400 to-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.4)] origin-center"
+          ></motion.div>
+        ))}
       </motion.div>
       
-    </div>
-    <div className="z-150 absolute text-gray-300 text-xl sm:text-2xl md:text-3xl top-1/2 left-1/2 -translate-x-1/2 mt-16 sm:mt-20 md:mt-28" >
-      Loading...
-    </div>
+      <motion.div 
+        animate={{ opacity: [0.4, 1, 0.4] }}
+        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        className="mt-10 text-zinc-300 text-sm md:text-base font-bold tracking-[0.2em] uppercase"
+      >
+        Loading...
+      </motion.div>
     </div>
   )
 }
