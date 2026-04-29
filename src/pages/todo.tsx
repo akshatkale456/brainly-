@@ -1,6 +1,8 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { TodoCard } from "../components/todocard";
+import { useTodoStore } from "../store.ts/todostore";
+import type { TodoItem } from "../types/type";
 
 interface Score {
     high: number;
@@ -8,30 +10,21 @@ interface Score {
     low: number;
 }
 
-interface TodoItem {
-    title: string;
-    id?: number;
-    complete?: boolean;
-    priority?: "high" | "low" | "medium";
-}
-
-let initialTodos: TodoItem[] = [];
-
 export const Todo = () => {
     const dashref = useRef<HTMLInputElement>(null);
     const proref = useRef<HTMLSelectElement>(null);
-    const [todos, settodo] = useState<TodoItem[]>(initialTodos);
+    const { todos, addTodo, deleteTodo, toggleTodoComplete } = useTodoStore();
 
-    function sort(todoList: TodoItem[]) {
-        // Sort descending by priority (high -> medium -> low)
-        const sorted = [...todoList].sort((a, b) => {
-            const score: Score = { high: 3, medium: 2, low: 1 };
-            const dashA = score[a.priority || "low"];
-            const dashB = score[b.priority || "low"];
-            return dashB - dashA;
-        });
-        return sorted;
-    }
+    // Sort descending by priority (high -> medium -> low), and put completed at the bottom
+    const sortedTodos = [...todos].sort((a, b) => {
+        if (a.complete !== b.complete) {
+            return a.complete ? 1 : -1;
+        }
+        const score: Score = { high: 3, medium: 2, low: 1 };
+        const dashA = score[a.priority];
+        const dashB = score[b.priority];
+        return dashB - dashA;
+    });
 
     function add() {
         if (!dashref.current || !dashref.current.value.trim()) {
@@ -43,25 +36,14 @@ export const Todo = () => {
             return;
         }
 
-        const newtodo: TodoItem = {
+        addTodo({
             title: dashref.current.value.trim(),
-            id: Date.now(),
             priority: proref.current.value as "high" | "low" | "medium",
-            complete: false
-        };
-
-        settodo((prevTodos) => {
-            const updated = [...prevTodos, newtodo];
-            return sort(updated);
         });
 
         // Clear input after adding
         dashref.current.value = '';
         proref.current.value = 'low';
-    }
-
-    function doe(id: number) {
-        settodo((prevTodos) => prevTodos.filter((a) => a.id !== id));
     }
 
     return (
@@ -110,18 +92,20 @@ export const Todo = () => {
 
             {/* Todo List Section */}
             <div className="space-y-4">
-                {todos.length === 0 ? (
+                {sortedTodos.length === 0 ? (
                     <div className="text-center py-12 bg-zinc-900/50 rounded-2xl border border-zinc-800/50 border-dashed">
                         <p className="text-zinc-500 text-lg">No tasks yet. Add one above to get started!</p>
                     </div>
                 ) : (
-                    todos.map((item) => (
+                    sortedTodos.map((item) => (
                         <TodoCard 
                             key={item.id} 
-                            id={item.id!} 
+                            id={item.id} 
                             title={item.title} 
-                            priority={item.priority || "low"} 
-                            onDelete={doe} 
+                            priority={item.priority}
+                            complete={item.complete}
+                            onDelete={deleteTodo} 
+                            onToggle={toggleTodoComplete}
                         />
                     ))
                 )}

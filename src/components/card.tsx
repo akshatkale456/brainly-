@@ -5,7 +5,7 @@ export function Card(card: CardType) {
     <div className="group relative flex items-center justify-center p-4 w-full h-full">
       {/* Glow shadow behind the card */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-      
+
       {/* Card container */}
       <div className="
         relative w-full h-full min-h-80 sm:w-72 rounded-2xl
@@ -20,7 +20,7 @@ export function Card(card: CardType) {
       " >
         {/* Top internal gradient highlight */}
         <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-        
+
         {/* Icon container */}
         <div className="
           flex flex-shrink-0 items-center justify-center w-16 h-16 rounded-full
@@ -35,9 +35,9 @@ export function Card(card: CardType) {
         {/* Content */}
         <div className="flex flex-col gap-3 items-center w-full">
           {card.title && (
-             <h3 className="text-xl font-semibold tracking-tight text-white/90 group-hover:text-white transition-colors duration-300">
-               {card.title}
-             </h3>
+            <h3 className="text-xl font-semibold tracking-tight text-white/90 group-hover:text-white transition-colors duration-300">
+              {card.title}
+            </h3>
           )}
           <p className="text-sm leading-relaxed text-zinc-400 group-hover:text-zinc-300 transition-colors duration-300">
             {card.string}
@@ -46,9 +46,9 @@ export function Card(card: CardType) {
 
         {card.stock !== undefined && card.stock > 0 && (
           <div className="mt-auto">
-             <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 font-medium text-xs text-zinc-300 border border-white/10 shadow-sm">
-               {card.stock} left
-             </span>
+            <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 font-medium text-xs text-zinc-300 border border-white/10 shadow-sm">
+              {card.stock} left
+            </span>
           </div>
         )}
       </div>
