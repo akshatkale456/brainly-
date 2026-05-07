@@ -35,10 +35,27 @@ const useCardset = create<cardGlobalState>((set) => ({
 
         
     },
-    deletcard(id) {
-        
+    deletcard :(id) =>{
+        set((state)=>({
+            card:state.card.filter((c)=>{
+               return ( c.id !== id)
+            })
+        }))
+
     },
-    editcard(id, updatedData) {
+    editcard:(id,updatedData)=> {
+        set((state)=>({
+            card:state.card.map((c)=>{
+                if(c.id == id){
+                    return {
+                        ...c ,
+                        ...updatedData
+                    }}
+                else{
+                        return c
+                    }
+                }
+        )}))
         
     },
 
