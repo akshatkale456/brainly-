@@ -17,23 +17,9 @@ const useCardset = create<cardGlobalState>((set) => ({
         set((state)=>({
             card:[...state.card,temproarycard]
         }))
-        const response = await fetch
-    set((state)=>({
-        card:state.card.map((c)=>{
-            if(c.id == tempid){
-                return{
-                    ...c,
-                    id:response.id
-                }
-            }
-    else{
-                return c
-            }
-
-        })
-    }))
-
-        
+        // TODO: Implement backend API call for adding a card
+        // const response = await axios.post('/api/content', temproarycard);
+        // If we get an ID from backend, update it here.
     },
     deletcard :(id) =>{
         set((state)=>({

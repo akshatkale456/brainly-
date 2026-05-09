@@ -13,7 +13,7 @@ interface Score {
 export const Todo = () => {
     const dashref = useRef<HTMLInputElement>(null);
     const proref = useRef<HTMLSelectElement>(null);
-    const { todos, addTodo, deleteTodo, toggleTodoComplete } = useTodoStore();
+    const { todos, addTodo, deleteTodo, toggleTodoComplete ,editTodo} = useTodoStore();
 
     // Sort descending by priority (high -> medium -> low), and put completed at the bottom
     const sortedTodos = [...todos].sort((a, b) => {
@@ -21,8 +21,8 @@ export const Todo = () => {
             return a.complete ? 1 : -1;
         }
         const score: Score = { high: 3, medium: 2, low: 1 };
-        const dashA = score[a.priority];
-        const dashB = score[b.priority];
+        const dashA = score[a.priority||"low"];
+        const dashB = score[b.priority||"low"];
         return dashB - dashA;
     });
 
@@ -38,7 +38,7 @@ export const Todo = () => {
 
         addTodo({
             title: dashref.current.value.trim(),
-            priority: proref.current.value as "high" | "low" | "medium",
+            priority: proref.current.value as "high" | "low" | "medium" ,
         });
 
         // Clear input after adding

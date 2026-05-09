@@ -26,7 +26,10 @@ export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
       const fetchUser = async () => {
          try {
             const token = localStorage.getItem("Authorization");
-            if (!token) return;
+            if (!token) {
+               setProfilePic("");
+               return;
+            }
             const res = await axios.get("http://localhost:3000/api/me", {
                headers: {
                   Authorization: token
@@ -35,17 +38,18 @@ export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
             console.log(res)
             if (res.data?.User?.url) {
                setProfilePic(`http://localhost:3000${res.data.User.url}`);
+            } else {
+               setProfilePic("");
             }
          } catch (e) {
             console.error("Failed to fetch user profile", e);
+            setProfilePic("");
          }
       };
       fetchUser();
-      console.log(profilepic)
    }, []);
-   if (profilepic === null)return<div>
-      <Loading/>
-   </div>
+
+   if (profilepic === null) return <div><Loading /></div>;
     console.log(profilepic)
 
    return (

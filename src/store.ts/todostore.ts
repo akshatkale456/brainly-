@@ -1,23 +1,26 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import type { TodoGlobalState, TodoItem } from "../types/type";
+
+import type { TodoGlobalState} from "../types/type";
 
 export const useTodoStore =  create<TodoGlobalState>((set) => ({
     todos :[],
     
-    addTodo :async (newtodo:TodoItem)=>{
+    addTodo :async (newtodo)=>{
     const  tempid = Date.now()
     
          const temproartodo = {
              title: newtodo.title,
-    id: tempid,
-    complete: newtodo.complete||false,
-    priority: newtodo.priority
+             id:tempid,
+             complete:false,
+ 
+    priority: newtodo.priority||"low"
         }
         set((state)=>({
             todos:[...state.todos,temproartodo]
         }))
-        const response = await fetch
+        const response = await fetch("",{
+            "method": "post"
+        })
     set((state)=>({
         todos:state.todos.map((c)=>{
             if(c.id == tempid){

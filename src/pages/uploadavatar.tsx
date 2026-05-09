@@ -22,7 +22,7 @@ if (
 const formData = new FormData();
   formData.append("avatar", selectedfile);
 
-      await axios.post("http://localhost:3000/api/upload-pic",formData,{
+      await axios.post("http://localhost:3000/api/upload",formData,{
 headers:{
     authorization:token
 

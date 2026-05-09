@@ -11,7 +11,7 @@ import { Youtube } from './pages/youtube'
 import { Twitter } from './pages/twitter'
 import { Todo } from './pages/todo'
 import { Loading } from './components/loading'
-import { Pdf } from './pages/pdf'
+
 import { NotificationPage } from './pages/notification'
 import { Uploadavatar } from './pages/uploadavatar'
 import './App.css'

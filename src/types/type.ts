@@ -34,7 +34,7 @@ export interface card {
   title?: string,
   read?: boolean,
   link?: string
-  id?: number
+  id: number
   priority?: "high" | "medium" | "low"
 }
 export interface cardGlobalState {
@@ -45,15 +45,15 @@ export interface cardGlobalState {
 }
 
 export interface TodoItem {
-    title?: string;
+    title: string;
     id: number;
-    complete ?: boolean;
-    priority ?: "high" | "low" | "medium";
+    complete : boolean;
+    priority : "high" | "low" | "medium";
 }
 
 export interface TodoGlobalState {
     todos: TodoItem[];
-    addTodo: (newTodo: TodoItem) => void;
+    addTodo: (newTodo: Omit<TodoItem ,"id"|"complete">) => Promise<void>;
     deleteTodo: (id: number) => void;
     toggleTodoComplete: (id: number) => void;
     editTodo :(id:number,updatedData:TodoItem)=>void

@@ -5,6 +5,9 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export const Dashboard = () => {
+    return <div>
+         hello 
+    </div>
     
 
 }
