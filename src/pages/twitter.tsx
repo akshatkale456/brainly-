@@ -22,7 +22,7 @@ export const Twitter = () => {
                 ) : (
                     twitterCards.map(c => (
                         <div key={c.id} className="w-full bg-zinc-800/50 rounded-xl p-4 flex items-center justify-center overflow-hidden">
-                            <Socialcard id={c.id!} priority={c.priority} type="twitter" title={c.title || ""} read={c.read || false} link={c.link || ""} />
+                            <Socialcard id={String(c.id)} priority={c.priority} type="twitter" title={c.title || ""} read={c.read || false} link={c.link || ""} />
                         </div>
                     ))
                 )}

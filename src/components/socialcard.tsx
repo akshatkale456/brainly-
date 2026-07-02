@@ -5,6 +5,7 @@ import useCardset from "../store.ts/store";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from "react";
+import { ErrorBoundary } from "./errorboundary";
 
 export const Socialcard = ({ id, type, title, read, link, priority }: socialcard) => {
     const { deletcard, editcard } = useCardset();
@@ -22,8 +23,9 @@ export const Socialcard = ({ id, type, title, read, link, priority }: socialcard
         console.log("invalid link");
     }
 
+
     const handleSave = () => {
-        editcard(id, { title: editTitle });
+        // editcard(id, { title: editTitle });
         setIsEditing(false);
     };
 
@@ -72,18 +74,31 @@ export const Socialcard = ({ id, type, title, read, link, priority }: socialcard
             {/* Content Body */}
             <div className="flex-1 relative w-full h-full min-h-[200px] bg-black">
                 {type === "youtube" && youtube && (
-                    <iframe
-                        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                        src={`https://www.youtube.com/embed/${youtube}`}
-                        title={title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    />
+                  <iframe 
+className="h-full w-full" 
+  src={`https://www.youtube.com/embed/${youtube}?si=nE9rgzSQ1YA5Eive`} 
+  title="YouTube video player" 
+  frameBorder="0" 
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+  referrerPolicy="strict-origin-when-cross-origin" 
+  allowFullScreen>
+</iframe>
+
                 )}
-                {type === "twitter" && twitter !== undefined && (
-                    <div className="flex justify-center w-full h-full overflow-y-auto">
-                        <Tweet id={twitter} />
+                {type === "twitter" && twitter !== undefined ? (
+                    <div className="flex justify-center w-full h-full overflow-y-auto" data-theme="dark">
+                        <ErrorBoundary fallback={
+                            <div className="flex flex-col items-center justify-center w-full h-full text-zinc-500 p-4 text-center">
+                                <span className="text-sm">Unable to load this Tweet.</span>
+                                <span className="text-xs mt-1 opacity-70">It might be deleted, private, or temporarily unavailable.</span>
+                            </div>
+                        }>
+                            <Tweet id={twitter} />
+                        </ErrorBoundary>
+                    </div>
+                ) : type === "twitter" && (
+                    <div className="flex justify-center items-center w-full h-full text-zinc-500">
+                        Invalid Twitter Link
                     </div>
                 )}
             </div>

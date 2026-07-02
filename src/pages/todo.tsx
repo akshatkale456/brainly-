@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { TodoCard } from "../components/todocard";
 import { useTodoStore } from "../store.ts/todostore";
@@ -13,8 +13,11 @@ interface Score {
 export const Todo = () => {
     const dashref = useRef<HTMLInputElement>(null);
     const proref = useRef<HTMLSelectElement>(null);
-    const { todos, addTodo, deleteTodo, toggleTodoComplete ,editTodo} = useTodoStore();
+    const { todos, addTodo, deleteTodo, toggleTodoComplete ,fetchtodo,editTodo} = useTodoStore();
 
+    useEffect(() => {
+        fetchtodo();
+    }, [fetchtodo]);
     // Sort descending by priority (high -> medium -> low), and put completed at the bottom
     const sortedTodos = [...todos].sort((a, b) => {
         if (a.complete !== b.complete) {
@@ -39,6 +42,7 @@ export const Todo = () => {
         addTodo({
             title: dashref.current.value.trim(),
             priority: proref.current.value as "high" | "low" | "medium" ,
+            complete:false
         });
 
         // Clear input after adding
@@ -90,7 +94,7 @@ export const Todo = () => {
                 </div>
             </div>
 
-            {/* Todo List Section */}
+            
             <div className="space-y-4">
                 {sortedTodos.length === 0 ? (
                     <div className="text-center py-12 bg-zinc-900/50 rounded-2xl border border-zinc-800/50 border-dashed">
@@ -100,12 +104,12 @@ export const Todo = () => {
                     sortedTodos.map((item) => (
                         <TodoCard 
                             key={item.id} 
-                            id={item.id} 
+                         
                             title={item.title} 
                             priority={item.priority}
                             complete={item.complete}
-                            onDelete={deleteTodo} 
-                            onToggle={toggleTodoComplete}
+                            onDelete={() => deleteTodo(String(item.id))} 
+                            onToggle={() => toggleTodoComplete(String(item.id))}
                         />
                     ))
                 )}

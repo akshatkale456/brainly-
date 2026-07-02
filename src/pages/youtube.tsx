@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import { Socialcard } from "../components/socialcard";
 import useCardset from "../store.ts/store";
 
 export const Youtube = () => {
-    const { card } = useCardset();
+    const { card,fetchcarddata } = useCardset();
+    useEffect(()=>{
+        fetchcarddata()
+    },[])
+    
     const youtubeCards = card.filter(c => c.type === "youtube");
 
     return (
@@ -22,7 +27,7 @@ export const Youtube = () => {
                 ) : (
                     youtubeCards.map(c => (
                         <div key={c.id} className="relative w-full aspect-video rounded-xl overflow-hidden bg-zinc-800/50 flex items-center justify-center">
-                            <Socialcard id={c.id!} priority={c.priority} type="youtube" title={c.title || ""} read={c.read || false} link={c.link || ""} />
+                            <Socialcard id={String(c.id)} priority={c.priority} type="youtube"    title={c.title || ""} read={c.read || false} link={c.link || ""} />
                         </div>
                     ))
                 )}

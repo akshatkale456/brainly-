@@ -17,7 +17,7 @@ export interface SidebarItemProps {
   icon?: ReactNode;
 }
 export interface socialcard {
-  id: number
+  id: string
   title: string
   type: "youtube" | "twitter"
   read: boolean
@@ -34,29 +34,31 @@ export interface card {
   title?: string,
   read?: boolean,
   link?: string
-  id: number
+  id?: string | number
   priority?: "high" | "medium" | "low"
 }
 export interface cardGlobalState {
-  card: card[]
-  addcard: (newCard: card) => void
-  deletcard: (id: number) => void
-  editcard: (id: number, updatedData: card) => void
+  card: card[],
+  fetchcarddata:()=> void
+  addcard: (newCard: card) => Promise<void> | void
+  deletcard: (id: string ) => Promise<void> | void
+  editcard: (id: string , updatedData: card) => Promise<void> | void
 }
 
 export interface TodoItem {
     title: string;
-    id: number;
+    id?: string | number;
     complete : boolean;
     priority : "high" | "low" | "medium";
 }
 
 export interface TodoGlobalState {
     todos: TodoItem[];
-    addTodo: (newTodo: Omit<TodoItem ,"id"|"complete">) => Promise<void>;
-    deleteTodo: (id: number) => void;
-    toggleTodoComplete: (id: number) => void;
-    editTodo :(id:number,updatedData:TodoItem)=>void
+    fetchtodo:()=>void;
+    addTodo: (newTodo: Omit<TodoItem ,"id">) => Promise<void>;
+    deleteTodo: (id: string) => void;
+    toggleTodoComplete: (id:string) => void;
+    editTodo :(id:string,updatedData:TodoItem)=>void
 }
 export interface mediumcard {
   heading: string
