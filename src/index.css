@@ -1,46 +1,221 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --color-primary: #A855F7;
-  --color-secondary: #8D66B2;
-  --color-tertiary: #8D66B2;
-  --color-neutral-main: #000000;
+  /* Typography Families */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-heading: "Hanken Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* Overriding Tailwind's zinc and neutral with tertiary theme tints for UI consistency */
-  --color-zinc-50: #fbf9fd;
-  --color-zinc-100: #f5f0fb;
-  --color-zinc-200: #e9def6;
-  --color-zinc-300: #d6c1ee;
-  --color-zinc-400: #bb9be3;
-  --color-zinc-500: #9e71d4;
-  --color-zinc-600: #8D66B2; 
-  --color-zinc-700: #755198;
-  --color-zinc-800: #60457a;
-  --color-zinc-900: #4f3962;
-  --color-zinc-950: #302041;
+  /* Technical Precision Colors - Brand & Palette */
+  --color-primary: #ffffff;
+  --color-on-primary: #2f3131;
+  --color-primary-container: #e2e2e2;
+  --color-on-primary-container: #636565;
+  --color-inverse-primary: #5d5f5f;
+  --color-primary-fixed: #e2e2e2;
+  --color-primary-fixed-dim: #c6c6c7;
+  --color-on-primary-fixed: #1a1c1c;
+  --color-on-primary-fixed-variant: #454747;
 
-  --color-neutral-50: #fbf9fd;
-  --color-neutral-100: #f5f0fb;
-  --color-neutral-200: #e9def6;
-  --color-neutral-300: #d6c1ee;
-  --color-neutral-400: #bb9be3;
-  --color-neutral-500: #9e71d4;
-  --color-neutral-600: #8D66B2;
-  --color-neutral-700: #755198;
-  --color-neutral-800: #60457a;
-  --color-neutral-900: #4f3962;
-  --color-neutral-950: #302041;
+  --color-secondary: #cabeff;
+  --color-on-secondary: #31009a;
+  --color-secondary-container: #4a1ccc;
+  --color-on-secondary-container: #bcaeff;
+  --color-secondary-fixed: #e6deff;
+  --color-secondary-fixed-dim: #cabeff;
+  --color-on-secondary-fixed: #1c0062;
+  --color-on-secondary-fixed-variant: #4717ca;
 
-  --color-gray-50: #fbf9fd;
-  --color-gray-100: #f5f0fb;
-  --color-gray-200: #e9def6;
-  --color-gray-300: #d6c1ee;
-  --color-gray-400: #bb9be3;
-  --color-gray-500: #9e71d4;
-  --color-gray-600: #8D66B2;
-  --color-gray-700: #755198;
-  --color-gray-800: #60457a;
-  --color-gray-900: #4f3962;
-  --color-gray-950: #302041;
+  --color-tertiary: #ffffff;
+  --color-on-tertiary: #00315d;
+  --color-tertiary-container: #d4e3ff;
+  --color-on-tertiary-container: #0566b5;
+  --color-tertiary-fixed: #d4e3ff;
+  --color-tertiary-fixed-dim: #a4c9ff;
+  --color-on-tertiary-fixed: #001c39;
+  --color-on-tertiary-fixed-variant: #004883;
+
+  /* Surface & Background Palette */
+  --color-background: #131313;
+  --color-on-background: #e5e2e1;
+  --color-surface: #131313;
+  --color-surface-dim: #131313;
+  --color-surface-bright: #3a3939;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-low: #1c1b1b;
+  --color-surface-container: #201f1f;
+  --color-surface-container-high: #2a2a2a;
+  --color-surface-container-highest: #353534;
+  --color-on-surface: #e5e2e1;
+  --color-on-surface-variant: #c4c7c8;
+  --color-inverse-surface: #e5e2e1;
+  --color-inverse-on-surface: #313030;
+  --color-surface-variant: #353534;
+  --color-surface-tint: #c6c6c7;
+  --color-outline: #8e9192;
+  --color-outline-variant: #444748;
+
+  /* Status Colors */
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  /* True Dark Foundation (Custom surface & border tokens) */
+  --color-surface-0: #0D0D0D;
+  --color-surface-1: #1A1A1A;
+  --color-surface-2: #262626;
+  --color-ui-border: #333333;
+  --color-neutral-main: #0D0D0D;
+  --color-neutral: #1A1A1A;
+
+  /* Overriding Tailwind's zinc, neutral, and gray with True Dark Minimalist Tints */
+  --color-zinc-50: #fafafa;
+  --color-zinc-100: #f5f5f5;
+  --color-zinc-200: #e5e2e1;
+  --color-zinc-300: #c4c7c8;
+  --color-zinc-400: #8e9192;
+  --color-zinc-500: #636565;
+  --color-zinc-600: #444748;
+  --color-zinc-700: #333333;
+  --color-zinc-800: #1A1A1A;
+  --color-zinc-900: #131313;
+  --color-zinc-950: #0D0D0D;
+
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e2e1;
+  --color-neutral-300: #c4c7c8;
+  --color-neutral-400: #8e9192;
+  --color-neutral-500: #636565;
+  --color-neutral-600: #444748;
+  --color-neutral-700: #333333;
+  --color-neutral-800: #1A1A1A;
+  --color-neutral-900: #131313;
+  --color-neutral-950: #0D0D0D;
+
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e5e2e1;
+  --color-gray-300: #c4c7c8;
+  --color-gray-400: #8e9192;
+  --color-gray-500: #636565;
+  --color-gray-600: #444748;
+  --color-gray-700: #333333;
+  --color-gray-800: #1A1A1A;
+  --color-gray-900: #131313;
+  --color-gray-950: #0D0D0D;
+
+  /* Border Radius - Rounded-Technical Shape Language */
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Spacing Tokens */
+  --spacing-unit: 4px;
+  --spacing-gutter: 24px;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-desktop: 64px;
+  --spacing-card-padding: 32px;
+}
+
+/* Typography Utilities */
+@utility headline-xl {
+  font-family: var(--font-heading);
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+@utility headline-lg {
+  font-family: var(--font-heading);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+@utility headline-lg-mobile {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+@utility body-md {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+@utility body-sm {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+@utility label-caps {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Component Utilities - Technical Precision */
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.2s ease-in-out;
+}
+@utility btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: transparent;
+  color: var(--color-on-surface);
+  border: 1px solid var(--color-on-surface);
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.2s ease-in-out;
+}
+@utility btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: transparent;
+  color: var(--color-on-surface);
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.2s ease-in-out;
+}
+@utility tech-card {
+  background-color: var(--color-surface-1);
+  border: 1px solid var(--color-ui-border);
+  border-radius: var(--radius);
+  padding: var(--spacing-card-padding);
+}
+@utility tech-input {
+  background-color: var(--color-surface-1);
+  border: 1px solid var(--color-ui-border);
+  border-radius: var(--radius);
+  padding: 0.625rem 1rem;
+  color: var(--color-on-surface);
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+@utility tech-progress-bar {
+  height: var(--spacing-unit);
+  border-radius: var(--radius-full);
+  background: linear-gradient(to right, var(--color-secondary), var(--color-on-tertiary-container));
 }

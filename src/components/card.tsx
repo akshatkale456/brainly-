@@ -1,15 +1,15 @@
-import type { Card as CardType } from "../types/type"
+import type { Card} from "../types/type"
 
-export function Card(card: CardType) {
+export function Card(card: Card) {
   return (
     <div className="group relative flex items-center justify-center p-4 w-full h-full">
       {/* Glow shadow behind the card */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
+      <div className="absolute inset-0 bg-linear-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
 
       {/* Card container */}
       <div className="
         relative w-full h-full min-h-80 sm:w-72 rounded-2xl
-        bg-white/[0.03] border border-white/10
+        bg-white/3 border border-white/10
         backdrop-blur-xl overflow-hidden
         flex flex-col items-center justify-start text-center
         p-8 gap-6
@@ -19,11 +19,11 @@ export function Card(card: CardType) {
         text-white
       " >
         {/* Top internal gradient highlight */}
-        <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute top-0 inset-x-0 h-1px bg-linear-to-r from-transparent via-white/30 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
 
         {/* Icon container */}
         <div className="
-          flex flex-shrink-0 items-center justify-center w-16 h-16 rounded-full
+          flex shrink-0 items-center justify-center w-16 h-16 rounded-full
           bg-white/5 border border-white/10
           shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]
           group-hover:scale-110 group-hover:bg-white/10 transition-all duration-500 ease-out

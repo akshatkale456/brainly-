@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import AddIcon from "@mui/icons-material/Add";
+import { Plus as AddIcon } from "lucide-react";
 import { TodoCard } from "../components/todocard";
 import { useTodoStore } from "../store.ts/todostore";
 import type { TodoItem } from "../types/type";
@@ -88,7 +88,7 @@ export const Todo = () => {
                         onClick={add}
                         className="w-full sm:w-auto px-6 py-3 h-[49px] rounded-xl flex items-center justify-center gap-2 text-sm font-bold text-white bg-primary hover:bg-secondary hover:shadow-lg transition-all duration-200"
                     >
-                        <AddIcon fontSize="small" />
+                        <AddIcon className="w-4 h-4" />
                         <span>Add Task</span>
                     </button>
                 </div>

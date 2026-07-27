@@ -2,8 +2,7 @@ import { extract, extractTweetId } from "../url/extract"
 import type { socialcard } from "../types/type"
 import { Tweet } from 'react-tweet';
 import useCardset from "../store.ts/store";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import { Trash2 as DeleteIcon, Edit as EditIcon } from "lucide-react";
 import { useState } from "react";
 import { ErrorBoundary } from "./errorboundary";
 
@@ -63,10 +62,10 @@ export const Socialcard = ({ id, type, title, read, link, priority }: socialcard
                 
                 <div className="flex gap-2 shrink-0">
                     <button onClick={() => setIsEditing(!isEditing)} className="text-zinc-400 hover:text-white transition-colors cursor-pointer" title="Edit Title">
-                        <EditIcon fontSize="small" />
+                        <EditIcon className="w-4 h-4" />
                     </button>
                     <button onClick={() => deletcard(id)} className="text-zinc-400 hover:text-red-500 transition-colors cursor-pointer" title="Delete Content">
-                        <DeleteIcon fontSize="small" />
+                        <DeleteIcon className="w-4 h-4" />
                     </button>
                 </div>
             </div>

@@ -1,40 +1,108 @@
-import { motion } from "motion/react"
-import { Button } from "./button"
-import { Arrow } from "../assets/arrow"
-import { Link } from "react-router-dom"
-import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward'
+import { motion } from "motion/react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Hexagon, Layers, Target } from "lucide-react";
 
 export function Hero() {
-    return <div className="px-4 py-10 md:pl-65 md:pt-40">
-        <div className="bg-linear-to-b from-secondary/20 via-neutral-main/90 to-neutral-main min-h-[50vh] md:h-128 w-full max-w-5xl rounded-4xl border border-secondary/20 pt-10 md:pt-40 px-6 md:px-0 relative flex flex-col shadow-[0_0_50px_rgba(168,85,247,0.15)] backdrop-blur-xs">
+    return (
+        <section className="w-full bg-background  text-white border-b border-zinc-900 relative overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-73px)]">
+                {/* Left Column: Massive Headline, Description & Buttons */}
+                <div className="lg:col-span-9 flex flex-col justify-between p-6 sm:p-12 md:p-16 lg:p-24 relative z-10">
+                    <div className="max-w-4xl pt-6 md:pt-12">
+                        {/* Huge Impact Typography */}
+                        <motion.h1 
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                            className="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] font-extrabold tracking-tight leading-[0.93] font-sans"
+                        >
+                            <div className="text-white">One brain.</div>
+                            <div className="text-white mt-1 sm:mt-2">Every thought.</div>
+                            <div className="text-zinc-600 mt-1 sm:mt-2">All your team.</div>
+                        </motion.h1>
 
-            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1, ease: "easeInOut" }}
-                className="font-bold md:pl-22 pt-0 text-4xl md:text-6xl bg-gradient-to-r from-white to-primary bg-clip-text text-transparent text-center md:text-left">
-                Clear your head Focus your day
+                        {/* Subtitle Description */}
+                        <motion.p 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                            className="mt-8 sm:mt-10 text-base sm:text-lg md:text-xl text-zinc-400 max-w-xl font-normal leading-relaxed"
+                        >
+                            Save YouTube videos, Twitter posts, pins, todos — and discuss everything in shared rooms. Your second brain, built for teams.
+                        </motion.p>
 
-                <div className="text-sm md:text-lg pt-5 md:pl-25 font-medium leading-6 text-zinc-300">
-                    Bridge the gap between code and collaboration for seamless project delivery.<br className="hidden md:block" />
-                    Keep your team aligned, your code consistent, and your workflow moving.
+                        {/* Two Action Buttons */}
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                            className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
+                        >
+                            <Link to="/signup" className="w-full sm:w-auto">
+                                <motion.button 
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="w-full sm:w-auto px-7 py-4 rounded-xl bg-white text-zinc-950 font-bold text-sm md:text-base hover:bg-zinc-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)] flex items-center justify-center gap-3 cursor-pointer group"
+                                >
+                                    <span>Create your brain — it's free</span>
+                                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </motion.button>
+                            </Link>
+
+                            <Link to="/signup" className="w-full sm:w-auto">
+                                <motion.button 
+                                    whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.08)" }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="w-full sm:w-auto px-7 py-4 rounded-xl bg-white/5 border border-white/10 text-zinc-300 hover:text-white font-semibold text-sm md:text-base transition-all flex items-center justify-center cursor-pointer"
+                                >
+                                    See what you can save
+                                </motion.button>
+                            </Link>
+                        </motion.div>
+
+                        {/* Caption Below Buttons */}
+                        <motion.div 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.8, delay: 0.5 }}
+                            className="mt-6 text-[11px] font-mono tracking-[0.25em] text-zinc-600 uppercase font-semibold"
+                        >
+                            NO CREDIT CARD · FREE FOREVER FOR SMALL TEAMS
+                        </motion.div>
+                    </div>
+
+                    {/* Bottom Left Circle Badge */}
+                    <div className="mt-16 sm:mt-24 pt-6 flex items-center">
+                        <div className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 font-mono text-xs hover:border-zinc-700 hover:text-white transition-colors cursor-pointer shadow-inner">
+                            N
+                        </div>
+                    </div>
                 </div>
 
-            </motion.div>
-            <div className="mt-12 w-full flex flex-col sm:flex-row justify-center items-center gap-6">
-                <Link to="/signup">
-                    <Button variant="small" text="startnow" icon={<Arrow />} />
-                </Link>
-                <Link to="/signup">
-                    <motion.button 
-                        initial={{ backgroundColor: "white", boxShadow: "0px 4px 6px rgba(255, 255, 255, 0.1)" }}
-                        whileHover={{ scale: 1.05, y: -2, boxShadow: "0px 10px 20px rgba(255, 255, 255, 0.2)" }} 
-                        transition={{ type: "spring", duration: 0.5, ease: "easeIn", stiffness: 300, damping: 15 }}
-                        className="flex items-center justify-center gap-2 bg-white text-zinc-900 font-bold text-md px-6 py-2.5 rounded-full shadow-lg w-full sm:w-auto"
-                    >
-                        <span>Join now</span>
-                        <ArrowOutwardIcon fontSize="small" />
-                    </motion.button>
-                </Link>
-            </div>
-        </div>
+                {/* Right Column: Sidebar Stats (12k+, 340k, 4.8) */}
+                <div className="lg:col-span-3 border-t lg:border-t-0 lg:border-l border-zinc-900 flex flex-col justify-between bg-zinc-950/60 divide-y divide-zinc-900">
+                    {/* Stat 1 */}
+                    <div className="flex-1 p-8 sm:p-10 flex flex-col justify-center group hover:bg-zinc-900/30 transition-colors">
+                        <Hexagon className="w-5 h-5 text-zinc-600 mb-6 group-hover:text-zinc-400 transition-colors" />
+                        <div className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">12k+</div>
+                        <div className="text-[11px] font-mono tracking-[0.2em] text-zinc-500 mt-2 uppercase font-semibold">BRAINS CREATED</div>
+                    </div>
 
-    </div>
+                    {/* Stat 2 */}
+                    <div className="flex-1 p-8 sm:p-10 flex flex-col justify-center group hover:bg-zinc-900/30 transition-colors">
+                        <Layers className="w-5 h-5 text-zinc-600 mb-6 group-hover:text-zinc-400 transition-colors" />
+                        <div className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">340k</div>
+                        <div className="text-[11px] font-mono tracking-[0.2em] text-zinc-500 mt-2 uppercase font-semibold">ITEMS SAVED</div>
+                    </div>
+
+                    {/* Stat 3 */}
+                    <div className="flex-1 p-8 sm:p-10 flex flex-col justify-center group hover:bg-zinc-900/30 transition-colors">
+                        <Target className="w-5 h-5 text-zinc-600 mb-6 group-hover:text-zinc-400 transition-colors" />
+                        <div className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">4.8</div>
+                        <div className="text-[11px] font-mono tracking-[0.2em] text-zinc-500 mt-2 uppercase font-semibold">AVG TEAM RATING</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
 }

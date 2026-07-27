@@ -1,7 +1,4 @@
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import { Trash2 as DeleteOutlineIcon, CheckCircle as CheckCircleOutlineIcon, Circle as RadioButtonUncheckedIcon } from "lucide-react";
 
 interface TodoCardProps {
 
@@ -26,7 +23,7 @@ export const TodoCard = ({  title, priority, complete, onDelete, onToggle }: Tod
                 <div 
                     className={`transition-colors p-1 rounded-full ${complete ? 'text-green-500 group-hover:text-green-400' : 'text-zinc-400 group-hover:text-white'}`}
                 >
-                    {complete ? <CheckCircleOutlineIcon /> : <RadioButtonUncheckedIcon />}
+                    {complete ? <CheckCircleOutlineIcon className="w-5 h-5" /> : <RadioButtonUncheckedIcon className="w-5 h-5" />}
                 </div>
                 <div className="flex flex-col gap-1">
                     <h3 className={`text-zinc-200 font-semibold text-lg transition-all ${complete ? 'line-through text-zinc-500' : 'group-hover:text-white'}`}>{title}</h3>
@@ -39,7 +36,7 @@ export const TodoCard = ({  title, priority, complete, onDelete, onToggle }: Tod
                 onClick={onDelete}
                 className="text-zinc-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-zinc-800"
             >
-                <DeleteOutlineIcon />
+                <DeleteOutlineIcon className="w-5 h-5" />
             </button>
         </div>
     );

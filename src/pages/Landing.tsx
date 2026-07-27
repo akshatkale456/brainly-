@@ -1,28 +1,20 @@
-
-import { Hero } from "../components/hero"
-import { Base } from "../components/base"
-import { Nav } from "../components/nav"
-import { Gridspancomponenet} from "../components/infolanding"
-import { PinSection } from "../components/scrollpin"
-
-
-
-
-import { Footer } from "../components/footer"
+import { Hero } from "../components/hero";
+import { Base } from "../components/base";
+import { Nav } from "../components/nav";
+import { Gridspancomponenet, CtaSection } from "../components/infolanding";
+import { PinSection } from "../components/scrollpin";
+import { Footer } from "../components/footer";
 
 export function Maincontent() {
-  return <div className="bg-neutral-main min-h-screen w-full" >
-    <div className="relative">
- <Nav />
+  return (
+    <div className="bg-zinc-950 min-h-screen w-full text-white relative overflow-x-hidden selection:bg-white selection:text-black font-sans">
+      <Nav />
       <Hero />
       <Base />
-<PinSection/>
-
-<Gridspancomponenet/>
-
+      <Gridspancomponenet />
       
+      <CtaSection />
       <Footer />
-
     </div>
-  </div>
+  );
 }

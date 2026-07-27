@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import useCardset from "../store.ts/store";
 import { useNavigate } from "react-router-dom";
-import AddIcon from "@mui/icons-material/Add";
+import { Plus as AddIcon } from "lucide-react";
 
 export const Addcontent = () => {
     const { addcard } = useCardset();
@@ -35,7 +35,7 @@ export const Addcontent = () => {
         });
 
         setStatus(`Successfully added a ${type} card!`);
-        linkRef.current.value = "";
+        if (linkRef.current) linkRef.current.value = "";
         if (titleRef.current) titleRef.current.value = "";
         
         // Navigate them back to the specific platform page automatically after 1s
@@ -85,7 +85,7 @@ export const Addcontent = () => {
                     onClick={handleAdd}
                     className="w-full px-6 py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 hover:shadow-lg transition-all duration-200"
                 >
-                    <AddIcon fontSize="small" />
+                    <AddIcon className="w-4 h-4" />
                     <span>Save Content</span>
                 </button>
             </div>

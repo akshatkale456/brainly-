@@ -1,6 +1,5 @@
 
 import { useRef, useState } from 'react';
-import { Button } from "@mui/material";
 import axios from "axios";
 import { signupSchema } from "../schemas";
 import { Link } from "react-router-dom";

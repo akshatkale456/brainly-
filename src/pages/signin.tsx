@@ -1,5 +1,4 @@
 
-import { TextField } from "@mui/material";
 import { Link } from "react-router-dom"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -57,31 +56,24 @@ export const Signin = () => {
 
                 <div className="space-y-6">
                     <div className="space-y-4">
-                        <TextField
-                        sx={{
-                            marginBottom:"12px", 
-                            "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "#525252" }, "&:hover fieldset": { borderColor: "#a3a3a3" } }, 
-                            "& .MuiInputLabel-root": { color: "#a3a3a3" }
-                        }}
-                            inputRef={emailRef}
-                            label="Email Address"
-                            variant="outlined"
-                            fullWidth
-                            type="email"
-                            placeholder="john.doe@example.com"
-                        />
-                        <TextField
-                        sx={{
-                            "& .MuiOutlinedInput-root": { color: "white", "& fieldset": { borderColor: "#525252" }, "&:hover fieldset": { borderColor: "#a3a3a3" } }, 
-                            "& .MuiInputLabel-root": { color: "#a3a3a3" }
-                        }}
-                            inputRef={passwordRef}
-                            label="Password"
-                            variant="outlined"
-                            fullWidth
-                            type="password"
-                            placeholder="••••••••"
-                        />
+                        <div className="space-y-2 mb-3">
+                            <label className="text-sm font-medium text-neutral-300">Email Address</label>
+                            <input
+                                ref={emailRef}
+                                className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-neutral-800 text-white focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all duration-200 placeholder-neutral-500"
+                                type="email"
+                                placeholder="john.doe@example.com"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-neutral-300">Password</label>
+                            <input
+                                ref={passwordRef}
+                                className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-neutral-800 text-white focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all duration-200 placeholder-neutral-500"
+                                type="password"
+                                placeholder="••••••••"
+                            />
+                        </div>
                     </div>
 
                     <div className="pt-2">

@@ -1,5 +1,4 @@
 
-import { TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import { useRef } from "react";
@@ -33,27 +32,24 @@ export const PasswordReset = () => {
 
                 <div className="space-y-6">
                     <div className="space-y-4">
-                        <TextField
-                            inputRef={emailRef}
-                            label="Email Address"
-                            variant="outlined"
-                            fullWidth
-                            type="email"
-                            placeholder="john.doe@example.com"
-                        />
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-sm font-semibold text-neutral-700">Email Address</label>
+                            <input
+                                ref={emailRef}
+                                type="email"
+                                placeholder="john.doe@example.com"
+                                className="w-full px-4 py-2.5 rounded-lg border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent text-neutral-900 placeholder-neutral-400"
+                            />
+                        </div>
                     </div>
 
                     <div className="pt-2">
-                        <Button
+                        <button
                             onClick={handleReset}
-                            variant="contained"
-                            color="primary"
-                            className="w-full"
-                            size="large"
-                            sx={{ paddingY: 1.5, borderRadius: 2, textTransform: 'none', fontSize: '1rem' }}
+                            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium text-base rounded-lg transition-colors shadow-sm cursor-pointer"
                         >
                             Send Reset Link
-                        </Button>
+                        </button>
                     </div>
 
                     <div className="text-center text-sm text-neutral-500">

@@ -1,8 +1,5 @@
 import { Mediumcard } from "../components/dashcard";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import CloseIcon from "@mui/icons-material/Close";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import { Bell as NotificationsNoneIcon, X as CloseIcon, CheckCircle as CheckCircleOutlineIcon, AlertTriangle as WarningAmberIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const NotificationPage = () => {
@@ -21,7 +18,7 @@ export const NotificationPage = () => {
                         onClick={() => navigate(-1)} 
                         className="text-zinc-400 hover:text-white p-2 bg-neutral-800 rounded-full hover:bg-neutral-700 transition"
                     >
-                        <CloseIcon />
+                        <CloseIcon className="w-5 h-5" />
                     </button>
                 </div>
                 
@@ -29,7 +26,7 @@ export const NotificationPage = () => {
                     <Mediumcard 
                         heading="Security Alert" 
                         content="Your account was just signed in from a new device in London, UK." 
-                        icon={<WarningAmberIcon className="text-red-400" />} 
+                        icon={<WarningAmberIcon className="w-6 h-6 text-red-400" />} 
                         variant="notification"
                         time="Just now"
                         isNew={true}
@@ -38,7 +35,7 @@ export const NotificationPage = () => {
                     <Mediumcard 
                         heading="Update Completed" 
                         content="Your dashboard configuration has been successfully updated to v2.4." 
-                        icon={<CheckCircleOutlineIcon className="text-green-400" />} 
+                        icon={<CheckCircleOutlineIcon className="w-6 h-6 text-green-400" />} 
                         variant="notification"
                         time="2 hours ago"
                         isNew={true}
@@ -47,7 +44,7 @@ export const NotificationPage = () => {
                     <Mediumcard 
                         heading="Welcome Aboard" 
                         content="Thanks for joining! Explore your new dashboard and get started." 
-                        icon={<NotificationsNoneIcon className="text-primary" />} 
+                        icon={<NotificationsNoneIcon className="w-6 h-6 text-primary" />} 
                         variant="notification"
                         time="1 day ago"
                         isNew={false}

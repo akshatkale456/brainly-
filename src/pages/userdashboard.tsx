@@ -1,8 +1,6 @@
 import { useTodoStore } from "../store.ts/todostore";
 import { motion } from "motion/react";
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { List as FormatListBulletedIcon, AlertCircle as PriorityHighIcon, CheckCircle as CheckCircleIcon } from "lucide-react";
 
 export const Dashboard = () => {
     return <div>
