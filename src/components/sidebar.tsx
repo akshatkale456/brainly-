@@ -23,7 +23,7 @@ export const Sidebar = ({ isOpen, close }: SidebarProps) => {
                     >
                         <Link to={"/youtube"} onClick={close}> <SidebarItem title="YouTube" icon={<YouTubeIcon className="w-6 h-6 text-[#FF0000]" />} /></Link>
                         <Link to={"/twitter"} onClick={close}><SidebarItem title="Twitter" icon={<TwitterIcon className="w-6 h-6 text-[#1DA1F2]" />} /></Link>
-                        <Link to={"/chat"} onClick={close}><SidebarItem title="live pin" icon={<PushPinIcon className="w-6 h-6 text-[#4CAF50]" />} /></Link>
+                        <Link to={"/chat"} onClick={close}><SidebarItem title="Live Pins" icon={<PushPinIcon className="w-6 h-6 text-[#4CAF50]" />} /></Link>
                         <Link to={"/todo"} onClick={close}><SidebarItem title="Todo" icon={<CheckCircleOutlineIcon className="w-6 h-6 text-[#FF9800]" />} /></Link>
                         <Link to={"/pdf"} onClick={close}><SidebarItem title="PDF" icon={<PictureAsPdfIcon className="w-6 h-6 text-[#E53935]" />} /></Link>
                     </motion.div>

@@ -5,9 +5,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Alerttdot } from "./alertdot";
 import { Loading } from "./loading";
-import { string } from "zod";
-
-const notification = false;
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 interface DashnavProps {
    toggleSidebar: () => void;
@@ -31,7 +30,6 @@ export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
                   Authorization: token
                }
             });
-            console.log(res)
             if (res.data?.User?.url) {
                setProfilePic(`http://localhost:3000${res.data.User.url}`);
             } else {
@@ -46,46 +44,44 @@ export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
    }, []);
 
    if (profilepic === null) return <div><Loading /></div>;
-    console.log(profilepic)
 
    return (
-      <header className="sticky top-0 z-40 w-full border-b border-zinc-800 bg-neutral-main text-white">
+      <header className="sticky top-0 z-40 w-full border-b border-ui-border bg-surface-0/90 backdrop-blur-md text-on-surface">
          <div className="flex h-16 items-center px-4 md:px-6">
-            <button onClick={toggleSidebar} className="mr-4 text-zinc-400 hover:text-white transition-colors cursor-pointer">
-               <MenuIcon className="w-6 h-6" />
-            </button>
-            <div className="flex items-center gap-2 font-bold text-xl tracking-tight">
+            <Button variant="ghost" size="icon-sm" onClick={toggleSidebar} className="mr-3 text-zinc-400 hover:text-white transition-colors cursor-pointer h-9 w-9">
+               <MenuIcon className="w-5 h-5" />
+            </Button>
+            <div className="flex items-center gap-2 font-bold text-xl tracking-tight headline-lg-mobile text-lg">
                <span>Dashboard</span>
             </div>
 
-            <div className="hidden md:flex items-center bg-neutral-main border border-zinc-800 rounded-xl h-10 flex-1 max-w-xl mx-auto px-3 shadow-sm transition-colors focus-within:border-zinc-700 focus-within:bg-zinc-800">
-               <SearchIcon className="text-zinc-400 w-5 h-5" />
-               <input
+            <div className="hidden md:flex items-center relative flex-1 max-w-xl mx-auto px-4">
+               <SearchIcon className="absolute left-7 top-1/2 -translate-y-1/2 text-zinc-500 w-4 h-4 pointer-events-none" />
+               <Input
                   type="search"
-                  placeholder="Search..."
-                  className="bg-transparent border-0 outline-none w-full ml-2 text-white placeholder-zinc-500"
+                  placeholder="Search across all technical knowledge bases..."
+                  className="pl-10 h-10 bg-surface-1 border-ui-border focus-visible:ring-secondary w-full"
                />
             </div>
 
-            <div className="flex items-center gap-4 ml-auto">
-               <button onClick={() => setClose(true)} className="px-4 py-2 rounded-xl flex items-center gap-2 text-sm font-bold text-white bg-primary hover:bg-secondary transition-colors shadow-sm">
+            <div className="flex items-center gap-3 ml-auto">
+               <Button onClick={() => setClose(true)} className="btn-primary h-10 px-4 shadow-md cursor-pointer flex items-center gap-2">
                   <AddIcon className="w-4 h-4" />
-                  <span className="hidden sm:block">Add content</span>
-               </button>
+                  <span className="hidden sm:block">Add Content</span>
+               </Button>
                {open && <Modal setclose={setClose} />}
 
-               <div onClick={() => navigate('/notifications')} className="relative flex items-center justify-center h-10 w-10 rounded-full hover:bg-neutral-700 transition-colors cursor-pointer text-zinc-300 hover:text-white">
+               <div onClick={() => navigate('/notifications')} className="relative flex items-center justify-center h-10 w-10 rounded-full hover:bg-surface-2 transition-colors cursor-pointer text-zinc-300 hover:text-white">
                   <NotificationsNoneIcon className="w-5 h-5" />
                   <Alerttdot variants="red" pulse={true} className="absolute top-2 right-2 flex" />
                </div>
 
-               <div className="cursor-pointer ml-2">
-                  <div className="w-9 h-9 rounded-full bg-purple-500 overflow-hidden flex items-center justify-center text-white font-bold text-sm">
+               <div onClick={() => navigate('/uploadavatar')} className="cursor-pointer ml-1" title="Change Avatar">
+                  <div className="w-9 h-9 rounded-full bg-secondary/80 border border-ui-border overflow-hidden flex items-center justify-center text-white font-bold text-sm shadow-sm hover:ring-2 hover:ring-secondary transition-all">
                      {profilepic ? <img src={profilepic} alt="Profile" className="w-full h-full object-cover" /> : "U"}
                   </div>
                </div>
             </div>
-
          </div>
       </header>
    );

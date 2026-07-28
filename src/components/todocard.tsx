@@ -1,43 +1,69 @@
-import { Trash2 as DeleteOutlineIcon, CheckCircle as CheckCircleOutlineIcon, Circle as RadioButtonUncheckedIcon } from "lucide-react";
+import { Trash2 as DeleteIcon, CheckCircle2, Circle } from "lucide-react";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
 
 interface TodoCardProps {
-
     title: string;
-    priority: "high" | "medium" | "low";
-    complete: boolean;
-    onDelete: () => void;
-    onToggle: () => void;
+    priority?: "high" | "medium" | "low" ;
+    complete?: boolean;
+    onDelete?: () => void;
+    onToggle?: () => void;
 }
 
+export const TodoCard = ({ title, priority, complete, onDelete, onToggle }: TodoCardProps) => {
+    const getPriorityVariant = (p?: string) => {
+        if (p === 'high') return 'high';
+        if (p === 'medium') return 'medium';
+        if (p === 'low') return 'low';
+        return 'outline';
+    };
 
-export const TodoCard = ({  title, priority, complete, onDelete, onToggle }: TodoCardProps) => {
+    const getBorderColor = (p?: string) => {
+        if (p === 'high') return 'rgba(239, 68, 68, 0.4)';
+        if (p === 'medium') return 'rgba(245, 158, 11, 0.4)';
+        if (p === 'low') return 'rgba(59, 130, 246, 0.4)';
+        return 'var(--color-ui-border)';
+    };
+
     return (
-        <div className={`bg-gradient-to-br from-neutral-800 via-neutral-800 to-primary/50 backdrop-blur-md border rounded-2xl p-5 flex justify-between items-center transition-all duration-300 hover:-translate-y-1 ${complete ? 'opacity-60' : ''}`}
-             style={{ 
-                borderColor: complete ? 'rgba(100, 100, 100, 0.3)' : priority === 'high' ? 'rgba(239, 68, 68, 0.3)' : priority === 'medium' ? 'rgba(245, 158, 11, 0.3)' : 'var(--color-secondary)'
-             }}>
-            <div 
-                onClick={onToggle}
-                className="flex items-center gap-4 cursor-pointer select-none group"
-            >
-                <div 
-                    className={`transition-colors p-1 rounded-full ${complete ? 'text-green-500 group-hover:text-green-400' : 'text-zinc-400 group-hover:text-white'}`}
+        <div 
+            className={`tech-card transition-all duration-200 flex items-center justify-between gap-4 p-5 rounded-xl ${complete ? 'opacity-50 bg-surface-0/60 line-through' : 'hover:shadow-lg hover:-translate-y-0.5'}`}
+            style={{ borderColor: getBorderColor(priority) }}
+        >
+            <div className="flex items-center gap-3.5 flex-1 min-w-0">
+                <button 
+                    onClick={onToggle}
+                    className="text-zinc-400 hover:text-green-400 transition-colors shrink-0 cursor-pointer"
+                    title={complete ? "Mark as incomplete" : "Mark as completed"}
                 >
-                    {complete ? <CheckCircleOutlineIcon className="w-5 h-5" /> : <RadioButtonUncheckedIcon className="w-5 h-5" />}
-                </div>
-                <div className="flex flex-col gap-1">
-                    <h3 className={`text-zinc-200 font-semibold text-lg transition-all ${complete ? 'line-through text-zinc-500' : 'group-hover:text-white'}`}>{title}</h3>
-                    <span className={`text-xs font-bold uppercase tracking-wider transition-all ${complete ? 'text-zinc-600' : priority === 'high' ? 'text-red-400' : priority === 'medium' ? 'text-yellow-400' : 'text-primary'}`}>
-                        {priority} Priority
-                    </span>
-                </div>
+                    {complete ? (
+                        <CheckCircle2 className="w-6 h-6 text-green-400" />
+                    ) : (
+                        <Circle className="w-6 h-6" />
+                    )}
+                </button>
+                <span className={`body-md text-base text-on-surface truncate ${complete ? 'text-zinc-500' : ''}`}>
+                    {title}
+                </span>
             </div>
-            <button 
-                onClick={onDelete}
-                className="text-zinc-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-zinc-800"
-            >
-                <DeleteOutlineIcon className="w-5 h-5" />
-            </button>
+
+            <div className="flex items-center gap-3 shrink-0">
+                {priority && (
+                    <Badge variant={getPriorityVariant(priority)} className="text-xs">
+                        {priority}
+                    </Badge>
+                )}
+                
+                <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    onClick={onDelete}
+                    className="text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors h-8 w-8 rounded-full cursor-pointer"
+                    title="Delete Task"
+                >
+                    <DeleteIcon className="w-4 h-4" />
+                </Button>
+            </div>
         </div>
     );
 };

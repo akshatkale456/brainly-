@@ -17,17 +17,17 @@ export interface SidebarItemProps {
   icon?: ReactNode;
 }
 export interface socialcard {
-  id: string
+  id?: string | number
   title: string
-  type: "youtube" | "twitter"
+  type: string
   read: boolean
   link: string
   priority?: "high" | "medium" | "low"
 }
+export type CardProps = socialcard;
+
 export interface Modl {
   setclose: React.Dispatch<React.SetStateAction<boolean>>
-
-
 }
 export interface card {
   type?: string,
@@ -39,26 +39,26 @@ export interface card {
 }
 export interface cardGlobalState {
   card: card[],
-  fetchcarddata:()=> void
+  fetchcarddata: () => void
   addcard: (newCard: card) => Promise<void> | void
-  deletcard: (id: string ) => Promise<void> | void
-  editcard: (id: string , updatedData: card) => Promise<void> | void
+  deletcard: (id: string) => Promise<void> | void
+  editcard: (id: string, updatedData: card) => Promise<void> | void
 }
 
 export interface TodoItem {
     title: string;
     id?: string | number;
-    complete : boolean;
-    priority : "high" | "low" | "medium";
+    complete: boolean;
+    priority: "high" | "low" | "medium";
 }
 
 export interface TodoGlobalState {
     todos: TodoItem[];
-    fetchtodo:()=>void;
-    addTodo: (newTodo: Omit<TodoItem ,"id">) => Promise<void>;
+    fetchtodo: () => void;
+    addTodo: (newTodo: Omit<TodoItem, "id">) => Promise<void>;
     deleteTodo: (id: string) => void;
-    toggleTodoComplete: (id:string) => void;
-    editTodo :(id:string,updatedData:TodoItem)=>void
+    toggleTodoComplete: (id: string) => void;
+    editTodo: (id: string, updatedData: TodoItem) => void;
 }
 export interface mediumcard {
   heading: string

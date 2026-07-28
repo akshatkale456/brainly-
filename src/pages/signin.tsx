@@ -1,9 +1,9 @@
-
 import { Link } from "react-router-dom"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import { Label } from "../components/ui/label";
 import { useRef, useState } from "react";
 import { signinSchema } from "../schemas";
 import { Loading } from "../components/loading";
@@ -28,16 +28,15 @@ export const Signin = () => {
         }
 
         try {
-             const response = await axios.post("http://localhost:3000/api/signin", {
+            const response = await axios.post("http://localhost:3000/api/signin", {
                 email,
                 password
             });
-            if(response.data?.token){
-                localStorage.setItem("Authorization",response.data.token)
+            if (response.data?.token) {
+                localStorage.setItem("Authorization", response.data.token)
             }
             navigate("/youtube")
             setLoading(false);
-            // alert("signin succesfull");
         } catch (e) {
             setLoading(false);
             alert("signin failed" + e);
@@ -45,31 +44,33 @@ export const Signin = () => {
     };
 
     return (
-        <div className='flex justify-center items-center min-h-screen bg-neutral-main p-4 relative'>
+        <div className='flex justify-center items-center min-h-screen bg-surface-0 p-4 relative'>
             {loading && <Loading />}
-            <Link to="/" className="absolute top-6 left-6 text-neutral-400 hover:text-white transition-colors flex items-center gap-2">
+            <Link to="/" className="absolute top-6 left-6 text-zinc-400 hover:text-white transition-colors flex items-center gap-2 label-caps text-xs">
                 ← Back to Home
             </Link>
-            <div className="bg-neutral-main border border-neutral-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden p-8 md:p-10">
-                <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
-                <p className="text-neutral-400 mb-8">Please sign in to your account.</p>
+            <div className="tech-card shadow-2xl w-full max-w-md overflow-hidden p-8 md:p-10">
+                <h2 className="headline-lg text-3xl text-on-surface mb-2">Welcome Back</h2>
+                <p className="body-sm text-zinc-400 mb-8">Please sign in to your technical account.</p>
 
                 <div className="space-y-6">
                     <div className="space-y-4">
                         <div className="space-y-2 mb-3">
-                            <label className="text-sm font-medium text-neutral-300">Email Address</label>
-                            <input
+                            <Label htmlFor="signin-email" className="label-caps text-zinc-400">Email Address</Label>
+                            <Input
+                                id="signin-email"
                                 ref={emailRef}
-                                className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-neutral-800 text-white focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all duration-200 placeholder-neutral-500"
+                                className="bg-surface-2 border-ui-border h-11"
                                 type="email"
                                 placeholder="john.doe@example.com"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-neutral-300">Password</label>
-                            <input
+                            <Label htmlFor="signin-password" className="label-caps text-zinc-400">Password</Label>
+                            <Input
+                                id="signin-password"
                                 ref={passwordRef}
-                                className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-neutral-800 text-white focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all duration-200 placeholder-neutral-500"
+                                className="bg-surface-2 border-ui-border h-11"
                                 type="password"
                                 placeholder="••••••••"
                             />
@@ -77,17 +78,17 @@ export const Signin = () => {
                     </div>
 
                     <div className="pt-2">
-                        <button
+                        <Button
                             onClick={handleSignin}
-                            className="w-full px-6 py-3 rounded-xl font-bold text-white bg-primary hover:bg-secondary shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                            className="btn-primary w-full h-12 shadow-lg cursor-pointer"
                         >
                             Sign In
-                        </button>
+                        </Button>
                     </div>
 
-                    <div className="text-center text-sm text-neutral-400">
+                    <div className="text-center body-sm text-zinc-400">
                         Don't have an account? <Link to="/signup"
-                            className="text-secondary cursor-pointer font-medium hover:underline">Sign up</Link>
+                            className="text-secondary cursor-pointer font-semibold hover:underline">Sign up</Link>
                     </div>
                 </div>
             </div>

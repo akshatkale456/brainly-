@@ -1,8 +1,14 @@
-import { useEffect, useRef } from "react";
-import { Plus as AddIcon } from "lucide-react";
+import { useEffect, useRef, useState, useMemo } from "react";
+import { Plus as AddIcon, CheckCircle2 as CheckCircleOutline, Sparkles } from "lucide-react";
 import { TodoCard } from "../components/todocard";
 import { useTodoStore } from "../store.ts/todostore";
-import type { TodoItem } from "../types/type";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import { Select } from "../components/ui/select";
+import { Label } from "../components/ui/label";
+import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { Badge } from "../components/ui/badge";
+import { motion, AnimatePresence } from "motion/react";
 
 interface Score {
     high: number;
@@ -13,106 +19,186 @@ interface Score {
 export const Todo = () => {
     const dashref = useRef<HTMLInputElement>(null);
     const proref = useRef<HTMLSelectElement>(null);
-    const { todos, addTodo, deleteTodo, toggleTodoComplete ,fetchtodo,editTodo} = useTodoStore();
+    const { todos, addTodo, deleteTodo, toggleTodoComplete, fetchtodo } = useTodoStore();
+    const [activeTab, setActiveTab] = useState("all");
 
     useEffect(() => {
         fetchtodo();
     }, [fetchtodo]);
+
+    // Filter tasks based on activeTab
+    const filteredTodos = useMemo(() => {
+        return todos.filter(t => {
+            if (activeTab === "active") return !t.complete;
+            if (activeTab === "completed") return t.complete;
+            if (activeTab === "high") return t.priority === "high";
+            return true;
+        });
+    }, [todos, activeTab]);
+
     // Sort descending by priority (high -> medium -> low), and put completed at the bottom
-    const sortedTodos = [...todos].sort((a, b) => {
-        if (a.complete !== b.complete) {
-            return a.complete ? 1 : -1;
-        }
-        const score: Score = { high: 3, medium: 2, low: 1 };
-        const dashA = score[a.priority||"low"];
-        const dashB = score[b.priority||"low"];
-        return dashB - dashA;
-    });
+    const sortedTodos = useMemo(() => {
+        return [...filteredTodos].sort((a, b) => {
+            if (a.complete !== b.complete) {
+                return a.complete ? 1 : -1;
+            }
+            const score: Score = { high: 3, medium: 2, low: 1 };
+            const dashA = score[a.priority || "low"];
+            const dashB = score[b.priority || "low"];
+            return dashB - dashA;
+        });
+    }, [filteredTodos]);
+
+    const stats = useMemo(() => {
+        const activeCount = todos.filter(t => !t.complete).length;
+        const compCount = todos.filter(t => t.complete).length;
+        return { total: todos.length, activeCount, compCount };
+    }, [todos]);
 
     function add() {
         if (!dashref.current || !dashref.current.value.trim()) {
-            console.log("You must put a todo title");
             return;
         }
         if (!proref.current) {
-            console.log("You must select a priority");
             return;
         }
 
         addTodo({
             title: dashref.current.value.trim(),
-            priority: proref.current.value as "high" | "low" | "medium" ,
-            complete:false
+            priority: proref.current.value as "high" | "low" | "medium",
+            complete: false
         });
 
-        // Clear input after adding
         dashref.current.value = '';
         proref.current.value = 'low';
     }
 
     return (
-        <div className="p-6 md:p-10 max-w-4xl mx-auto">
-            <div className="flex flex-col mb-10">
-                <h1 className="text-4xl font-bold text-white mb-2">My Tasks</h1>
-                <p className="text-zinc-400">Organize your workflow and prioritize effectively.</p>
+        <div className="min-h-screen bg-surface-0 p-6 md:p-10 max-w-5xl mx-auto space-y-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-ui-border pb-8">
+                <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 shadow-sm">
+                            <CheckCircleOutline className="w-5 h-5" />
+                        </div>
+                        <Badge variant="outline" className="px-3 py-1 bg-surface-1 text-on-surface border-ui-border">
+                            <Sparkles className="w-3 h-3 mr-1.5 text-secondary" />
+                            Technical Precision
+                        </Badge>
+                    </div>
+                    <h1 className="headline-xl md:text-5xl text-on-surface">
+                        Task Manager
+                    </h1>
+                    <p className="body-md text-zinc-400 max-w-xl">
+                        Organize your engineering workflow, track milestones, and prioritize action items effectively.
+                    </p>
+                </div>
             </div>
 
             {/* Input Form Section */}
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl w-full overflow-hidden p-6 mb-10">
-                <div className="flex flex-col sm:flex-row gap-4 items-end">
-                    <div className="flex-1 w-full space-y-2">
-                        <label className="text-sm font-semibold text-zinc-300">Task Description</label>
-                        <input
+            <div className="tech-card shadow-xl space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
+                    <div className="sm:col-span-7 space-y-2">
+                        <Label htmlFor="todo-desc" className="label-caps text-zinc-400">Task Description</Label>
+                        <Input
+                            id="todo-desc"
                             ref={dashref}
+                            onKeyDown={(e) => e.key === 'Enter' && add()}
                             placeholder="What needs to be done?"
                             type="text"
-                            className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white focus:bg-zinc-700 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-all outline-none placeholder-zinc-500"
+                            className="bg-surface-2 border-ui-border h-11"
                         />
                     </div>
-                    <div className="sm:w-48 w-full space-y-2 relative">
-                        <label className="text-sm font-semibold text-zinc-300">Priority</label>
-                        <select
+                    <div className="sm:col-span-3 space-y-2">
+                        <Label htmlFor="todo-priority" className="label-caps text-zinc-400">Priority</Label>
+                        <Select
+                            id="todo-priority"
                             ref={proref}
                             defaultValue="low"
-                            className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white focus:bg-zinc-700 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-all outline-none appearance-none cursor-pointer"
+                            className="bg-surface-2 border-ui-border h-11"
                         >
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
                             <option value="low">Low</option>
-                        </select>
-                        <div className="absolute right-4 top-[38px] pointer-events-none text-zinc-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-                        </div>
+                        </Select>
                     </div>
-                    <button
-                        onClick={add}
-                        className="w-full sm:w-auto px-6 py-3 h-[49px] rounded-xl flex items-center justify-center gap-2 text-sm font-bold text-white bg-primary hover:bg-secondary hover:shadow-lg transition-all duration-200"
-                    >
-                        <AddIcon className="w-4 h-4" />
-                        <span>Add Task</span>
-                    </button>
+                    <div className="sm:col-span-2">
+                        <Button
+                            onClick={add}
+                            className="btn-primary w-full h-11 shadow-lg cursor-pointer"
+                        >
+                            <AddIcon className="w-4 h-4 mr-1" />
+                            <span>Add Task</span>
+                        </Button>
+                    </div>
                 </div>
             </div>
 
-            
-            <div className="space-y-4">
-                {sortedTodos.length === 0 ? (
-                    <div className="text-center py-12 bg-zinc-900/50 rounded-2xl border border-zinc-800/50 border-dashed">
-                        <p className="text-zinc-500 text-lg">No tasks yet. Add one above to get started!</p>
+            {/* Statistics and Filtering Tabs */}
+            <div className="tech-card shadow-xl space-y-4">
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                    <div className="flex items-center gap-2 flex-wrap">
+                        <span className="label-caps text-zinc-500 mr-1">STATUS:</span>
+                        <Badge variant="secondary" className="px-2.5 py-1 text-xs">
+                            Active: {stats.activeCount}
+                        </Badge>
+                        <Badge variant="outline" className="px-2.5 py-1 text-xs text-zinc-400">
+                            Completed: {stats.compCount}
+                        </Badge>
                     </div>
-                ) : (
-                    sortedTodos.map((item) => (
-                        <TodoCard 
-                            key={item.id} 
-                         
-                            title={item.title} 
-                            priority={item.priority}
-                            complete={item.complete}
-                            onDelete={() => deleteTodo(String(item.id))} 
-                            onToggle={() => toggleTodoComplete(String(item.id))}
-                        />
-                    ))
-                )}
+
+                    <Tabs value={activeTab} onValueChange={setActiveTab}>
+                        <TabsList className="bg-surface-0 border-ui-border h-auto p-1">
+                            <TabsTrigger value="all" className="px-3 py-1.5">All ({todos.length})</TabsTrigger>
+                            <TabsTrigger value="active" className="px-3 py-1.5">Active</TabsTrigger>
+                            <TabsTrigger value="completed" className="px-3 py-1.5">Completed</TabsTrigger>
+                            <TabsTrigger value="high" className="px-3 py-1.5 text-red-400">High Priority</TabsTrigger>
+                        </TabsList>
+                    </Tabs>
+                </div>
+            </div>
+
+            {/* Todo Cards List */}
+            <div className="space-y-4">
+                <AnimatePresence mode="popLayout">
+                    {sortedTodos.length === 0 ? (
+                        <motion.div 
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0 }}
+                            className="text-center py-16 tech-card bg-surface-1/50 border-dashed flex flex-col items-center justify-center p-8 space-y-3"
+                        >
+                            <p className="headline-lg-mobile text-on-surface">No tasks found</p>
+                            <p className="body-sm text-zinc-500 max-w-sm">
+                                {activeTab !== "all" ? "No tasks match your current tab filter." : "No tasks yet. Add one above to get started!"}
+                            </p>
+                            {activeTab !== "all" && (
+                                <Button variant="outline" size="sm" onClick={() => setActiveTab("all")} className="btn-secondary text-xs mt-2">
+                                    Show All Tasks
+                                </Button>
+                            )}
+                        </motion.div>
+                    ) : (
+                        sortedTodos.map((item) => (
+                            <motion.div
+                                key={item.id}
+                                layout
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <TodoCard 
+                                    title={item.title} 
+                                    priority={item.priority}
+                                    complete={item.complete}
+                                    onDelete={() => deleteTodo(String(item.id))} 
+                                    onToggle={() => toggleTodoComplete(String(item.id))}
+                                />
+                            </motion.div>
+                        ))
+                    )}
+                </AnimatePresence>
             </div>
         </div>
     );

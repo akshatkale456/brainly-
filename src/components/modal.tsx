@@ -1,7 +1,12 @@
 import { motion } from 'motion/react';
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react';
 import type { Modl } from '../types/type';
 import useCardset from "../store.ts/store";
+import { Input } from "./ui/input";
+import { Select } from "./ui/select";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+import { X as CloseIcon } from "lucide-react";
 
 export const Modal = ({ setclose }: Modl) => {
     const { addcard } = useCardset();
@@ -18,6 +23,8 @@ export const Modal = ({ setclose }: Modl) => {
             setType("twitter");
         } else if (url.endsWith(".pdf")) {
             setType("pdf");
+        } else if (url.startsWith("http")) {
+            if (!type) setType("pin");
         }
     };
 
@@ -28,7 +35,7 @@ export const Modal = ({ setclose }: Modl) => {
         if (!link) return;
         
         addcard({
-            type: type || "unknown",
+            type: type || "pin",
             title,
             link,
             read: false,
@@ -39,104 +46,98 @@ export const Modal = ({ setclose }: Modl) => {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex justify-center items-center bg-neutral-main/60 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/70 backdrop-blur-md p-4">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-            
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                className="relative bg-neutral-main border border-zinc-700 shadow-2xl rounded-2xl w-full max-w-md overflow-hidden"
+                className="relative tech-card shadow-2xl rounded-2xl w-full max-w-md overflow-hidden p-0"
             >
-
-                <div className="flex justify-between items-center p-6 border-b border-zinc-800">
-                    <h2 className="text-xl font-bold text-white tracking-tight">Add New Content</h2>
-                    <button
-                        onClick={() => { setclose((dash) => { return (!dash) }) }}
-                        className="text-zinc-400 hover:text-white transition-colors p-1 rounded-full hover:bg-zinc-800 cursor-pointer"
+                <div className="flex justify-between items-center p-6 border-b border-ui-border bg-surface-0/80">
+                    <h2 className="headline-lg-mobile text-xl text-on-surface">Add New Content</h2>
+                    <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() => setclose(false)}
+                        className="text-zinc-400 hover:text-white transition-colors h-8 w-8 rounded-full cursor-pointer"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
-                    </button>
+                        <CloseIcon className="w-5 h-5" />
+                    </Button>
                 </div>
-
 
                 <div className="p-6 space-y-5">
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-zinc-300">Title</label>
-                        <input
+                        <Label htmlFor="title-input" className="label-caps text-zinc-400">Title</Label>
+                        <Input
+                            id="title-input"
                             ref={titleRef}
-                            placeholder="Enter title (e.g. My Awesome Video)"
+                            placeholder="Enter title (e.g. System Design Tutorial)"
                             type="text"
-                            className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white focus:bg-zinc-700 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-all outline-none placeholder-zinc-500"
+                            className="bg-surface-2 border-ui-border"
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-zinc-300">Link URL</label>
-                        <input
+                        <Label htmlFor="link-input" className="label-caps text-zinc-400">Link URL</Label>
+                        <Input
+                            id="link-input"
                             ref={linkRef}
                             onChange={handleLinkChange}
                             placeholder="https://..."
                             type="url"
-                            className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white focus:bg-zinc-700 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-all outline-none placeholder-zinc-500"
+                            className="bg-surface-2 border-ui-border"
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-zinc-300">Content Type</label>
-                        <div className="relative">
-                            <select 
-                                value={type} 
-                                onChange={(e) => setType(e.target.value)}
-                                className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white focus:bg-zinc-700 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-all outline-none appearance-none cursor-pointer"
-                            >
-                                <option value="" disabled>Select a type...</option>
-                                <option value="youtube">YouTube Video</option>
-                                <option value="twitter">Twitter Tweet</option>
-                                <option value="pdf">PDF Document</option>
-                                <option value="todo">To-Do Task</option>
-                            </select>
-                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-                            </div>
-                        </div>
+                        <Label htmlFor="type-select" className="label-caps text-zinc-400">Content Type</Label>
+                        <Select 
+                            id="type-select"
+                            value={type} 
+                            onChange={(e) => setType(e.target.value)}
+                            className="bg-surface-2 border-ui-border"
+                        >
+                            <option value="" disabled>Select a type...</option>
+                            <option value="youtube">YouTube Video</option>
+                            <option value="twitter">Twitter Tweet</option>
+                            <option value="pin">Live Pin / Article</option>
+                            <option value="pdf">PDF Document</option>
+                            <option value="todo">To-Do Task</option>
+                        </Select>
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-zinc-300">Priority</label>
-                        <div className="relative">
-                            <select 
-                                value={priority} 
-                                onChange={(e) => setPriority(e.target.value as "high" | "medium" | "low")}
-                                className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white focus:bg-zinc-700 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-all outline-none appearance-none cursor-pointer"
-                            >
-                                <option value="high">High</option>
-                                <option value="medium">Medium</option>
-                                <option value="low">Low</option>
-                            </select>
-                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
-                            </div>
-                        </div>
+                        <Label htmlFor="priority-select" className="label-caps text-zinc-400">Priority Ranking</Label>
+                        <Select 
+                            id="priority-select"
+                            value={priority} 
+                            onChange={(e) => setPriority(e.target.value as "high" | "medium" | "low")}
+                            className="bg-surface-2 border-ui-border"
+                        >
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </Select>
                     </div>
                 </div>
 
-
-                <div className="p-6 bg-zinc-950/50 border-t border-zinc-800 flex justify-end gap-3">
-                    <button
-                        onClick={() => { setclose(false) }}
-                        className="px-5 py-2.5 rounded-xl text-sm font-bold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors cursor-pointer"
+                <div className="p-6 bg-surface-0/90 border-t border-ui-border flex justify-end gap-3">
+                    <Button
+                        variant="outline"
+                        onClick={() => setclose(false)}
+                        className="btn-secondary cursor-pointer"
                     >
                         Cancel
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                         onClick={handleSave}
-                        className="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-primary hover:bg-secondary hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                        className="btn-primary shadow-md cursor-pointer"
                     >
                         Save Content
-                    </button>
+                    </Button>
                 </div>
             </motion.div>
         </div>
     );
-}
+};

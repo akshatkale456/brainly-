@@ -2,12 +2,17 @@ import { useRef, useState } from "react";
 import useCardset from "../store.ts/store";
 import { useNavigate } from "react-router-dom";
 import { Plus as AddIcon } from "lucide-react";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import { Label } from "../components/ui/label";
+import { Select } from "../components/ui/select";
 
 export const Addcontent = () => {
     const { addcard } = useCardset();
     const navigate = useNavigate();
     const linkRef = useRef<HTMLInputElement>(null);
     const titleRef = useRef<HTMLInputElement>(null);
+    const [priority, setPriority] = useState<"high" | "medium" | "low">("low");
     const [status, setStatus] = useState("");
 
     const handleAdd = () => {
@@ -23,6 +28,10 @@ export const Addcontent = () => {
             type = "youtube";
         } else if (link.includes("twitter.com") || link.includes("x.com")) {
             type = "twitter";
+        } else if (link.endsWith(".pdf")) {
+            type = "pdf";
+        } else if (link.startsWith("http")) {
+            type = "pin";
         } else {
             type = "other";
         }
@@ -32,62 +41,80 @@ export const Addcontent = () => {
             title,
             link,
             read: false,
+            priority
         });
 
-        setStatus(`Successfully added a ${type} card!`);
+        setStatus(`Successfully added a ${type} item!`);
         if (linkRef.current) linkRef.current.value = "";
         if (titleRef.current) titleRef.current.value = "";
         
-        // Navigate them back to the specific platform page automatically after 1s
         setTimeout(() => {
             if (type === "youtube" || type === "twitter") {
                 navigate(`/${type}`);
+            } else if (type === "pin" || type === "pdf") {
+                navigate("/chat");
             } else {
-                navigate('/dashboard');
+                navigate("/dashboard");
             }
         }, 1000);
     };
 
     return (
-        <div className="p-6 md:p-10 max-w-3xl mx-auto">
-            <div className="flex flex-col mb-10">
-                <h1 className="text-4xl font-bold text-white mb-2">Add New Content</h1>
-                <p className="text-zinc-400">Save a YouTube video or Twitter bookmark. We will automatically detect the platform based on your link.</p>
+        <div className="p-6 md:p-10 max-w-3xl mx-auto min-h-[80vh] flex flex-col justify-center bg-surface-0">
+            <div className="flex flex-col mb-8">
+                <h1 className="headline-xl md:text-5xl text-on-surface mb-2">Add New Content</h1>
+                <p className="body-md text-zinc-400">Save a YouTube video, Twitter bookmark, or Live Pin URL. We automatically categorize it for your technical knowledge base.</p>
             </div>
 
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl shadow-xl w-full p-8 space-y-6">
+            <div className="tech-card shadow-xl space-y-6">
                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-zinc-300">Content Link</label>
-                    <input
+                    <Label htmlFor="add-link" className="label-caps text-zinc-400">Content Link URL</Label>
+                    <Input
+                        id="add-link"
                         ref={linkRef}
                         placeholder="https://youtube.com/... or https://x.com/..."
-                        type="text"
-                        className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white focus:bg-zinc-700 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-all outline-none placeholder-zinc-500"
+                        type="url"
+                        className="bg-surface-2 border-ui-border h-12"
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-zinc-300">Title (Optional)</label>
-                    <input
+                    <Label htmlFor="add-title" className="label-caps text-zinc-400">Title (Optional)</Label>
+                    <Input
+                        id="add-title"
                         ref={titleRef}
                         placeholder="Enter a short title or description"
                         type="text"
-                        className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-zinc-800 text-white focus:bg-zinc-700 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary transition-all outline-none placeholder-zinc-500"
+                        className="bg-surface-2 border-ui-border h-12"
                     />
+                </div>
+
+                <div className="space-y-2">
+                    <Label htmlFor="add-priority" className="label-caps text-zinc-400">Priority Ranking</Label>
+                    <Select 
+                        id="add-priority"
+                        value={priority}
+                        onChange={(e) => setPriority(e.target.value as any)}
+                        className="bg-surface-2 border-ui-border h-12"
+                    >
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low">Low Priority</option>
+                    </Select>
                 </div>
                 
                 {status && (
-                    <div className={`text-sm font-medium ${status.includes('Please') ? 'text-red-400' : 'text-green-400'}`}>
+                    <div className={`body-sm font-semibold px-4 py-3 rounded-xl ${status.includes('Please') ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-green-500/10 text-green-400 border border-green-500/20'}`}>
                         {status}
                     </div>
                 )}
 
-                <button
+                <Button
                     onClick={handleAdd}
-                    className="w-full px-6 py-4 rounded-xl flex items-center justify-center gap-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 hover:shadow-lg transition-all duration-200"
+                    className="btn-primary w-full h-12 shadow-lg cursor-pointer flex items-center justify-center gap-2 text-base"
                 >
-                    <AddIcon className="w-4 h-4" />
+                    <AddIcon className="w-5 h-5" />
                     <span>Save Content</span>
-                </button>
+                </Button>
             </div>
         </div>
     );

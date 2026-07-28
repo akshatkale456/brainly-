@@ -2,7 +2,7 @@ import { Hero } from "../components/hero";
 import { Base } from "../components/base";
 import { Nav } from "../components/nav";
 import { Gridspancomponenet, CtaSection } from "../components/infolanding";
-import { PinSection } from "../components/scrollpin";
+
 import { Footer } from "../components/footer";
 
 export function Maincontent() {
