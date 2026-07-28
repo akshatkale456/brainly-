@@ -12,8 +12,8 @@ import { Twitter } from './pages/twitter'
 import { Todo } from './pages/todo'
 import { Loading } from './components/loading'
 
-// import { NotificationPage } from './pages/notification'
 import { Uploadavatar } from './pages/uploadavatar'
+import { SetEvent } from './pages/setevent'
 import './index.css'
 
 function App() {
@@ -33,6 +33,8 @@ function App() {
           <Route path="/youtube" element={<Youtube />} />
           <Route path="/twitter" element={<Twitter />} />
           <Route path="/todo" element={<Todo />} />
+          <Route path="/setevent" element={<SetEvent />} />
+          <Route path="/set-event" element={<SetEvent />} />
           {/* <Route path="/notifications" element={<NotificationPage />} /> */}
           <Route path="/profile" element={<Uploadavatar />} />
          
