@@ -1,5 +1,5 @@
 import { SidebarItem } from "./sidebaritems";
-import { Video as YouTubeIcon, MessageSquare as TwitterIcon, CheckCircle as CheckCircleOutlineIcon, FileText as PictureAsPdfIcon, Pin as PushPinIcon } from "lucide-react";
+import { Video as YouTubeIcon, MessageSquare as TwitterIcon, CheckCircle as CheckCircleOutlineIcon, FileText as PictureAsPdfIcon, Pin as PushPinIcon, Calendar as CalendarIcon, Sparkles as SparklesIcon } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
 
@@ -26,6 +26,8 @@ export const Sidebar = ({ isOpen, close }: SidebarProps) => {
                         <Link to={"/chat"} onClick={close}><SidebarItem title="Live Pins" icon={<PushPinIcon className="w-6 h-6 text-[#4CAF50]" />} /></Link>
                         <Link to={"/todo"} onClick={close}><SidebarItem title="Todo" icon={<CheckCircleOutlineIcon className="w-6 h-6 text-[#FF9800]" />} /></Link>
                         <Link to={"/pdf"} onClick={close}><SidebarItem title="PDF" icon={<PictureAsPdfIcon className="w-6 h-6 text-[#E53935]" />} /></Link>
+                        <Link to={"/setevent"} onClick={close}><SidebarItem title="Set Event" icon={<CalendarIcon className="w-6 h-6 text-blue-400" />} /></Link>
+                        <Link to={"/planner"} onClick={close}><SidebarItem title="AI Planner" icon={<SparklesIcon className="w-6 h-6 text-purple-400" />} /></Link>
                     </motion.div>
                 )}
             </AnimatePresence>

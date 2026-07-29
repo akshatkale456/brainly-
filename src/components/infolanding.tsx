@@ -71,9 +71,9 @@ export const Gridspancomponenet = () => {
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="flex -space-x-2 overflow-hidden">
-                  <div className="inline-block h-7 w-7 rounded-full ring-2 ring-zinc-900 bg-zinc-800 border border-zinc-700 text-[10px] font-mono font-bold flex items-center justify-center text-white">MR</div>
-                  <div className="inline-block h-7 w-7 rounded-full ring-2 ring-zinc-900 bg-zinc-800 border border-zinc-700 text-[10px] font-mono font-bold flex items-center justify-center text-white">SP</div>
-                  <div className="inline-block h-7 w-7 rounded-full ring-2 ring-zinc-900 bg-zinc-800 border border-zinc-700 text-[10px] font-mono font-bold flex items-center justify-center text-white">DK</div>
+                  <div className=" h-7 w-7 rounded-full ring-2 ring-zinc-900 bg-zinc-800 border border-zinc-700 text-[10px] font-mono font-bold flex items-center justify-center text-white">MR</div>
+                  <div className=" h-7 w-7 rounded-full ring-2 ring-zinc-900 bg-zinc-800 border border-zinc-700 text-[10px] font-mono font-bold flex items-center justify-center text-white">SP</div>
+                  <div className=" h-7 w-7 rounded-full ring-2 ring-zinc-900 bg-zinc-800 border border-zinc-700 text-[10px] font-mono font-bold flex items-center justify-center text-white">DK</div>
                 </div>
                 <span className="ml-2 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] font-mono font-medium text-zinc-400">
                   +2
@@ -249,6 +249,78 @@ export const Gridspancomponenet = () => {
 
 /* SECTION 3: CTA START FOR FREE (Image 4) */
 export const CtaSection = () => {
+  return (
+    <section className="w-full bg-zinc-950 text-white py-28 md:py-36 px-6 md:px-16 lg:px-24 border-t border-zinc-900 relative text-center">
+      <div className="max-w-4xl mx-auto relative z-10 flex flex-col items-center">
+        {/* Top Accent Title */}
+        <div className="flex items-center justify-center gap-4 mb-10">
+          <div className="h-px w-12 sm:w-20 bg-zinc-800" />
+          <span className="text-xs font-mono tracking-[0.25em] text-zinc-500 uppercase font-semibold">
+            START FOR FREE
+          </span>
+          <div className="h-px w-12 sm:w-20 bg-zinc-800" />
+        </div>
+
+        {/* Big Impact Headline */}
+        <h2 className="text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tight leading-[0.95] mb-8">
+          <span className="text-white block">Your team&apos;s second</span>
+          <span className="text-white block mt-1">brain</span>
+          <span className="text-zinc-500 font-light block mt-2">starts right now.</span>
+        </h2>
+
+        {/* Subtext */}
+        <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-2xl font-light leading-relaxed mb-12">
+          Join 12,400+ teams who stopped losing ideas in Slack, tabs, and email threads. Brainly is free for teams up to 5.
+        </p>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full sm:w-auto mb-16">
+          <Link to="/signup" className="w-full sm:w-auto">
+            <motion.button 
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-white text-zinc-950 font-bold text-base hover:bg-zinc-200 transition-all flex items-center justify-center gap-3 cursor-pointer group"
+            >
+              <span>Create your free brain &rarr;</span>
+            </motion.button>
+          </Link>
+
+          <Link to="/signup" className="w-full sm:w-auto">
+            <motion.button 
+              whileHover={{ scale: 1.03, backgroundColor: "rgba(255,255,255,0.08)" }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-zinc-300 hover:text-white font-semibold text-base transition-all flex items-center justify-center cursor-pointer"
+            >
+              See how it works
+            </motion.button>
+          </Link>
+        </div>
+
+        {/* Caption */}
+        <div className="text-[11px] font-mono tracking-[0.25em] text-zinc-600 uppercase font-semibold mb-20">
+          NO CREDIT CARD REQUIRED · FREE FOREVER FOR TEAMS UNDER 5 · UPGRADE ANYTIME
+        </div>
+
+        {/* Bottom Feature Badges Bar - Pure White Icons */}
+        <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 md:gap-16 pt-12 border-t border-white/5 w-full">
+          <div className="flex items-center gap-2.5 text-xs font-mono tracking-[0.15em] text-zinc-400 font-semibold">
+            <Lock className="w-4 h-4 text-white" />
+            <span>END-TO-END ENCRYPTED</span>
+          </div>
+          <div className="flex items-center gap-2.5 text-xs font-mono tracking-[0.15em] text-zinc-400 font-semibold">
+            <Zap className="w-4 h-4 text-white" />
+            <span>SAVE ANYTHING IN &lt; 5 SECONDS</span>
+          </div>
+          <div className="flex items-center gap-2.5 text-xs font-mono tracking-[0.15em] text-zinc-400 font-semibold">
+            <LinkIcon className="w-4 h-4 text-white" />
+            <span>SHARE WITH ONE LINK</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+export const Cta2Section = () => {
   return (
     <section className="w-full bg-zinc-950 text-white py-28 md:py-36 px-6 md:px-16 lg:px-24 border-t border-zinc-900 relative text-center">
       <div className="max-w-4xl mx-auto relative z-10 flex flex-col items-center">

@@ -1,7 +1,7 @@
 import { Hero } from "../components/hero";
 import { Base } from "../components/base";
 import { Nav } from "../components/nav";
-import { Gridspancomponenet, CtaSection } from "../components/infolanding";
+import { Gridspancomponenet, CtaSection,  Cta2Section} from "../components/infolanding";
 
 import { Footer } from "../components/footer";
 
@@ -14,6 +14,7 @@ export function Maincontent() {
       <Gridspancomponenet />
       
       <CtaSection />
+      
       <Footer />
     </div>
   );

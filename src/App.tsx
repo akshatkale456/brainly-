@@ -14,6 +14,7 @@ import { Loading } from './components/loading'
 
 import { Uploadavatar } from './pages/uploadavatar'
 import { SetEvent } from './pages/setevent'
+import { Aidayplanner } from './pages/aidayplanner'
 import './index.css'
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/todo" element={<Todo />} />
           <Route path="/setevent" element={<SetEvent />} />
           <Route path="/set-event" element={<SetEvent />} />
+          <Route path="/planner" element={<Aidayplanner />} />
           {/* <Route path="/notifications" element={<NotificationPage />} /> */}
           <Route path="/profile" element={<Uploadavatar />} />
          
