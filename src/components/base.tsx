@@ -59,11 +59,13 @@ export function Base() {
           {/* Card 1: YouTube Videos */}
           <motion.div 
             variants={cardVariants}
-            className="group relative flex flex-col justify-between rounded-2xl bg-zinc-900/50 border border-white/10 p-7 md:p-8 hover:bg-zinc-900 hover:border-white/20 transition-all duration-300"
+            className="group relative flex flex-col justify-between rounded-2xl bg-zinc-900/50 border border-white/10 p-7
+             md:p-8 hover:bg-zinc-900 hover:border-white/20 transition-all duration-300"
           >
             <div>
               <div className="flex items-center justify-between mb-6">
-                <div className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white group-hover:bg-white/10 transition-colors">
+                <div className="w-11 h-11 rounded-xl bg-white/5 border
+                 border-white/10 flex items-center justify-center text-white group-hover:bg-white/10 transition-colors">
                   <Play className="w-5 h-5 fill-white text-white" />
                 </div>
                 <span className="text-[11px] font-mono tracking-[0.2em] text-zinc-500 uppercase font-semibold">

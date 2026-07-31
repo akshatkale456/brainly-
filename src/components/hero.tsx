@@ -36,13 +36,16 @@ export function Hero() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                            className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
+                            className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-stretch
+                             sm:items-center gap-4"
                         >
                             <Link to="/signup" className="w-full sm:w-auto">
                                 <motion.button 
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="w-full sm:w-auto px-7 py-4 rounded-xl bg-white text-zinc-950 font-bold text-sm md:text-base hover:bg-zinc-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)] flex items-center justify-center gap-3 cursor-pointer group"
+                                    className="w-full sm:w-auto px-7 py-4 rounded-xl bg-white text-zinc-950 font-bold text-sm 
+                                    md:text-base hover:bg-zinc-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)]
+                                     flex items-center justify-center gap-3 cursor-pointer group"
                                 >
                                     <span>Create your brain — it's free</span>
                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -53,7 +56,8 @@ export function Hero() {
                                 <motion.button 
                                     whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.08)" }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="w-full sm:w-auto px-7 py-4 rounded-xl bg-white/5 border border-white/10 text-zinc-300 hover:text-white font-semibold text-sm md:text-base transition-all flex items-center justify-center cursor-pointer"
+                                    className="w-full sm:w-auto px-7 py-4 rounded-xl bg-white/5 border
+                                     border-white/10 text-zinc-300 hover:text-white font-semibold text-sm md:text-base transition-all flex items-center justify-center cursor-pointer"
                                 >
                                     See what you can save
                                 </motion.button>
@@ -65,18 +69,14 @@ export function Hero() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.8, delay: 0.5 }}
-                            className="mt-6 text-[11px] font-mono tracking-[0.25em] text-zinc-600 uppercase font-semibold"
+                            className="mt-6 text-11px font-mono tracking-0.25em text-zinc-600 uppercase font-semibold"
                         >
                             NO CREDIT CARD · FREE FOREVER FOR SMALL TEAMS
                         </motion.div>
                     </div>
 
                     {/* Bottom Left Circle Badge */}
-                    <div className="mt-16 sm:mt-24 pt-6 flex items-center">
-                        <div className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 font-mono text-xs hover:border-zinc-700 hover:text-white transition-colors cursor-pointer shadow-inner">
-                            N
-                        </div>
-                    </div>
+                    
                 </div>
 
                 {/* Right Column: Sidebar Stats (12k+, 340k, 4.8) */}
