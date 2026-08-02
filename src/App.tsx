@@ -15,6 +15,7 @@ import { Loading } from './components/loading'
 import { Uploadavatar } from './pages/uploadavatar'
 import { SetEvent } from './pages/setevent'
 import { Aidayplanner } from './pages/aidayplanner'
+import { SharedBrain } from './pages/sharedbrain'
 import './index.css'
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/loading" element={<Loading />} />
+        <Route path="/brain/:hash" element={<SharedBrain />} />
 
         {/* Protected/Dashboard Routes with Common Layout */}
         <Route element={<Layout />}>

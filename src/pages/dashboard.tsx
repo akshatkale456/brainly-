@@ -62,7 +62,15 @@ hello
                 </div>
             </div>
             <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl">
-hii
+<h2 className=" text-xl p-8">
+     plan your day with us 
+
+
+</h2>
+<button>
+
+</button>
+
             </div>
             <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl">
 hii
