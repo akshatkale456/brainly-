@@ -61,19 +61,31 @@ hello
                     </Button>
                 </div>
             </div>
-            <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl">
-<h2 className=" text-xl p-8">
-     plan your day with us 
-
-
-</h2>
-<button>
-
-</button>
-
+            <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                    <h2 className="text-xl font-semibold text-white">Day Planner</h2>
+                    <p className="text-zinc-400 text-sm leading-relaxed">
+                        Describe your goals and let the planner arrange your day around your energy, priorities, and commitments.
+                    </p>
+                </div>
+                <div className="mt-auto flex flex-col gap-2 pt-2">
+                    <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2">
+                        Open Planner
+                    </Button>
+                </div>
             </div>
-            <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl">
-hii
+            <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                    <h2 className="text-xl font-semibold text-white">Rooms</h2>
+                    <p className="text-zinc-400 text-sm leading-relaxed">
+                        Create and join rooms to collaborate, share resources, and connect with your team.
+                    </p>
+                </div>
+                <div className="mt-auto flex flex-col gap-2 pt-2">
+                    <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2">
+                        View Rooms
+                    </Button>
+                </div>
             </div>
 
 
