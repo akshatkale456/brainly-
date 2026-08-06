@@ -1,10 +1,36 @@
-import React from "react";
-import { Card } from "@/components/ui/card";
+import React, { useState } from "react";
+import { CustomCard } from "@/components/CustomCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Calendar, Mail, Filter } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../config";
+
 
 export const Dashboard = () => {
+    const navigate = useNavigate();
+    const [roomPin, setRoomPin] = useState("");
+
+    function sendrequestocreate() {
+        if (!roomPin) return alert("Please enter a Room PIN");
+        
+        const token = localStorage.getItem("Authorization");
+        const wsUrl = `${BACKEND_URL.replace("http", "ws")}/ws?token=${token}`;
+        const socket = new WebSocket(wsUrl);
+        
+        socket.addEventListener("open", () => {
+            console.log("user connected");
+            socket.send(JSON.stringify({
+                type: "create",
+                roomName: roomPin
+            }));
+        });
+        
+        socket.addEventListener("message", (event) => {
+            console.log("Message received from server:", event.data);
+            navigate('/chat');
+        });
+    }
     return (
         <div className="min-h-screen bg-surface-0 p-6 md:p-10 font-sans text-on-surface">
             <div className="mb-10 w-full max-w-3xl">
@@ -51,7 +77,7 @@ hello
                     </p>
                 </div>
                 <div className="mt-auto flex flex-col gap-2 pt-2">
-                    <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2">
+                    <Button onClick={() => navigate('/mailfilter')} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2">
                         <Filter className="w-4 h-4" />
                         View Filtered Emails
                     </Button>
@@ -82,8 +108,18 @@ hello
                     </p>
                 </div>
                 <div className="mt-auto flex flex-col gap-2 pt-2">
-                    <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2">
-                        View Rooms
+                    <Input 
+                        type="text" 
+                        value={roomPin}
+                        onChange={(e) => setRoomPin(e.target.value)}
+                        placeholder="Enter Room PIN" 
+                        className="bg-surface-0 border-none text-white placeholder:text-zinc-500 focus-visible:ring-1 focus-visible:ring-indigo-500 mb-2" 
+                    />
+                    <Button onClick={() => navigate('/chat')} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2">
+                        Join
+                    </Button>
+                    <Button onClick={sendrequestocreate} variant="outline" className="w-full border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white flex items-center justify-center gap-2">
+                        Create
                     </Button>
                 </div>
             </div>

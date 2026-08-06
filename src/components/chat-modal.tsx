@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { ModifierKey } from 'react';
+import { Modl } from '../types/type';
 
-interface ChatModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
-export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
+
+export const ChatModal: React.FC<Modl> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
@@ -14,7 +12,9 @@ export const ChatModal: React.FC<ChatModalProps> = ({ isOpen, onClose }) => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-white">Chat</h2>
           <button 
-            onClick={onClose}
+            onClick={()=>{
+              onClose(!open)
+            }}
             className="text-zinc-400 hover:text-white"
           >
             Close

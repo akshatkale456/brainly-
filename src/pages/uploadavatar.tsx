@@ -5,6 +5,7 @@ import { Button } from "../components/ui/button"
 import { Label } from "../components/ui/label"
 import { Upload as UploadIcon, User as UserIcon } from "lucide-react"
 import { Link } from "react-router-dom"
+import { API_URL } from "../config"
 
 export const Uploadavatar = () => {
     const token = localStorage.getItem("Authorization")
@@ -34,7 +35,7 @@ export const Uploadavatar = () => {
         formData.append("avatar", selectedfile)
 
         try {
-            await axios.post("http://localhost:3000/api/upload", formData, {
+            await axios.post(`${API_URL}/upload`, formData, {
                 headers: {
                     authorization: token
                 }

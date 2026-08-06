@@ -10,7 +10,7 @@ export function Nav() {
     const toggleSidebar = () => setIsOpen(!isOpen);
 
     return (
-        <header className="sticky top-0 z-50 w-full bg-zinc-950/90 backdrop-blur-md border-b border-zinc-900 px-6 py-4 transition-colors">
+        <header className="sticky top-0 z-50 w-full bg-background px-6 py-4 transition-colors">
             <div className="max-w-full mx-auto flex items-center justify-between">
                 {/* Left: Badge & Brand */}
                 <div className="flex items-center gap-4">
@@ -31,10 +31,10 @@ export function Nav() {
                 </div>
 
                 {/* Center: Nav links */}
-                <nav className="hidden md:flex items-center gap-10 text-xs font-mono tracking-[0.15em] text-zinc-500 uppercase">
-                    <a href="#features" className="hover:text-white transition-colors cursor-pointer">FEATURES</a>
-                    <a href="#how-it-works" className="hover:text-white transition-colors cursor-pointer">HOW IT WORKS</a>
-                    <a href="#rooms" className="hover:text-white transition-colors cursor-pointer">ROOMS</a>
+                <nav className="hidden md:flex items-center gap-8 text-xs font-mono tracking-[0.15em] uppercase bg-zinc-100 text-zinc-950 px-8 py-3 rounded-full font-bold shadow-md shadow-white/10">
+                    <a href="#features" className="hover:text-zinc-600 transition-colors cursor-pointer">FEATURES</a>
+                    <a href="#how-it-works" className="hover:text-zinc-600 transition-colors cursor-pointer">HOW IT WORKS</a>
+                    <a href="#rooms" className="hover:text-zinc-600 transition-colors cursor-pointer">ROOMS</a>
                 </nav>
 
                 {/* Right: Sign in & Get Started button */}

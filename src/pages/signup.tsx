@@ -6,7 +6,7 @@ import { Loading } from '../components/loading';
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Label } from "../components/ui/label";
-
+import { API_URL } from "../config";
 export const Signup = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ export const Signup = () => {
         }
 
         try {
-            await axios.post("http://localhost:3000/api/signup", {
+            await axios.post(`${API_URL}/signup`, {
                 firstName,
                 lastName,
                 email,

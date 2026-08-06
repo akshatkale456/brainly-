@@ -11,9 +11,8 @@ import { Youtube } from './pages/youtube'
 import { Twitter } from './pages/twitter'
 import { Todo } from './pages/todo'
 import { Loading } from './components/loading'
-
+import { MailFilter } from './pages/mailfilter'
 import { Uploadavatar } from './pages/uploadavatar'
-import { SetEvent } from './pages/setevent'
 import { Aidayplanner } from './pages/aidayplanner'
 import { SharedBrain } from './pages/sharedbrain'
 import './index.css'
@@ -36,11 +35,10 @@ function App() {
           <Route path="/youtube" element={<Youtube />} />
           <Route path="/twitter" element={<Twitter />} />
           <Route path="/todo" element={<Todo />} />
-          <Route path="/setevent" element={<SetEvent />} />
-          <Route path="/set-event" element={<SetEvent />} />
           <Route path="/planner" element={<Aidayplanner />} />
           {/* <Route path="/notifications" element={<NotificationPage />} /> */}
           <Route path="/profile" element={<Uploadavatar />} />
+          <Route path="/mailfilter" element={<MailFilter />} />
          
         </Route>
 

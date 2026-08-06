@@ -7,6 +7,7 @@ import { Label } from "../components/ui/label";
 import { useRef, useState } from "react";
 import { signinSchema } from "../schemas";
 import { Loading } from "../components/loading";
+import { API_URL } from "../config";
 
 export const Signin = () => {
     const navigate = useNavigate()
@@ -28,7 +29,7 @@ export const Signin = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:3000/api/signin", {
+            const response = await axios.post(`${API_URL}/signin`, {
                 email,
                 password
             });

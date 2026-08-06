@@ -37,7 +37,7 @@ export const TodoCard = ({ title, priority, complete, onDelete, onToggle }: Todo
                     title={complete ? "Mark as incomplete" : "Mark as completed"}
                 >
                     {complete ? (
-                        <CheckCircle2 className="w-6 h-6 text-green-400" />
+                        <CheckCircle2 className="w-6 h-6 text-white" />
                     ) : (
                         <Circle className="w-6 h-6" />
                     )}

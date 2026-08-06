@@ -7,6 +7,7 @@ import { Alerttdot } from "./alertdot";
 import { Loading } from "./loading";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { BACKEND_URL, API_URL } from "../config";
 
 interface DashnavProps {
    toggleSidebar: () => void;
@@ -25,13 +26,13 @@ export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
                setProfilePic("");
                return;
             }
-            const res = await axios.get("http://localhost:3000/api/me", {
+            const res = await axios.get(`${API_URL}/me`, {
                headers: {
                   Authorization: token
                }
             });
             if (res.data?.User?.url) {
-               setProfilePic(`http://localhost:3000${res.data.User.url}`);
+               setProfilePic(`${BACKEND_URL}${res.data.User.url}`);
             } else {
                setProfilePic("");
             }
@@ -69,7 +70,7 @@ export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
                   <AddIcon className="w-4 h-4" />
                   <span className="hidden sm:block">Add Content</span>
                </Button>
-               {open && <Modal setclose={setClose} />}
+               {open && <Modal onClose={setClose} />}
 
                <div onClick={() => navigate('/notifications')} className="relative flex items-center justify-center h-10 w-10 rounded-full hover:bg-surface-2 transition-colors cursor-pointer text-zinc-300 hover:text-white">
                   <NotificationsNoneIcon className="w-5 h-5" />

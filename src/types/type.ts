@@ -27,7 +27,8 @@ export interface socialcard {
 export type CardProps = socialcard;
 
 export interface Modl {
-  setclose: React.Dispatch<React.SetStateAction<boolean>>
+  isOpen?:boolean,
+  onClose: React.Dispatch<React.SetStateAction<boolean>>
 }
 export interface card {
   type?: string,

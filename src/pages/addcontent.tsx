@@ -12,7 +12,7 @@ export const Addcontent = () => {
     const navigate = useNavigate();
     const linkRef = useRef<HTMLInputElement>(null);
     const titleRef = useRef<HTMLInputElement>(null);
-    const [priority, setPriority] = useState<"high" | "medium" | "low">("low");
+    const priorityRef = useRef<HTMLSelectElement>(null);
     const [status, setStatus] = useState("");
 
     const handleAdd = () => {
@@ -22,6 +22,7 @@ export const Addcontent = () => {
             setStatus("Please provide a valid link.");
             return;
         }
+        const priority = (priorityRef.current?.value as "high" | "medium" | "low") || "low";
 
         let type = "unknown";
         if (link.includes("youtube.com") || link.includes("youtu.be")) {
@@ -92,8 +93,8 @@ export const Addcontent = () => {
                     <Label htmlFor="add-priority" className="label-caps text-zinc-400">Priority Ranking</Label>
                     <Select 
                         id="add-priority"
-                        value={priority}
-                        onChange={(e) => setPriority(e.target.value as any)}
+                        ref={priorityRef}
+                        defaultValue="low"
                         className="bg-surface-2 border-ui-border h-12"
                     >
                         <option value="high">High Priority</option>

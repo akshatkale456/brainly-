@@ -1,12 +1,12 @@
 import { create } from "zustand";
-
 import type { TodoGlobalState} from "../types/type";
+import { API_URL } from "../config";
 
 export const useTodoStore =  create<TodoGlobalState>((set,get) => ({
     todos :[],
     fetchtodo:async()=> {
         const token = localStorage.getItem("Authorization") || "";
-        const response = await fetch("http://localhost:3000/api/todo/get",{
+        const response = await fetch(`${API_URL}/todo/get`,{
             "method": "get",
             headers: {
           "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const useTodoStore =  create<TodoGlobalState>((set,get) => ({
 };
 
         const token = localStorage.getItem("Authorization");
-        const response = await fetch("http://localhost:3000/api/todo",{
+        const response = await fetch(`${API_URL}/todo`,{
             "method": "post",
             headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export const useTodoStore =  create<TodoGlobalState>((set,get) => ({
     deleteTodo: async (id) => {
          const token = localStorage.getItem("Authorization");
          try {
-             const response = await fetch(`http://localhost:3000/api/todo/${id}`, {
+             const response = await fetch(`${API_URL}/todo/${id}`, {
                  method: "DELETE",
                  headers: {
                      "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export const useTodoStore =  create<TodoGlobalState>((set,get) => ({
          console.log("Token retrieved for update:", token);
          
          try{
-             const response = await fetch(`http://localhost:3000/api/todo/${id}`,{
+             const response = await fetch(`${API_URL}/todo/${id}`,{
             "method": "put",
             headers: {
           "Content-Type": "application/json",

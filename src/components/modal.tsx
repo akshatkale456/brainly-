@@ -8,31 +8,34 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { X as CloseIcon } from "lucide-react";
 
-export const Modal = ({ setclose }: Modl) => {
+export const Modal = ({ onClose }: Modl) => {
     const { addcard } = useCardset();
     const titleRef = useRef<HTMLInputElement>(null);
     const linkRef = useRef<HTMLInputElement>(null);
-    const [type, setType] = useState<string>("");
-    const [priority, setPriority] = useState<"high" | "medium" | "low">("low");
-
-    const handleLinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const url = e.target.value;
-        if (url.includes("youtube.com") || url.includes("youtu.be")) {
-            setType("youtube");
-        } else if (url.includes("twitter.com") || url.includes("x.com")) {
-            setType("twitter");
-        } else if (url.endsWith(".pdf")) {
-            setType("pdf");
-        } else if (url.startsWith("http")) {
-            if (!type) setType("pin");
-        }
-    };
+    const typeRef = useRef<HTMLSelectElement>(null);
+    const priorityRef = useRef<HTMLSelectElement>(null);
 
     const handleSave = () => {
         const link = linkRef.current?.value;
         const title = titleRef.current?.value || "New Content";
+        let type = typeRef.current?.value || "";
+        const priority = (priorityRef.current?.value as "high" | "medium" | "low") || "low";
         
         if (!link) return;
+
+        if (!type) {
+            if (link.includes("youtube.com") || link.includes("youtu.be")) {
+                type = "youtube";
+            } else if (link.includes("twitter.com") || link.includes("x.com")) {
+                type = "twitter";
+            } else if (link.endsWith(".pdf")) {
+                type = "pdf";
+            } else if (link.startsWith("http")) {
+                type = "pin";
+            } else {
+                type = "pin";
+            }
+        }
         
         addcard({
             type: type || "pin",
@@ -42,7 +45,7 @@ export const Modal = ({ setclose }: Modl) => {
             priority
         });
 
-        setclose(false);
+        onClose(false);
     };
 
     return (
@@ -59,7 +62,7 @@ export const Modal = ({ setclose }: Modl) => {
                     <Button
                         variant="ghost"
                         size="icon-sm"
-                        onClick={() => setclose(false)}
+                        onClick={() => onClose(false)}
                         className="text-zinc-400 hover:text-white transition-colors h-8 w-8 rounded-full cursor-pointer"
                     >
                         <CloseIcon className="w-5 h-5" />
@@ -83,7 +86,6 @@ export const Modal = ({ setclose }: Modl) => {
                         <Input
                             id="link-input"
                             ref={linkRef}
-                            onChange={handleLinkChange}
                             placeholder="https://..."
                             type="url"
                             className="bg-surface-2 border-ui-border"
@@ -94,8 +96,8 @@ export const Modal = ({ setclose }: Modl) => {
                         <Label htmlFor="type-select" className="label-caps text-zinc-400">Content Type</Label>
                         <Select 
                             id="type-select"
-                            value={type} 
-                            onChange={(e) => setType(e.target.value)}
+                            ref={typeRef}
+                            defaultValue=""
                             className="bg-surface-2 border-ui-border"
                         >
                             <option value="" disabled>Select a type...</option>
@@ -111,8 +113,8 @@ export const Modal = ({ setclose }: Modl) => {
                         <Label htmlFor="priority-select" className="label-caps text-zinc-400">Priority Ranking</Label>
                         <Select 
                             id="priority-select"
-                            value={priority} 
-                            onChange={(e) => setPriority(e.target.value as "high" | "medium" | "low")}
+                            ref={priorityRef}
+                            defaultValue="low"
                             className="bg-surface-2 border-ui-border"
                         >
                             <option value="high">High</option>
@@ -125,7 +127,7 @@ export const Modal = ({ setclose }: Modl) => {
                 <div className="p-6 bg-surface-0/90 border-t border-ui-border flex justify-end gap-3">
                     <Button
                         variant="outline"
-                        onClick={() => setclose(false)}
+                        onClick={() => onClose(false)}
                         className="btn-secondary cursor-pointer"
                     >
                         Cancel

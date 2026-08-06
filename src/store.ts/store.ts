@@ -1,12 +1,14 @@
 import { create } from "zustand"
 import type { cardGlobalState } from "../types/type"
 import type { card } from "../types/type"
+import { API_URL } from "../config"
+
 const useCardset = create<cardGlobalState>((set, get) => ({
     card :[],
     fetchcarddata: async () => {
         const token = localStorage.getItem("Authorization") || "";
         try {
-            const responseyoutube = await fetch("http://localhost:3000/api/youtube/get", {
+            const responseyoutube = await fetch(`${API_URL}/youtube/get`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -15,7 +17,7 @@ const useCardset = create<cardGlobalState>((set, get) => ({
             });
             const datayoutube = await responseyoutube.json();
             
-            const responsetweet = await fetch("http://localhost:3000/api/twitter/get", {
+            const responsetweet = await fetch(`${API_URL}/twitter/get`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -59,7 +61,7 @@ const useCardset = create<cardGlobalState>((set, get) => ({
         const token = localStorage.getItem("Authorization");
 
         try {
-            const response = await fetch(`http://localhost:3000/api/${endpoint}`, {
+            const response = await fetch(`${API_URL}/${endpoint}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -105,7 +107,7 @@ const useCardset = create<cardGlobalState>((set, get) => ({
         const token = localStorage.getItem("Authorization");
 
         try {
-            const response = await fetch(`http://localhost:3000/api/${endpoint}/${id}`, {
+            const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -153,7 +155,7 @@ const useCardset = create<cardGlobalState>((set, get) => ({
         };
 
         try {
-            const response = await fetch(`http://localhost:3000/api/${endpoint}/${id}`, {
+            const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
