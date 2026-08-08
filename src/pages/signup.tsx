@@ -132,8 +132,9 @@ export const Signup = () => {
 
                     <div className="pt-6">
                         <Button 
+                            disableAnim={true}
                             onClick={signup}
-                            className="btn-primary w-full h-12 shadow-lg cursor-pointer"
+                            className="btn-primary w-full h-12 shadow-lg cursor-pointer !rounded-md"
                         >
                             Sign Up
                         </Button>

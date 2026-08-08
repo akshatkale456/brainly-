@@ -42,28 +42,17 @@ export const Todo = () => {
 
     return (
         <div className="min-h-screen bg-surface-0 p-6 md:p-10 max-w-5xl mx-auto space-y-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-ui-border pb-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
                 <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 shadow-sm">
-                            <CheckCircleOutline className="w-5 h-5" />
-                        </div>
-                        <Badge variant="outline" className="px-3 py-1 bg-surface-1 text-on-surface border-ui-border">
-                            <Sparkles className="w-3 h-3 mr-1.5 text-white" />
-                            Technical Precision
-                        </Badge>
-                    </div>
                     <h1 className="headline-xl md:text-5xl text-on-surface">
                         Task Manager
                     </h1>
-                    <p className="body-md text-zinc-400 max-w-xl">
-                        Organize your engineering workflow, track milestones, and prioritize action items effectively.
-                    </p>
                 </div>
             </div>
 
-            {/* Input Form Section */}
-            <div className="tech-card shadow-xl space-y-4 p-6 border border-ui-border rounded-xl">
+            {/* Combined Add and Status Card */}
+            <div className="tech-card shadow-xl p-6 border border-ui-border rounded-xl flex flex-col gap-6 font-sans">
+                {/* Input Form Section */}
                 <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
                     <div className="sm:col-span-7 space-y-2">
                         <Label htmlFor="todo-desc" className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">Task Description</Label>
@@ -72,7 +61,7 @@ export const Todo = () => {
                             ref={titleRef}
                             placeholder="What needs to be done?"
                             type="text"
-                            className="bg-surface-2 border-ui-border h-11"
+                            className="bg-surface-2 border-ui-border h-11 rounded-full"
                         />
                     </div>
                     <div className="sm:col-span-3 space-y-2">
@@ -81,7 +70,7 @@ export const Todo = () => {
                             id="todo-priority"
                             ref={priorityRef}
                             defaultValue="low"
-                            className="bg-surface-2 border-ui-border h-11"
+                            className="bg-surface-2 border-ui-border h-11 rounded-full"
                         >
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
@@ -91,21 +80,21 @@ export const Todo = () => {
                     <div className="sm:col-span-2">
                         <Button
                             onClick={handleAddTodo}
-                            className="w-full h-11 bg-blue-600 hover:bg-blue-500 text-white shadow-lg cursor-pointer"
+                            className="w-full h-11 bg-blue-600 hover:bg-blue-500 text-white shadow-lg cursor-pointer font-medium rounded-full"
                         >
                             <AddIcon className="w-4 h-4 mr-1" />
                             <span>Add Task</span>
                         </Button>
                     </div>
                 </div>
-            </div>
 
-            {/* Statistics and Filtering Tabs */}
-            <div className="tech-card shadow-xl space-y-4 p-6 border border-ui-border rounded-xl">
+                <hr className="border-ui-border" />
+
+                {/* Statistics and Filtering Tabs */}
                 <div className="flex items-center justify-between flex-wrap gap-4">
-                    <div className="flex items-center gap-2 flex-wrap">
+                    <div className="flex items-center gap-2 flex-wrap font-medium">
                         <span className="text-xs font-semibold tracking-wider text-zinc-500 mr-1">STATUS:</span>
-                        <Badge variant="secondary" className="px-2.5 py-1 text-xs">
+                        <Badge variant="outline" className="px-2.5 py-1 text-xs text-zinc-300">
                             Active: {activeCount}
                         </Badge>
                         <Badge variant="outline" className="px-2.5 py-1 text-xs text-zinc-400">
@@ -115,10 +104,10 @@ export const Todo = () => {
 
                     <Tabs value={filter} onValueChange={setFilter}>
                         <TabsList className="bg-surface-0 border-ui-border h-auto p-1">
-                            <TabsTrigger value="all" className="px-3 py-1.5">All ({todos.length})</TabsTrigger>
-                            <TabsTrigger value="active" className="px-3 py-1.5">Active</TabsTrigger>
-                            <TabsTrigger value="completed" className="px-3 py-1.5">Completed</TabsTrigger>
-                            <TabsTrigger value="high" className="px-3 py-1.5 text-red-400">High Priority</TabsTrigger>
+                            <TabsTrigger value="all" className="px-3 py-1.5 font-medium">All ({todos.length})</TabsTrigger>
+                            <TabsTrigger value="active" className="px-3 py-1.5 font-medium">Active</TabsTrigger>
+                            <TabsTrigger value="completed" className="px-3 py-1.5 font-medium">Completed</TabsTrigger>
+                            <TabsTrigger value="high" className="px-3 py-1.5 font-medium">High Priority</TabsTrigger>
                         </TabsList>
                     </Tabs>
                 </div>

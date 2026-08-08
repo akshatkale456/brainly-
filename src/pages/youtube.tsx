@@ -22,23 +22,11 @@ export const Youtube = () => {
     return (
         <div className="min-h-screen bg-surface-0 p-6 md:p-10 max-w-7xl mx-auto space-y-8">
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-ui-border pb-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
                 <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 shadow-sm">
-                            <YoutubeIcon className="w-5 h-5" />
-                        </div>
-                        <Badge variant="outline" className="px-3 py-1 bg-surface-1 text-on-surface border-ui-border">
-                            <Sparkles className="w-3 h-3 mr-1.5 text-white" />
-                            Media Collection
-                        </Badge>
-                    </div>
                     <h1 className="headline-xl md:text-5xl text-on-surface">
                         YouTube Library
                     </h1>
-                    <p className="body-md text-zinc-400 max-w-xl">
-                        Your curated collection of YouTube videos, tutorials, and research talks.
-                    </p>
                 </div>
             </div>
 
@@ -60,10 +48,10 @@ export const Youtube = () => {
                                 placeholder="Search videos..." 
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-10 h-10 bg-surface-2 border-ui-border focus-visible:ring-secondary"
+                                className="pl-10 h-10 bg-surface-2 border-ui-border focus-visible:ring-secondary rounded-full"
                             />
                         </div>
-                        <Button className="h-10 bg-surface-2 hover:bg-surface-3 border border-ui-border text-on-surface cursor-pointer">
+                        <Button className="h-10 bg-surface-2 hover:bg-surface-3 border border-ui-border text-on-surface cursor-pointer rounded-full">
                             Search
                         </Button>
                     </div>

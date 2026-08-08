@@ -3,7 +3,7 @@ import React from "react";
 export const Dashboard = () => {
     return (
         <div className="min-h-screen bg-surface-0 p-6 md:p-10 max-w-7xl mx-auto space-y-8">
-            <div className="border-b border-ui-border pb-6">
+            <div className="pb-6">
                 <h1 className="headline-xl md:text-5xl text-on-surface">
                     Dashboard
                 </h1>

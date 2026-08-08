@@ -14,6 +14,8 @@ import {
   Link as LinkIcon,
   ArrowRight
 } from "lucide-react";
+import { Brainlogo } from "../assets/brain";
+import { ConnectionTree } from "./ConnectionTree";
 
 export const Gridspancomponenet = () => {
   const [copied, setCopied] = useState(false);
@@ -30,13 +32,7 @@ export const Gridspancomponenet = () => {
         
         {/* SECTION 1: COLLABORATION / ROOMS (Image 2) */}
         <div>
-          {/* Section Header Tag */}
-          <div className="flex items-center gap-3 mb-8">
-            <span className="text-[11px] font-mono tracking-[0.25em] text-zinc-500 uppercase font-semibold">
-              02 / COLLABORATION
-            </span>
-            <div className="h-px w-12 bg-zinc-800" />
-          </div>
+
 
           {/* Headline & Description */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end mb-16">
@@ -59,7 +55,7 @@ export const Gridspancomponenet = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="w-full bg-zinc-900/50 border border-white/10 rounded-3xl p-6 sm:p-10 md:p-12 relative overflow-hidden group hover:border-white/20 transition-all duration-300"
+            className="w-full bg-zinc-900/60 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 sm:p-10 md:p-12 relative overflow-hidden group hover:border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:shadow-[0_0_40px_rgba(255,255,255,0.06)] transition-all duration-500"
           >
             {/* Top Bar of Chat Card */}
             <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-white/10">
@@ -150,94 +146,89 @@ export const Gridspancomponenet = () => {
               </p>
             </div>
 
-            {/* Right Column: 3 List Cards & Copy Link Box */}
-            <div className="lg:col-span-7 flex flex-col gap-4">
-              {/* Card 1: Product Research */}
+            {/* Right Column: Overlapping Cards Visualization */}
+            <div className="lg:col-span-7 relative h-[400px] flex items-center justify-center group perspective-1000">
+              
+              {/* Left Card (Behind) */}
               <motion.div 
-                whileHover={{ scale: 1.01, x: 4 }}
-                className="group flex items-center justify-between p-5 rounded-2xl bg-zinc-900/50 border border-white/10 hover:bg-zinc-900 hover:border-white/20 transition-all duration-300 cursor-pointer"
+                initial={{ x: 0, y: 0, rotate: 0, scale: 0.9 }}
+                whileInView={{ x: "-40%", y: "10%", rotate: -12, scale: 0.9 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, type: "spring" }}
+                className="absolute w-64 h-80 rounded-3xl bg-zinc-900/80 backdrop-blur-md border border-white/10 shadow-2xl p-6 flex flex-col z-10 group-hover:-translate-x-[60%] group-hover:rotate-[-20deg] group-hover:scale-95 transition-all duration-500 ease-out"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white group-hover:bg-white/10 transition-colors">
-                    <Sparkles className="w-5 h-5 text-white" />
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                    <img src="/google-calendar.svg" className="w-6 h-6 object-contain" alt="Calendar" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-white transition-colors">Product Research</h4>
-                    <span className="text-[11px] font-mono tracking-[0.15em] text-zinc-500 uppercase font-semibold">47 ITEMS · 4 MEMBERS</span>
+                    <h4 className="text-white font-bold text-sm">Calendar Sync</h4>
+                    <p className="text-xs text-zinc-500 font-mono">AUTOMATED</p>
                   </div>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 group-hover:text-white group-hover:bg-white/10 transition-colors">
-                  <ArrowRight className="w-4 h-4" />
-                </div>
+                <div className="w-full h-32 rounded-xl bg-zinc-800/50 mt-auto border border-white/5" />
               </motion.div>
 
-              {/* Card 2: Design Inspiration */}
+              {/* Right Card (Behind) */}
               <motion.div 
-                whileHover={{ scale: 1.01, x: 4 }}
-                className="group flex items-center justify-between p-5 rounded-2xl bg-zinc-900/50 border border-white/10 hover:bg-zinc-900 hover:border-white/20 transition-all duration-300 cursor-pointer"
+                initial={{ x: 0, y: 0, rotate: 0, scale: 0.9 }}
+                whileInView={{ x: "40%", y: "10%", rotate: 12, scale: 0.9 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, type: "spring" }}
+                className="absolute w-64 h-80 rounded-3xl bg-zinc-900/80 backdrop-blur-md border
+                 border-white/10 shadow-2xl p-6 flex flex-col z-10 group-hover:translate-x-[60%] 
+                 group-hover:rotate-[20deg] group-hover:scale-95 transition-all duration-500 ease-out"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white group-hover:bg-white/10 transition-colors">
-                    <Target className="w-5 h-5 text-white" />
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                    <img src="/gmail.svg" className="w-6 h-6 object-contain" alt="Gmail" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-white transition-colors">Design Inspiration</h4>
-                    <span className="text-[11px] font-mono tracking-[0.15em] text-zinc-500 uppercase font-semibold">112 ITEMS · 6 MEMBERS</span>
+                    <h4 className="text-white font-bold text-sm">Email Fetch</h4>
+                    <p className="text-xs text-zinc-500 font-mono">112 THREADS</p>
                   </div>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 group-hover:text-white group-hover:bg-white/10 transition-colors">
-                  <ArrowRight className="w-4 h-4" />
-                </div>
+                <div className="w-full h-32 rounded-xl bg-zinc-800/50 mt-auto border border-white/5" />
               </motion.div>
 
-              {/* Card 3: Dev Resources */}
+              {/* Center Card (Front) */}
               <motion.div 
-                whileHover={{ scale: 1.01, x: 4 }}
-                className="group flex items-center justify-between p-5 rounded-2xl bg-zinc-900/50 border border-white/10 hover:bg-zinc-900 hover:border-white/20 transition-all duration-300 cursor-pointer"
+                initial={{ y: 50, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="absolute w-72 h-96 rounded-3xl bg-zinc-800/90 backdrop-blur-2xl border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)] p-6 flex flex-col z-20 group-hover:-translate-y-4 group-hover:shadow-[0_40px_80px_rgba(255,255,255,0.05)] transition-all duration-500 ease-out"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white group-hover:bg-white/10 transition-colors">
-                    <Hexagon className="w-5 h-5 text-white" />
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center shadow-lg">
+                      <Brainlogo className="w-6 h-6 text-zinc-950" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-extrabold text-base">Your Brain</h4>
+                      <p className="text-xs text-zinc-400 font-mono">ALL INTEGRATIONS</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-white transition-colors">Dev Resources</h4>
-                    <span className="text-[11px] font-mono tracking-[0.15em] text-zinc-500 uppercase font-semibold">89 ITEMS · 3 MEMBERS</span>
+                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                    <Share2 className="w-4 h-4 text-white" />
                   </div>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-400 group-hover:text-white group-hover:bg-white/10 transition-colors">
-                  <ArrowRight className="w-4 h-4" />
+                
+                <div className="flex-1 flex flex-col gap-3">
+                  <div className="w-full h-16 rounded-xl bg-zinc-900/80 border border-white/5 flex items-center px-4 gap-3">
+                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><img src="/youtube.svg" className="w-5 h-5 object-contain" alt="YouTube" /></div>
+                    <div className="h-2 w-24 bg-zinc-700 rounded-full" />
+                  </div>
+                  <div className="w-full h-16 rounded-xl bg-zinc-900/80 border border-white/5 flex items-center px-4 gap-3">
+                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><img src="/x.svg" className="w-4 h-4 object-contain" alt="X" /></div>
+                    <div className="h-2 w-32 bg-zinc-700 rounded-full" />
+                  </div>
+                  <div className="w-full h-16 rounded-xl bg-zinc-900/80 border border-white/5 flex items-center px-4 gap-3">
+                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center"><img src="/gemini-logo.svg" className="w-5 h-5 object-contain" alt="Gemini" /></div>
+                    <div className="h-2 w-20 bg-zinc-700 rounded-full" />
+                  </div>
                 </div>
               </motion.div>
-
-              {/* Share Brain Link Copy Box */}
-              <div className="mt-4 p-6 rounded-2xl bg-zinc-900/50 border border-white/10 flex flex-col gap-3">
-                <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 uppercase tracking-wider font-semibold">
-                  <Share2 className="w-3.5 h-3.5 text-white" />
-                  <span>Share brain</span>
-                </div>
-                <div className="bg-zinc-950 border border-white/10 rounded-xl p-3 pl-5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-                  <span className="font-mono text-sm text-zinc-300 truncate select-all">
-                    brainly.app/brain/team-q3-2026
-                  </span>
-                  <motion.button 
-                    whileTap={{ scale: 0.96 }}
-                    onClick={handleCopy}
-                    className="bg-zinc-800 hover:bg-zinc-700 text-white font-semibold px-5 py-2.5 rounded-lg border border-white/10 transition-all flex items-center justify-center gap-2 cursor-pointer text-sm shrink-0"
-                  >
-                    {copied ? (
-                      <>
-                        <Check className="w-4 h-4 text-white" />
-                        <span className="text-white">Copied!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-4 h-4 text-zinc-400" />
-                        <span>Copy</span>
-                      </>
-                    )}
-                  </motion.button>
-                </div>
-              </div>
             </div>
           </div>
         </div>

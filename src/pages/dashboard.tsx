@@ -1,15 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CustomCard } from "@/components/CustomCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Calendar, Mail, Filter } from "lucide-react";
+import { Calendar, Mail, Filter, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config";
+import useTodoStore from "../store.ts/todostore";
+import useCardset from "../store.ts/store";
 
 
 export const Dashboard = () => {
     const navigate = useNavigate();
     const [roomPin, setRoomPin] = useState("");
+    const [isSyncingCalendar, setIsSyncingCalendar] = useState(false);
+    const [isSyncingEmail, setIsSyncingEmail] = useState(false);
+
+    const { todos, fetchtodo } = useTodoStore();
+    const { card, fetchcarddata } = useCardset();
+
+    useEffect(() => {
+        fetchtodo();
+        fetchcarddata();
+    }, [fetchtodo, fetchcarddata]);
+
+    const importantTodos = todos.filter(t => t.priority === "high").slice(0, 2);
+    const importantYoutube = card.filter(c => c.priority === "high" && c.type === "youtube").slice(0, 2);
+    const importantTwitter = card.filter(c => c.priority === "high" && c.type === "twitter").slice(0, 2);
+
+
+    const handleSyncCalendar = () => {
+        setIsSyncingCalendar(true);
+        setTimeout(() => setIsSyncingCalendar(false), 2000);
+    };
+
+    const handleSyncEmail = () => {
+        setIsSyncingEmail(true);
+        setTimeout(() => setIsSyncingEmail(false), 2000);
+    };
 
     function sendrequestocreate() {
         if (!roomPin) return alert("Please enter a Room PIN");
@@ -43,10 +70,45 @@ export const Dashboard = () => {
             </div>
             
             <div className="grid grid-cols-12 gap-4">
-                 <div className="bg-surface-container md:col-span-8 rounded-3xl">
-hello
+                 <div className="bg-surface-container md:col-span-8 rounded-3xl p-6 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 border border-transparent hover:border-indigo-500/30">
+                    <h2 className="text-xl font-semibold text-white mb-4">Important Items</h2>
+                    <div className="flex flex-col gap-3">
+                        {importantTodos.map(todo => (
+                            <div key={todo.id} onClick={() => navigate('/todo')} className="p-4 bg-surface-0 rounded-xl cursor-pointer hover:bg-zinc-800 transition-colors border border-zinc-800 flex flex-col gap-1">
+                                <div className="text-white font-medium">{todo.title}</div>
+                                <div className="text-xs text-indigo-400">Go to Todo</div>
+                            </div>
+                        ))}
+                        {importantYoutube.map(c => (
+                            <div key={c.id} onClick={() => navigate('/youtube')} className="p-4 bg-surface-0 rounded-xl cursor-pointer hover:bg-zinc-800 transition-colors border border-zinc-800 flex flex-col gap-1">
+                                <div className="text-white font-medium line-clamp-1">{c.title}</div>
+                                <div className="text-xs text-zinc-400 flex gap-2">
+                                    <span>YouTube</span>
+                                    <span>•</span>
+                                    <a href={c.link} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="text-indigo-400 hover:underline truncate">
+                                        {c.link}
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
+                        {importantTwitter.map(c => (
+                            <div key={c.id} onClick={() => navigate('/twitter')} className="p-4 bg-surface-0 rounded-xl cursor-pointer hover:bg-zinc-800 transition-colors border border-zinc-800 flex flex-col gap-1">
+                                <div className="text-white font-medium line-clamp-1">{c.title}</div>
+                                <div className="text-xs text-zinc-400 flex gap-2">
+                                    <span>Twitter</span>
+                                    <span>•</span>
+                                    <a href={c.link} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="text-indigo-400 hover:underline truncate">
+                                        {c.link}
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
+                        {importantTodos.length === 0 && importantYoutube.length === 0 && importantTwitter.length === 0 && (
+                            <div className="text-zinc-500 text-sm">No important items found.</div>
+                        )}
+                    </div>
                  </div>
-                 <div className="bg-surface-container md:col-span-4 rounded-3xl p-6 flex flex-col gap-4">
+                 <div className="bg-surface-container md:col-span-4 rounded-3xl p-6 flex flex-col gap-4 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 border border-transparent hover:border-indigo-500/30">
                     <h2 className="text-xl font-semibold text-white mb-2">Add Event</h2>
                     <div className="flex flex-col gap-2">
                         <label className="text-sm text-zinc-400 font-medium">Event Title</label>
@@ -59,9 +121,17 @@ hello
                     <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium mt-2">
                         Add Event
                     </Button>
-                    <Button variant="outline" className="w-full border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white flex items-center justify-center gap-2">
-                        <Calendar className="w-5 h-5" />
-                        Sync with Google Calendar
+                    <Button 
+                        variant="outline" 
+                        onClick={handleSyncCalendar}
+                        disabled={isSyncingCalendar}
+                        className="w-full border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white flex items-center justify-center gap-2"
+                    >
+                        {isSyncingCalendar ? (
+                            <><Loader2 className="w-5 h-5 animate-spin" /> Syncing...</>
+                        ) : (
+                            <><Calendar className="w-5 h-5" /> Sync with Google Calendar</>
+                        )}
                     </Button>
                  </div>
                     
@@ -69,7 +139,7 @@ hello
 
                  </div>
             <div className="grid grid-cols-12 gap-4 mt-4">
-            <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-4">
+            <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-4 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 border border-transparent hover:border-indigo-500/30">
                 <div className="flex flex-col gap-1">
                     <h2 className="text-xl font-semibold text-white">Smart Mail Filter</h2>
                     <p className="text-zinc-400 text-sm leading-relaxed">
@@ -81,13 +151,21 @@ hello
                         <Filter className="w-4 h-4" />
                         View Filtered Emails
                     </Button>
-                    <Button variant="outline" className="w-full border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white flex items-center justify-center gap-2">
-                        <Mail className="w-4 h-4" />
-                        Sync with Email
+                    <Button 
+                        variant="outline" 
+                        onClick={handleSyncEmail}
+                        disabled={isSyncingEmail}
+                        className="w-full border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white flex items-center justify-center gap-2"
+                    >
+                        {isSyncingEmail ? (
+                            <><Loader2 className="w-4 h-4 animate-spin" /> Syncing...</>
+                        ) : (
+                            <><Mail className="w-4 h-4" /> Sync with Email</>
+                        )}
                     </Button>
                 </div>
             </div>
-            <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-4">
+            <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-4 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 border border-transparent hover:border-indigo-500/30">
                 <div className="flex flex-col gap-1">
                     <h2 className="text-xl font-semibold text-white">Day Planner</h2>
                     <p className="text-zinc-400 text-sm leading-relaxed">
@@ -100,7 +178,7 @@ hello
                     </Button>
                 </div>
             </div>
-            <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-4">
+            <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-4 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 border border-transparent hover:border-indigo-500/30">
                 <div className="flex flex-col gap-1">
                     <h2 className="text-xl font-semibold text-white">Rooms</h2>
                     <p className="text-zinc-400 text-sm leading-relaxed">

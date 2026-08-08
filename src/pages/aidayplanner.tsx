@@ -9,16 +9,10 @@ export const Aidayplanner = () => {
                 
                 {/* Left Panel */}
                 <div className="flex flex-col max-w-xl">
-                    <p className="text-zinc-500 uppercase tracking-[0.2em] text-xs font-mono font-medium mb-6">
-                        AI Day Planner
-                    </p>
                     <h1 className="text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
                         <span className="text-white">Your day,</span><br/>
                         <span className="text-zinc-500">structured.</span>
                     </h1>
-                    <p className="text-zinc-400 text-lg leading-relaxed max-w-md">
-                        Describe your goals and let the planner arrange your day around your energy, priorities, and commitments.
-                    </p>
                 </div>
 
                 {/* Right Panel */}

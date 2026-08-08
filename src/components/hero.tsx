@@ -34,7 +34,7 @@ export function Hero() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                            className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full sm:w-auto"
+                            className="mt-16 sm:mt-20 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full sm:w-auto"
                         >
                             <Link to="/signup" className="w-full sm:w-auto">
                                 <motion.button 
@@ -58,15 +58,7 @@ export function Hero() {
                             </Link>
                         </motion.div>
 
-                        {/* Caption Below Buttons */}
-                        <motion.div 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.8, delay: 0.5 }}
-                            className="mt-6 text-11px font-mono tracking-0.25em text-zinc-600 uppercase font-semibold"
-                        >
-                            NO CREDIT CARD · FREE FOREVER FOR SMALL TEAMS
-                        </motion.div>
+
                     </div>
                 </div>
         </section>

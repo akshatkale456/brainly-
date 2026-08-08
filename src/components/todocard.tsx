@@ -18,17 +18,9 @@ export const TodoCard = ({ title, priority, complete, onDelete, onToggle }: Todo
         return 'outline';
     };
 
-    const getBorderColor = (p?: string) => {
-        if (p === 'high') return 'rgba(239, 68, 68, 0.4)';
-        if (p === 'medium') return 'rgba(245, 158, 11, 0.4)';
-        if (p === 'low') return 'rgba(59, 130, 246, 0.4)';
-        return 'var(--color-ui-border)';
-    };
-
     return (
         <div 
-            className={`tech-card transition-all duration-200 flex items-center justify-between gap-4 p-5 rounded-xl ${complete ? 'opacity-50 bg-surface-0/60 line-through' : 'hover:shadow-lg hover:-translate-y-0.5'}`}
-            style={{ borderColor: getBorderColor(priority) }}
+            className={`transition-all duration-200 flex items-center justify-between gap-4 p-5 rounded-xl border border-ui-border ${complete ? 'opacity-50 bg-surface-0/60 line-through' : 'bg-surface-1 hover:shadow-lg hover:-translate-y-0.5'}`}
         >
             <div className="flex items-center gap-3.5 flex-1 min-w-0">
                 <button 
@@ -37,7 +29,7 @@ export const TodoCard = ({ title, priority, complete, onDelete, onToggle }: Todo
                     title={complete ? "Mark as incomplete" : "Mark as completed"}
                 >
                     {complete ? (
-                        <CheckCircle2 className="w-6 h-6 text-white" />
+                        <CheckCircle2 className="w-6 h-6 text-zinc-400" />
                     ) : (
                         <Circle className="w-6 h-6" />
                     )}
@@ -49,7 +41,7 @@ export const TodoCard = ({ title, priority, complete, onDelete, onToggle }: Todo
 
             <div className="flex items-center gap-3 shrink-0">
                 {priority && (
-                    <Badge variant={getPriorityVariant(priority)} className="text-xs">
+                    <Badge variant={getPriorityVariant(priority) as any} className="text-xs uppercase tracking-wider">
                         {priority}
                     </Badge>
                 )}
@@ -58,7 +50,7 @@ export const TodoCard = ({ title, priority, complete, onDelete, onToggle }: Todo
                     variant="ghost"
                     size="icon-sm"
                     onClick={onDelete}
-                    className="text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-colors h-8 w-8 rounded-full cursor-pointer"
+                    className="text-zinc-500 hover:text-zinc-300 hover:bg-zinc-700/50 transition-colors h-8 w-8 rounded-full cursor-pointer"
                     title="Delete Task"
                 >
                     <DeleteIcon className="w-4 h-4" />

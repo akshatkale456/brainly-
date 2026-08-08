@@ -36,7 +36,7 @@ export const Signin = () => {
             if (response.data?.token) {
                 localStorage.setItem("Authorization", response.data.token)
             }
-            navigate("/youtube")
+            navigate("/dashboard")
             setLoading(false);
         } catch (e) {
             setLoading(false);
@@ -80,8 +80,9 @@ export const Signin = () => {
 
                     <div className="pt-2">
                         <Button
+                            disableAnim={true}
                             onClick={handleSignin}
-                            className="btn-primary w-full h-12 shadow-lg cursor-pointer"
+                            className="btn-primary w-full h-12 shadow-lg cursor-pointer !rounded-md"
                         >
                             Sign In
                         </Button>
