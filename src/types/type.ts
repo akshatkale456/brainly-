@@ -28,7 +28,8 @@ export type CardProps = socialcard;
 
 export interface Modl {
   isOpen?:boolean,
-  onClose: React.Dispatch<React.SetStateAction<boolean>>
+  onClose: React.Dispatch<React.SetStateAction<boolean>>,
+  roomId?: string
 }
 export interface card {
   type?: string,
@@ -37,6 +38,7 @@ export interface card {
   link?: string
   id?: string | number
   priority?: "high" | "medium" | "low"
+  content?: string
 }
 export interface cardGlobalState {
   card: card[],
@@ -68,4 +70,20 @@ export interface mediumcard {
   variant: "large" | "medium" | "small" | "notification"
   time?: string
   isNew?: boolean
+}
+
+export interface EventItem {
+    id?: string | number;
+    title: string;
+    date: string;
+    time?: string;
+    description?: string;
+}
+
+export interface EventGlobalState {
+    events: EventItem[];
+    fetchEvents: () => void;
+    addEvent: (newEvent: Omit<EventItem, "id">) => Promise<void>;
+    deleteEvent: (id: string | number) => Promise<void>;
+    editEvent: (id: string | number, updatedData: Partial<EventItem>) => Promise<void>;
 }

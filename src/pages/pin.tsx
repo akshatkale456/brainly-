@@ -4,20 +4,34 @@ import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { Select } from "../components/ui/select";
 import { useState, useEffect, useRef } from "react";
-import useCardset from "../store.ts/store";
+import { pincardset } from "../store.ts/pinstore";
+import { useRoomStore } from "../store.ts/roomstore";
 import { Socialcard } from "../components/socialcard";
+import { ChatModal } from "../components/chat-modal";
+import { useSocketStore } from "../store.ts/socketstore";
 
 export const Pin = () => {
-    const { card, fetchcarddata, addcard } = useCardset();
+    const { pins, fetchPins, addPin, isAdmin } = pincardset();
+    const roomId = useRoomStore((state) => state.roomId);
     const [searchQuery, setSearchQuery] = useState("");
+    const [setchat ,closechat ]=  useState(true)
     
     const titleRef = useRef<HTMLInputElement>(null);
     const linkRef = useRef<HTMLInputElement>(null);
     const priorityRef = useRef<HTMLSelectElement>(null);
 
     useEffect(() => {
-        fetchcarddata();
-    }, [fetchcarddata]);
+        fetchPins();
+        
+        // Connect to WebSocket to listen for live pins and chat messages
+        const { connect, disconnect } = useSocketStore.getState();
+        connect();
+
+        return () => {
+            // Optional: you could disconnect here if you don't want it alive when leaving the room
+            // disconnect();
+        };
+    }, [fetchPins, roomId]);
 
     const handleAddPin = () => {
         const link = linkRef.current?.value;
@@ -26,7 +40,7 @@ export const Pin = () => {
         
         if (!link) return;
         
-        addcard({
+        addPin({
             type: "pin",
             title,
             link,
@@ -39,7 +53,7 @@ export const Pin = () => {
         if (priorityRef.current) priorityRef.current.value = "low";
     };
 
-    const pinnedCards = card.filter(c => c.type !== "youtube" && c.type !== "twitter");
+    const pinnedCards = pins.filter(c => c.type !== "youtube" && c.type !== "twitter");
     const filteredCards = pinnedCards.filter(c => 
         c.title?.toLowerCase().includes(searchQuery.toLowerCase()) || 
         c.link?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -47,6 +61,7 @@ export const Pin = () => {
 
     return (
         <div className="min-h-screen bg-surface-0 p-6 md:p-10 max-w-7xl mx-auto space-y-8">
+            <ChatModal isOpen ={setchat } onClose={closechat}/>
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
                 <div className="space-y-3">
@@ -57,47 +72,49 @@ export const Pin = () => {
             </div>
 
             {/* Quick Pin Creation Card */}
-            <div className="tech-card shadow-xl space-y-5 p-6 border border-ui-border rounded-xl">
-                <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-on-surface flex items-center gap-2">
-                        <Plus className="w-4 h-4 text-white" />
-                        <span>Quick Pin URL</span>
-                    </h3>
-                </div>
+            {isAdmin && (
+                <div className="tech-card shadow-xl space-y-5 p-6 border border-ui-border rounded-xl">
+                    <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-semibold text-on-surface flex items-center gap-2">
+                            <Plus className="w-4 h-4 text-white" />
+                            <span>Quick Pin URL</span>
+                        </h3>
+                    </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-                    <div className="md:col-span-5 space-y-1.5">
-                        <label className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">Link URL</label>
-                        <Input 
-                            ref={linkRef}
-                            placeholder="https://..."
-                            className="bg-surface-2 border-ui-border rounded-full"
-                        />
-                    </div>
-                    <div className="md:col-span-3 space-y-1.5">
-                        <label className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">Title (Optional)</label>
-                        <Input 
-                            ref={titleRef}
-                            placeholder="e.g. Design Architecture Doc"
-                            className="bg-surface-2 border-ui-border rounded-full"
-                        />
-                    </div>
-                    <div className="md:col-span-2 space-y-1.5">
-                        <label className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">Priority</label>
-                        <Select ref={priorityRef} defaultValue="low" className="bg-surface-2 border-ui-border rounded-full">
-                            <option value="high">High</option>
-                            <option value="medium">Medium</option>
-                            <option value="low">Low</option>
-                        </Select>
-                    </div>
-                    <div className="md:col-span-2">
-                        <Button onClick={handleAddPin} className="w-full h-11 bg-blue-600 hover:bg-blue-500 text-white shadow-md cursor-pointer rounded-full">
-                            <PinIcon className="w-4 h-4 mr-1.5" />
-                            <span>Pin URL</span>
-                        </Button>
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                        <div className="md:col-span-5 space-y-1.5">
+                            <label className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">Link URL</label>
+                            <Input 
+                                ref={linkRef}
+                                placeholder="https://..."
+                                className="bg-surface-2 border-ui-border rounded-full"
+                            />
+                        </div>
+                        <div className="md:col-span-3 space-y-1.5">
+                            <label className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">Title (Optional)</label>
+                            <Input 
+                                ref={titleRef}
+                                placeholder="e.g. Design Architecture Doc"
+                                className="bg-surface-2 border-ui-border rounded-full"
+                            />
+                        </div>
+                        <div className="md:col-span-2 space-y-1.5">
+                            <label className="text-xs font-semibold tracking-wider text-zinc-400 uppercase">Priority</label>
+                            <Select ref={priorityRef} defaultValue="low" className="bg-surface-2 border-ui-border rounded-full">
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </Select>
+                        </div>
+                        <div className="md:col-span-2">
+                            <Button onClick={handleAddPin} className="w-full h-11 bg-blue-600 hover:bg-blue-500 text-white shadow-md cursor-pointer rounded-full">
+                                <PinIcon className="w-4 h-4 mr-1.5" />
+                                <span>Pin URL</span>
+                            </Button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
 
             {/* Statistics & Filtering Bar */}
             <div className="tech-card shadow-xl space-y-6 p-6 border border-ui-border rounded-xl">

@@ -15,7 +15,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import { Brainlogo } from "../assets/brain";
-import { ConnectionTree } from "./ConnectionTree";
+// import { ConnectionTree } from "./ConnectionTree";
 
 export const Gridspancomponenet = () => {
   const [copied, setCopied] = useState(false);
@@ -166,6 +166,9 @@ export const Gridspancomponenet = () => {
                     <p className="text-xs text-zinc-500 font-mono">AUTOMATED</p>
                   </div>
                 </div>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  Automatically syncs all your events and schedules into your workspace.
+                </p>
                 <div className="w-full h-32 rounded-xl bg-zinc-800/50 mt-auto border border-white/5" />
               </motion.div>
 
@@ -188,6 +191,9 @@ export const Gridspancomponenet = () => {
                     <p className="text-xs text-zinc-500 font-mono">112 THREADS</p>
                   </div>
                 </div>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                  Pulls important threads and attachments directly from your inbox.
+                </p>
                 <div className="w-full h-32 rounded-xl bg-zinc-800/50 mt-auto border border-white/5" />
               </motion.div>
 
@@ -199,7 +205,7 @@ export const Gridspancomponenet = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="absolute w-72 h-96 rounded-3xl bg-zinc-800/90 backdrop-blur-2xl border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)] p-6 flex flex-col z-20 group-hover:-translate-y-4 group-hover:shadow-[0_40px_80px_rgba(255,255,255,0.05)] transition-all duration-500 ease-out"
               >
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center shadow-lg">
                       <Brainlogo className="w-6 h-6 text-zinc-950" />
@@ -213,6 +219,10 @@ export const Gridspancomponenet = () => {
                     <Share2 className="w-4 h-4 text-white" />
                   </div>
                 </div>
+                
+                <p className="text-sm text-zinc-400 leading-relaxed mb-4">
+                  Central hub connecting all your tools, notes, and integrations in one place.
+                </p>
                 
                 <div className="flex-1 flex flex-col gap-3">
                   <div className="w-full h-16 rounded-xl bg-zinc-900/80 border border-white/5 flex items-center px-4 gap-3">

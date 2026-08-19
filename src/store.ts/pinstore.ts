@@ -1,24 +1,27 @@
 import { create } from "zustand";
 import type { card } from "../types/type";
-import { BACKEND_URL } from "../config";
+import { API_URL, BACKEND_URL } from "../config";
+import { string } from "zod";
+import { useRoomStore } from "./roomstore";
 
 export interface PinGlobalState {
   pins: card[];
+  isAdmin: boolean;
   fetchPins: () => Promise<void>;
   addPin: (newPin: card) => Promise<void>;
-  deletePin: (id: string | number, currentUserId: string, roomAdminId: string) => Promise<void>;
+  deletePin: (id: string | number) => Promise<void>;
   editPin: (id: string | number, updatedData: Partial<card>) => Promise<void>;
   receivePinAdded: (newPin: card) => void;
-  receivePinDeleted: (pinId: string | number) => void;
-  receivePinUpdated: (id: string | number, updatedData: Partial<card>) => void;
 }
 
 export const pincardset = create<PinGlobalState>((set) => ({
   pins: [],
+  isAdmin: false,
   fetchPins: async () => {
+    const roomId = useRoomStore.getState().roomId;
     const token = localStorage.getItem("Authorization") || "";
     try {
-      const response = await fetch(`${BACKEND_URL}/pin/get`, {
+      const response = await fetch(`${API_URL}/livepin/cards/${roomId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -26,30 +29,38 @@ export const pincardset = create<PinGlobalState>((set) => ({
         },
       });
       const data = await response.json();
-      const pinsList = Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : []);
+      const pinsList = Array.isArray(data.cards) ? data.cards : (Array.isArray(data) ? data : []);
       const mappedPins = pinsList.map((p: any) => ({
         ...p,
-        id: p._id || p.id
+        id: p.cardId || p._id || p.id
       }));
-      set({ pins: mappedPins });
+      set({ pins: mappedPins, isAdmin: data.isAdmin || false });
     } catch (error) {
       console.error("Error fetching pins:", error);
     }
   },
   addPin: async (newPin: card) => {
-    const tempid = Date.now();
+    const roomId = useRoomStore.getState().roomId;
+    const tempid = Date.now().toString();
     const tempPin = { ...newPin, id: tempid };
     set((state) => ({ pins: [...state.pins, tempPin] }));
 
     const token = localStorage.getItem("Authorization");
     try {
-      const response = await fetch(`${BACKEND_URL}/pin`, {
+      const response = await fetch(`${API_URL}/livepin/cards`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "authorization": token || ""
         },
-        body: JSON.stringify(newPin)
+        body: JSON.stringify({
+          cardId: tempid,
+          roomId: roomId,
+          title: newPin.title,
+          link: newPin.link,
+          type: newPin.type || "pin",
+          priority: newPin.priority
+        })
       });
 
       if (!response.ok) {
@@ -57,7 +68,7 @@ export const pincardset = create<PinGlobalState>((set) => ({
       }
 
       const data = await response.json();
-      const realId = data.data?._id || data.pin?._id;
+      const realId = data.card?.cardId || data.card?._id || data.pin?._id;
 
       set((state) => ({
         pins: state.pins.map((p) => {
@@ -67,24 +78,31 @@ export const pincardset = create<PinGlobalState>((set) => ({
           return p;
         })
       }));
+
+      const { useSocketStore } = await import("./socketstore");
+      useSocketStore.getState().sendMessage({
+          type: "broadcast_pin",
+          roomName: roomId,
+          pin: data.card || data.pin || tempPin
+      });
+      
     } catch (error) {
       console.error("Error saving pin on backend:", error);
     }
   },
-  deletePin: async (id, currentUserId, roomAdminId) => {
+  deletePin: async (id) => {
     set((state) => ({
       pins: state.pins.filter((p) => String(p.id) !== String(id))
     }));
 
     const token = localStorage.getItem("Authorization");
     try {
-      const response = await fetch(`${BACKEND_URL}/pin/${id}`, {
+      const response = await fetch(`${API_URL}/livepin/cards/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           "authorization": token || ""
-        },
-        body: JSON.stringify({ currentUserId, roomAdminId })
+        }
       });
 
       if (!response.ok) {
@@ -106,7 +124,7 @@ export const pincardset = create<PinGlobalState>((set) => ({
 
     const token = localStorage.getItem("Authorization");
     try {
-      const response = await fetch(`${BACKEND_URL}/pin/${id}`, {
+      const response = await fetch(`${API_URL}/livepin/cards/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -123,12 +141,13 @@ export const pincardset = create<PinGlobalState>((set) => ({
     }
   },
   receivePinAdded: (newPin) => {
-
-  },
-  receivePinDeleted: (pinId) => {
-
-  },
-  receivePinUpdated: (id, updatedData) => {
-
+    set((state) => {
+      const pinAny = newPin as any;
+      const newId = pinAny.cardId || pinAny._id || pinAny.id;
+      if (state.pins.some(p => p.id === newId || p.id === newPin.id)) {
+        return state;
+      }
+      return { pins: [...state.pins, { ...newPin, id: newId }] };
+    });
   }
 }));

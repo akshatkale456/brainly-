@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { startOfWeek, addDays, format, isSameDay } from 'date-fns';
 
-export const Weeks = () => {
-    const [Currentdate ,setdate] = useState(new Date())
-    const startdate  = startOfWeek( Currentdate, {weekStartsOn :1})
+interface WeeksProps {
+    selectedDate: Date;
+    onSelectDate: (date: Date) => void;
+}
+
+export const Weeks = ({ selectedDate, onSelectDate }: WeeksProps) => {
+    const startdate  = startOfWeek(selectedDate, {weekStartsOn :1})
     const days:any[]  = Array.from({length:7}).map((_,index)=>addDays(startdate,index))
 
     return (
         <div className="flex flex-row justify-between w-full bg-zinc-950/40 border border-white/10 rounded-2xl p-4 gap-2">
             {days.map((day, index)=>{
-                const isSelected = isSameDay(day, Currentdate);
+                const isSelected = isSameDay(day, selectedDate);
                 return (
                     <div 
                         key={index}
                         onClick={()=>{
-                            setdate(day)
+                            onSelectDate(day)
                         }}
                         className={`flex flex-col items-center justify-center flex-1 py-4 rounded-xl cursor-pointer transition-all duration-300 border ${
                             isSelected 

@@ -1,13 +1,17 @@
 import { Share2 as ShareIcon, Trash2 as DeleteIcon, Video as YoutubeIcon, MessageSquare as TwitterIcon, CheckCircle, Circle, Pin as PinIcon, Sparkles, Edit2 as EditIcon, Save as SaveIcon, X as CancelIcon } from "lucide-react";
 import type { CardProps } from "../types/type";
 import useCardset from "../store.ts/store";
+import { pincardset } from "../store.ts/pinstore";
 import { useState, useRef } from "react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Input } from "./ui/input";
+import { Tweet } from "react-tweet";
+import { extract, extractTweetId } from "../url/extract";
 
 export const Socialcard = ({ title, link, type, id, priority, read }: CardProps) => {
     const { deletcard, editcard } = useCardset();
+    const { deletePin, editPin, isAdmin } = pincardset();
     const [isRead, setIsRead] = useState(read || false);
     const [isEditing, setIsEditing] = useState(false);
 
@@ -18,7 +22,11 @@ export const Socialcard = ({ title, link, type, id, priority, read }: CardProps)
         const nextState = !isRead;
         setIsRead(nextState);
         if (id) {
-            editcard(String(id), { read: nextState });
+            if (type === "pin" || type === undefined) {
+                editPin(String(id), { read: nextState });
+            } else {
+                editcard(String(id), { read: nextState });
+            }
         }
     };
 
@@ -27,10 +35,17 @@ export const Socialcard = ({ title, link, type, id, priority, read }: CardProps)
         const newLink = linkRef.current?.value || link;
         
         if (id) {
-            editcard(String(id), { 
-                title: newTitle, 
-                link: newLink 
-            });
+            if (type === "pin" || type === undefined) {
+                editPin(String(id), { 
+                    title: newTitle, 
+                    link: newLink 
+                });
+            } else {
+                editcard(String(id), { 
+                    title: newTitle, 
+                    link: newLink 
+                });
+            }
         }
         setIsEditing(false);
     };
@@ -63,7 +78,7 @@ export const Socialcard = ({ title, link, type, id, priority, read }: CardProps)
 
     return (
         <div 
-            className={`tech-card transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between overflow-hidden relative ${isRead ? 'opacity-60 bg-surface-0/60' : ''}`}
+            className={`tech-card transition-all duration-300 shadow-[0_15px_35px_rgba(0,0,0,0.5)] hover:shadow-[0_30px_60px_rgba(0,0,0,0.8)] hover:-translate-y-2 border-b-[6px] flex flex-col justify-between overflow-hidden relative ${isRead ? 'opacity-60 bg-surface-0/60 border-b-ui-border/50' : 'border-b-zinc-800'}`}
             style={{ borderColor: getBorderColor(priority), padding: 0 }}
         >
             {/* Card Header */}
@@ -108,42 +123,55 @@ export const Socialcard = ({ title, link, type, id, priority, read }: CardProps)
                         </>
                     ) : (
                         <>
-                            <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                onClick={() => setIsEditing(true)}
-                                className="text-zinc-400 hover:text-white transition-colors h-8 w-8 rounded-full cursor-pointer"
-                                title="Edit card"
-                            >
-                                <EditIcon className="w-4 h-4" />
-                            </Button>
-                            <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                onClick={handleToggleRead}
-                                className="text-zinc-400 hover:text-white transition-colors h-8 w-8 rounded-full cursor-pointer"
-                                title={isRead ? "Mark as unread" : "Mark as read"}
-                            >
-                                {isRead ? <CheckCircle className="w-4 h-4 text-white" /> : <Circle className="w-4 h-4" />}
-                            </Button>
-                            <Button 
-                                variant="ghost"
-                                size="icon-sm"
-                                onClick={handleShare} 
-                                className="text-zinc-400 hover:text-white transition-colors h-8 w-8 rounded-full cursor-pointer" 
-                                title="Share link"
-                            >
-                                <ShareIcon className="w-4 h-4" />
-                            </Button>
-                            <Button 
-                                variant="ghost"
-                                size="icon-sm"
-                                onClick={() => id && deletcard(String(id))} 
-                                className="text-zinc-400 hover:text-red-400 hover:bg-red-500/10 transition-colors h-8 w-8 rounded-full cursor-pointer" 
-                                title="Delete card"
-                            >
-                                <DeleteIcon className="w-4 h-4" />
-                            </Button>
+                            {/* Conditionally hide edit/delete for non-admin pin cards */}
+                            {((type !== "pin" && type !== undefined) || isAdmin) && (
+                                <>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon-sm"
+                                        onClick={() => setIsEditing(true)}
+                                        className="text-zinc-400 hover:text-white transition-colors h-8 w-8 rounded-full cursor-pointer"
+                                        title="Edit card"
+                                    >
+                                        <EditIcon className="w-4 h-4" />
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon-sm"
+                                        onClick={handleToggleRead}
+                                        className="text-zinc-400 hover:text-white transition-colors h-8 w-8 rounded-full cursor-pointer"
+                                        title={isRead ? "Mark as unread" : "Mark as read"}
+                                    >
+                                        {isRead ? <CheckCircle className="w-4 h-4 text-white" /> : <Circle className="w-4 h-4" />}
+                                    </Button>
+                                    <Button 
+                                        variant="ghost"
+                                        size="icon-sm"
+                                        onClick={handleShare} 
+                                        className="text-zinc-400 hover:text-white transition-colors h-8 w-8 rounded-full cursor-pointer" 
+                                        title="Share link"
+                                    >
+                                        <ShareIcon className="w-4 h-4" />
+                                    </Button>
+                                    <Button 
+                                        variant="ghost"
+                                        size="icon-sm"
+                                        onClick={() => {
+                                            if (id) {
+                                                if (type === "pin" || type === undefined) {
+                                                    deletePin(String(id));
+                                                } else {
+                                                    deletcard(String(id));
+                                                }
+                                            }
+                                        }} 
+                                        className="text-zinc-400 hover:text-red-400 hover:bg-red-500/10 transition-colors h-8 w-8 rounded-full cursor-pointer" 
+                                        title="Delete card"
+                                    >
+                                        <DeleteIcon className="w-4 h-4" />
+                                    </Button>
+                                </>
+                            )}
                         </>
                     )}
                 </div>
@@ -181,8 +209,8 @@ export const Socialcard = ({ title, link, type, id, priority, read }: CardProps)
                         {type === "youtube" && link && (
                             <div className="w-full aspect-video rounded-xl overflow-hidden border border-ui-border bg-black shadow-inner">
                                 <iframe
-                                    className="w-full h-full"
-                                    src={link.replace("watch?v=", "embed/").replace("youtu.be/", "youtube.com/embed/")}
+                                    className="w-full h-full rounded-xl"
+                                    src={extract(link) ? `https://www.youtube.com/embed/${extract(link)}` : link}
                                     title={title}
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowFullScreen
@@ -191,10 +219,19 @@ export const Socialcard = ({ title, link, type, id, priority, read }: CardProps)
                         )}
 
                         {type === "twitter" && link && (
-                            <div className="w-full rounded-xl overflow-hidden border border-ui-border bg-black/40 p-3 max-h-72 overflow-y-auto">
-                                <blockquote className="twitter-tweet dark" data-theme="dark">
-                                    <a href={link.replace("x.com", "twitter.com")}></a>
-                                </blockquote>
+                            <div className="w-full rounded-xl overflow-hidden border border-ui-border bg-black/40 p-3 max-h-[400px] overflow-y-auto no-scrollbar">
+                                {extractTweetId(link) ? (
+                                    <Tweet id={extractTweetId(link)!} />
+                                ) : (
+                                    <a 
+                                        href={link} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="body-sm text-xs text-blue-400 hover:underline"
+                                    >
+                                        View Tweet
+                                    </a>
+                                )}
                             </div>
                         )}
 

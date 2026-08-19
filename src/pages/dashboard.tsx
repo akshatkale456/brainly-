@@ -1,27 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { CustomCard } from "@/components/CustomCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Calendar, Mail, Filter, Loader2 } from "lucide-react";
+import { Calendar, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config";
 import useTodoStore from "../store.ts/todostore";
 import useCardset from "../store.ts/store";
+import { useRoomStore } from "../store.ts/roomstore";
+import useEventStore from "../store.ts/eventstore";
+import { useSocketStore } from "../store.ts/socketstore";
 
 
 export const Dashboard = () => {
     const navigate = useNavigate();
-    const [roomPin, setRoomPin] = useState("");
+    const roomPinRef = useRef<HTMLInputElement>(null);
+    const setRoomId = useRoomStore((state) => state.setRoomId);
     const [isSyncingCalendar, setIsSyncingCalendar] = useState(false);
-    const [isSyncingEmail, setIsSyncingEmail] = useState(false);
+
 
     const { todos, fetchtodo } = useTodoStore();
     const { card, fetchcarddata } = useCardset();
+    const { events, fetchEvents } = useEventStore();
 
     useEffect(() => {
         fetchtodo();
         fetchcarddata();
-    }, [fetchtodo, fetchcarddata]);
+        fetchEvents();
+    }, [fetchtodo, fetchcarddata, fetchEvents]);
+
+    const todayString = new Date().toISOString().split('T')[0];
+    const todayEvents = events.filter(e => e.date === todayString);
 
     const importantTodos = todos.filter(t => t.priority === "high").slice(0, 2);
     const importantYoutube = card.filter(c => c.priority === "high" && c.type === "youtube").slice(0, 2);
@@ -33,30 +42,34 @@ export const Dashboard = () => {
         setTimeout(() => setIsSyncingCalendar(false), 2000);
     };
 
-    const handleSyncEmail = () => {
-        setIsSyncingEmail(true);
-        setTimeout(() => setIsSyncingEmail(false), 2000);
-    };
+
 
     function sendrequestocreate() {
+        const roomPin = roomPinRef.current?.value;
         if (!roomPin) return alert("Please enter a Room PIN");
         
-        const token = localStorage.getItem("Authorization");
-        const wsUrl = `${BACKEND_URL.replace("http", "ws")}/ws?token=${token}`;
-        const socket = new WebSocket(wsUrl);
+        setRoomId(roomPin);
+        // Connect via shared store
+        useSocketStore.getState().connect("create");
         
-        socket.addEventListener("open", () => {
-            console.log("user connected");
-            socket.send(JSON.stringify({
-                type: "create",
-                roomName: roomPin
-            }));
-        });
-        
-        socket.addEventListener("message", (event) => {
-            console.log("Message received from server:", event.data);
+        // Wait briefly for connection before navigating, or just navigate
+        setTimeout(() => {
             navigate('/chat');
-        });
+        }, 100);
+    }
+    
+    function sendjoinrequest (){
+        const roomPin = roomPinRef.current?.value;
+        if (!roomPin) return alert("Please enter a Room PIN");
+        
+        setRoomId(roomPin);
+        // Connect via shared store
+        useSocketStore.getState().connect("join");
+        
+        // Wait briefly for connection before navigating
+        setTimeout(() => {
+            navigate('/chat');
+        }, 100);
     }
     return (
         <div className="min-h-screen bg-surface-0 p-6 md:p-10 font-sans text-on-surface">
@@ -65,7 +78,7 @@ export const Dashboard = () => {
                     Welcome back
                 </h1>
                 <p className="text-zinc-400 text-lg">
-                    Save YouTube videos, manage rooms, and seamlessly sync your events and mail—all in one place.
+                    Save YouTube videos, manage rooms, and seamlessly sync your events—all in one place.
                 </p>
             </div>
             
@@ -118,7 +131,7 @@ export const Dashboard = () => {
                         <label className="text-sm text-zinc-400 font-medium">Event Date</label>
                         <Input type="date" className="bg-surface-0 border-none text-white focus-visible:ring-1 focus-visible:ring-indigo-500 [color-scheme:dark]" />
                     </div>
-                    <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium mt-2">
+                    <Button onClick={() => navigate('/event')} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium mt-2">
                         Add Event
                     </Button>
                     <Button 
@@ -141,27 +154,24 @@ export const Dashboard = () => {
             <div className="grid grid-cols-12 gap-4 mt-4">
             <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-4 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 border border-transparent hover:border-indigo-500/30">
                 <div className="flex flex-col gap-1">
-                    <h2 className="text-xl font-semibold text-white">Smart Mail Filter</h2>
-                    <p className="text-zinc-400 text-sm leading-relaxed">
-                        Keep your inbox clean. Automatically sort and filter important updates from clutter by securely syncing with your email provider.
-                    </p>
+                    <h2 className="text-xl font-semibold text-white">Today's Events</h2>
+                </div>
+                <div className="flex flex-col gap-2 mt-1 flex-1 overflow-y-auto max-h-40 no-scrollbar">
+                    {todayEvents.length > 0 ? (
+                        todayEvents.map(e => (
+                            <div key={e.id} className="p-3 bg-surface-0 rounded-xl border border-white/5 flex flex-col gap-1">
+                                <div className="text-white font-medium text-sm">{e.title}</div>
+                                {e.time && <div className="text-xs text-indigo-400">{e.time}</div>}
+                            </div>
+                        ))
+                    ) : (
+                        <div className="text-zinc-500 text-sm py-2">No events scheduled for today.</div>
+                    )}
                 </div>
                 <div className="mt-auto flex flex-col gap-2 pt-2">
-                    <Button onClick={() => navigate('/mailfilter')} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2">
-                        <Filter className="w-4 h-4" />
-                        View Filtered Emails
-                    </Button>
-                    <Button 
-                        variant="outline" 
-                        onClick={handleSyncEmail}
-                        disabled={isSyncingEmail}
-                        className="w-full border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white flex items-center justify-center gap-2"
-                    >
-                        {isSyncingEmail ? (
-                            <><Loader2 className="w-4 h-4 animate-spin" /> Syncing...</>
-                        ) : (
-                            <><Mail className="w-4 h-4" /> Sync with Email</>
-                        )}
+                    <Button onClick={() => navigate('/event')} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        View All Events
                     </Button>
                 </div>
             </div>
@@ -188,12 +198,18 @@ export const Dashboard = () => {
                 <div className="mt-auto flex flex-col gap-2 pt-2">
                     <Input 
                         type="text" 
-                        value={roomPin}
-                        onChange={(e) => setRoomPin(e.target.value)}
+                        ref={roomPinRef}
                         placeholder="Enter Room PIN" 
                         className="bg-surface-0 border-none text-white placeholder:text-zinc-500 focus-visible:ring-1 focus-visible:ring-indigo-500 mb-2" 
                     />
-                    <Button onClick={() => navigate('/chat')} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2">
+                    <Button onClick={() => {
+                        if (roomPinRef.current?.value) {
+                            setRoomId(roomPinRef.current.value);
+                            sendjoinrequest();
+                        } else {
+                            alert("Please enter a Room PIN");
+                        }
+                    }} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2">
                         Join
                     </Button>
                     <Button onClick={sendrequestocreate} variant="outline" className="w-full border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white flex items-center justify-center gap-2">
