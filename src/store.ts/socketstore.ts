@@ -47,19 +47,19 @@ export const useSocketStore = create<SocketState>((set, get) => ({
                     return;
                 }
 
-                if (data.type === "broadcast_pin" || data.type === "add_pin") {
+                if (data.type === "broadcast_pin" || data.type === "add_pin" || data.type === "pin" || data.pin || data.card) {
                     const pinData = data.pin || data.card;
                     if (pinData) {
                         pincardset.getState().receivePinAdded(pinData);
                     }
                 }
-                if (data.type === "chat_message" || data.type === "broadcast_message") {
+                if (data.type === "chat_message" || data.type === "broadcast_message" || data.type === "chat" || data.chat) {
                     const msg = data.message || data.chat;
-                    if (msg) {
+                    if (msg && msg.message) {
                         const senderObj = msg.sender || {};
                         const name = senderObj.username || senderObj.name || senderObj.firstName || senderObj.email || msg.senderName;
                         const mappedMsg = {
-                            id: msg._id || msg.id,
+                            id: msg._id || msg.id || Date.now().toString(),
                             text: msg.message || msg.text,
                             senderId: senderObj._id || msg.sender || msg.senderId,
                             senderName: name,

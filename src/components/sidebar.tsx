@@ -27,7 +27,12 @@ export const Sidebar = ({ isOpen, close }: SidebarProps) => {
             
             if (response.ok) {
                 const data = await response.json();
-                const shareLink = `${window.location.origin}/brain/${data.token}`;
+                const linkSuffix = data.token || data.hash || data.id || data.shareId;
+                const shareLink = data.link ? data.link : `${window.location.origin}/brain/${linkSuffix}`;
+                if (shareLink.includes('undefined')) {
+                    alert("Failed to parse share link from server response: " + JSON.stringify(data));
+                    return;
+                }
                 await navigator.clipboard.writeText(shareLink);
                 alert("Share link copied to clipboard!");
             } else {
