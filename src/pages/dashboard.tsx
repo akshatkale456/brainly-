@@ -83,7 +83,7 @@ export const Dashboard = () => {
             </div>
             
             <div className="grid grid-cols-12 gap-4">
-                 <div className="bg-surface-container md:col-span-8 rounded-3xl p-6 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 border border-transparent hover:border-indigo-500/30">
+                 <div className="bg-surface-container col-span-12 md:col-span-8 rounded-3xl p-6 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 border border-transparent hover:border-indigo-500/30">
                     <h2 className="text-xl font-semibold text-white mb-4">Important Items</h2>
                     <div className="flex flex-col gap-3">
                         {importantTodos.map(todo => (
@@ -121,7 +121,7 @@ export const Dashboard = () => {
                         )}
                     </div>
                  </div>
-                 <div className="bg-surface-container md:col-span-4 rounded-3xl p-6 flex flex-col gap-4 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 border border-transparent hover:border-indigo-500/30">
+                 <div className="bg-surface-container col-span-12 md:col-span-4 rounded-3xl p-6 flex flex-col gap-4 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20 border border-transparent hover:border-indigo-500/30">
                     <h2 className="text-xl font-semibold text-white mb-2">Add Event</h2>
                     <div className="flex flex-col gap-2">
                         <label className="text-sm text-zinc-400 font-medium">Event Title</label>

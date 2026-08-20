@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Modl } from '../types/type';
 import { useChatStore } from '../store.ts/chatstore';
 import { X, Send, Trash2, Edit2, Check, XCircle } from 'lucide-react';
@@ -49,7 +50,7 @@ export const ChatModal: React.FC<Modl> = ({ isOpen, onClose, roomId = "default-r
     setEditText("");
   };
 
-  return (
+    const modalContent = (
     <>
       {/* Backdrop */}
       {isOpen && (
@@ -183,5 +184,7 @@ export const ChatModal: React.FC<Modl> = ({ isOpen, onClose, roomId = "default-r
         </div>
       </div>
     </>
-  );
+    );
+    
+    return createPortal(modalContent, document.body);
 };

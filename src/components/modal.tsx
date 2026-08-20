@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import type { Modl } from '../types/type';
 import useCardset from "../store.ts/store";
 import { Input } from "./ui/input";
@@ -48,8 +49,8 @@ export const Modal = ({ onClose }: Modl) => {
         onClose(false);
     };
 
-    return (
-        <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/70 backdrop-blur-md p-4">
+    const modalContent = (
+        <div className="fixed inset-0 z-[100] flex justify-center items-center bg-black/70 backdrop-blur-md p-4">
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -142,4 +143,6 @@ export const Modal = ({ onClose }: Modl) => {
             </motion.div>
         </div>
     );
+
+    return createPortal(modalContent, document.body);
 };
