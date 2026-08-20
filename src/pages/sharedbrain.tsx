@@ -10,7 +10,6 @@ interface SharedData {
     user: {
         firstName: string;
         lastName: string;
-        profilePic: string;
     };
     youtube: any[];
     twitter: any[];
@@ -52,13 +51,9 @@ export const SharedBrain = () => {
             <div className="max-w-6xl mx-auto flex flex-col gap-12">
                 {/* Header Profile Section */}
                 <div className="flex items-center gap-6 pb-8 border-b border-white/10 mt-8">
-                    {data.user.profilePic ? (
-                        <img src={data.user.profilePic} alt="Profile" className="w-20 h-20 rounded-full object-cover border-4 border-surface-2 shadow-xl" />
-                    ) : (
-                        <div className="w-20 h-20 rounded-full bg-surface-2 border-4 border-surface-1 flex items-center justify-center shadow-xl">
-                            <User2 className="w-10 h-10 text-zinc-400" />
-                        </div>
-                    )}
+                    <div className="w-20 h-20 rounded-full bg-surface-2 border-4 border-surface-1 flex items-center justify-center shadow-xl">
+                        <User2 className="w-10 h-10 text-zinc-400" />
+                    </div>
                     <div className="flex flex-col">
                         <h1 className="text-4xl font-bold tracking-tight text-white flex items-center gap-3">
                             {data.user.firstName} {data.user.lastName}'s Brain

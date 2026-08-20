@@ -37,6 +37,16 @@ export const useSocketStore = create<SocketState>((set, get) => ({
                 const data = JSON.parse(event.data);
                 console.log("WebSocket message received:", data);
 
+                if (data.type === "delete_room" || 
+                    (data.type === "chat_message" && (data.message?.message === "ROOM_DELETED_BY_ADMIN" || data.chat?.message === "ROOM_DELETED_BY_ADMIN")) ||
+                    (data.type === "broadcast_message" && (data.message?.message === "ROOM_DELETED_BY_ADMIN" || data.chat?.message === "ROOM_DELETED_BY_ADMIN"))) {
+                    if (window.location.pathname.includes("/chat")) {
+                        alert("The admin has deleted this room. You will be redirected to the dashboard.");
+                        window.location.href = "/dashboard";
+                    }
+                    return;
+                }
+
                 if (data.type === "broadcast_pin" || data.type === "add_pin") {
                     const pinData = data.pin || data.card;
                     if (pinData) {
@@ -46,11 +56,13 @@ export const useSocketStore = create<SocketState>((set, get) => ({
                 if (data.type === "chat_message" || data.type === "broadcast_message") {
                     const msg = data.message || data.chat;
                     if (msg) {
+                        const senderObj = msg.sender || {};
+                        const name = senderObj.username || senderObj.name || senderObj.firstName || senderObj.email || msg.senderName;
                         const mappedMsg = {
                             id: msg._id || msg.id,
                             text: msg.message || msg.text,
-                            senderId: msg.sender?._id || msg.sender || msg.senderId,
-                            senderName: msg.sender?.username || msg.senderName,
+                            senderId: senderObj._id || msg.sender || msg.senderId,
+                            senderName: name,
                             timestamp: msg.createdAt || msg.timestamp
                         };
                         useChatStore.getState().receiveMessageAdded(mappedMsg);

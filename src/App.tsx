@@ -12,7 +12,6 @@ import { Twitter } from './pages/twitter'
 import { Todo } from './pages/todo'
 import { Loading } from './components/loading'
 import { EventPage } from './pages/event'
-import { Uploadavatar } from './pages/uploadavatar'
 import { Aidayplanner } from './pages/aidayplanner'
 import { SharedBrain } from './pages/sharedbrain'
 import './index.css'
@@ -36,8 +35,6 @@ function App() {
           <Route path="/twitter" element={<Twitter />} />
           <Route path="/todo" element={<Todo />} />
           <Route path="/planner" element={<Aidayplanner />} />
-          {/* <Route path="/notifications" element={<NotificationPage />} /> */}
-          <Route path="/profile" element={<Uploadavatar />} />
           <Route path="/event" element={<EventPage />} />
          
         </Route>

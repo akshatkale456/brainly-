@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 
 export const ChatModal: React.FC<Modl> = ({ isOpen, onClose, roomId = "default-room" }) => {
-  const { messages, fetchMessages, addMessage, deleteMessage, editMessage } = useChatStore();
+  const { messages, fetchMessages, addMessage, deleteMessage, editMessage, currentUserId, currentUserName } = useChatStore();
   const [newMessage, setNewMessage] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState("");
@@ -82,71 +82,83 @@ export const ChatModal: React.FC<Modl> = ({ isOpen, onClose, roomId = "default-r
         </div>
 
         {/* Messages List */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar bg-surface-1">
-          {messages.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-zinc-500 space-y-3">
-              <div className="w-16 h-16 rounded-full bg-surface-2 flex items-center justify-center border border-ui-border">
-                <span className="text-2xl">💬</span>
-              </div>
-              <p className="text-sm">No messages yet. Start the conversation!</p>
-            </div>
-          ) : (
-            messages.map((msg) => (
-              <div key={msg.id} className="group flex flex-col items-start gap-1">
-                <div className="flex items-center justify-between w-full">
-                  <span className="text-[10px] font-medium text-zinc-500 uppercase tracking-wider">
-                    {msg.senderName || msg.senderId}
-                  </span>
+        <div className="flex-1 overflow-y-auto p-6 no-scrollbar bg-surface-1">
+          <div className="flex flex-col justify-end min-h-full space-y-4">
+            {messages.length === 0 ? (
+              <div className="flex-1 flex flex-col items-center justify-center text-zinc-500 space-y-3">
+                <div className="w-16 h-16 rounded-full bg-surface-2 flex items-center justify-center border border-ui-border">
+                  <span className="text-2xl">💬</span>
                 </div>
+                <p className="text-sm">No messages yet. Start the conversation!</p>
+              </div>
+            ) : (
+              messages.map((msg) => {
+                const isMe = currentUserId ? msg.senderId === currentUserId : false;
                 
-                <div className="relative max-w-[85%] bg-indigo-600/20 border border-indigo-500/30 text-zinc-100 p-3 rounded-2xl rounded-tl-sm text-sm break-words shadow-sm">
-                  {editingId === msg.id ? (
-                    <div className="flex items-center gap-2">
-                      <Input 
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                        className="h-8 text-sm bg-surface-2 border-indigo-500/50"
-                        autoFocus
-                      />
-                      <Button size="icon-sm" variant="ghost" onClick={() => saveEdit(msg.id)} className="h-6 w-6 text-green-400 hover:text-green-300">
-                        <Check className="w-4 h-4" />
-                      </Button>
-                      <Button size="icon-sm" variant="ghost" onClick={() => setEditingId(null)} className="h-6 w-6 text-zinc-400 hover:text-zinc-300">
-                        <XCircle className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <span>{msg.text}</span>
-                  )}
+                // Determine what name to show. Use currentUserName if it's my message, otherwise msg.senderName. If none, fallback to "Unknown User".
+                const displayName = isMe ? (currentUserName || msg.senderName || "Me") : (msg.senderName || "Unknown User");
 
-                  {/* Actions hover menu */}
-                  {editingId !== msg.id && (
-                    <div className="absolute top-1/2 -right-16 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                      <Button 
-                        size="icon-sm" 
-                        variant="ghost" 
-                        onClick={() => startEdit(msg.id, msg.text)}
-                        className="h-6 w-6 rounded-full text-zinc-400 hover:text-white bg-surface-2/80 backdrop-blur"
-                        title="Edit"
-                      >
-                        <Edit2 className="w-3 h-3" />
-                      </Button>
-                      <Button 
-                        size="icon-sm" 
-                        variant="ghost" 
-                        onClick={() => deleteMessage(msg.id)}
-                        className="h-6 w-6 rounded-full text-zinc-400 hover:text-red-400 hover:bg-red-500/10 bg-surface-2/80 backdrop-blur"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </Button>
-                    </div>
-                  )}
+                return (
+                <div key={msg.id} className={`group flex flex-col gap-1 ${isMe ? 'items-end' : 'items-start'}`}>
+                  <div className={`flex items-center justify-between w-full ${isMe ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <span className="text-[10px] font-medium text-zinc-500 uppercase tracking-wider">
+                      {displayName}
+                    </span>
+                  </div>
+                  
+                  <div className={`relative max-w-[85%] p-3 rounded-2xl text-sm break-words shadow-sm ${
+                    isMe 
+                      ? 'bg-indigo-600/20 border border-indigo-500/30 text-zinc-100 rounded-tr-sm' 
+                      : 'bg-surface-2 border border-ui-border text-zinc-200 rounded-tl-sm'
+                  }`}>
+                    {editingId === msg.id ? (
+                      <div className="flex items-center gap-2">
+                        <Input 
+                          value={editText}
+                          onChange={(e) => setEditText(e.target.value)}
+                          className={`h-8 text-sm ${isMe ? 'bg-surface-2 border-indigo-500/50' : 'bg-surface-0 border-ui-border'}`}
+                          autoFocus
+                        />
+                        <Button size="icon-sm" variant="ghost" onClick={() => saveEdit(msg.id)} className="h-6 w-6 text-green-400 hover:text-green-300">
+                          <Check className="w-4 h-4" />
+                        </Button>
+                        <Button size="icon-sm" variant="ghost" onClick={() => setEditingId(null)} className="h-6 w-6 text-zinc-400 hover:text-zinc-300">
+                          <XCircle className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <span>{msg.text}</span>
+                    )}
+
+                    {/* Actions hover menu */}
+                    {editingId !== msg.id && isMe && (
+                      <div className="absolute top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 -left-16">
+                        <Button 
+                          size="icon-sm" 
+                          variant="ghost" 
+                          onClick={() => startEdit(msg.id, msg.text)}
+                          className="h-6 w-6 rounded-full text-zinc-400 hover:text-white bg-surface-2/80 backdrop-blur"
+                          title="Edit"
+                        >
+                          <Edit2 className="w-3 h-3" />
+                        </Button>
+                        <Button 
+                          size="icon-sm" 
+                          variant="ghost" 
+                          onClick={() => deleteMessage(msg.id)}
+                          className="h-6 w-6 rounded-full text-zinc-400 hover:text-red-400 hover:bg-red-500/10 bg-surface-2/80 backdrop-blur"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))
-          )}
-          <div ref={messagesEndRef} />
+              )})
+            )}
+            <div ref={messagesEndRef} />
+          </div>
         </div>
 
         {/* Input Area */}

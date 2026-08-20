@@ -20,11 +20,62 @@ interface ChatState {
     receiveMessageAdded: (message: ChatMessage) => void;
     receiveMessageDeleted: (messageId: string) => void;
     receiveMessageUpdated: (id: string, text: string) => void;
+    currentUserId: string | null;
+    currentUserName: string | null;
+    fetchCurrentUser: () => Promise<void>;
 }
+
+function extractUserFromToken(): { id: string | null, name: string | null } {
+    const token = localStorage.getItem("Authorization");
+    if (!token) return { id: null, name: null };
+    try {
+        const parts = token.split('.');
+        if (parts.length !== 3) return { id: null, name: null };
+        const base64Url = parts[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        const payload = JSON.parse(jsonPayload);
+        const id = payload.id || payload.userId || payload._id || payload.sub || null;
+        const name = payload.username || payload.name || payload.email || null;
+        return { id, name };
+    } catch (e) {
+        return { id: null, name: null };
+    }
+}
+
+const initialUser = extractUserFromToken();
 
 export const useChatStore = create<ChatState>((set) => ({
     messages: [],
+    currentUserId: initialUser.id,
+    currentUserName: initialUser.name,
+    fetchCurrentUser: async () => {
+        const token = localStorage.getItem("Authorization");
+        if (!token) return;
+        try {
+            const response = await fetch(`${API_URL}/me`, {
+                headers: { "authorization": token }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                const user = data.User || data.user || data;
+                set({ 
+                    currentUserId: user._id || user.id,
+                    currentUserName: user.username || user.name || user.email 
+                });
+            }
+        } catch (error) {
+            console.error("Error fetching current user:", error);
+        }
+    },
     fetchMessages: async () => {
+        const state = useChatStore.getState();
+        if (!state.currentUserId || !state.currentUserName) {
+            await state.fetchCurrentUser();
+        }
+        
         const roomId = useRoomStore.getState().roomId;
         const token = localStorage.getItem("Authorization") || "";
         try {
@@ -37,13 +88,17 @@ export const useChatStore = create<ChatState>((set) => ({
             });
             const data = await response.json();
             
-            const mappedMessages = (data.messages || []).map((m: any) => ({
-                id: m._id,
-                text: m.message,
-                senderId: m.sender?._id || m.sender,
-                senderName: m.sender?.username,
-                timestamp: m.createdAt
-            }));
+            const mappedMessages = (data.messages || []).map((m: any) => {
+                const senderObj = m.sender || {};
+                const name = senderObj.username || senderObj.name || senderObj.firstName || senderObj.email || m.senderName;
+                return {
+                    id: m._id,
+                    text: m.message,
+                    senderId: senderObj._id || m.sender,
+                    senderName: name,
+                    timestamp: m.createdAt
+                };
+            });
             
             set({ messages: mappedMessages });
         } catch (error) {
@@ -61,7 +116,7 @@ export const useChatStore = create<ChatState>((set) => ({
                     "Content-Type": "application/json",
                     "authorization": token
                 },
-                body: JSON.stringify({ roomId, message: text, type: "client" })
+                body: JSON.stringify({ roomId, message: text, type: "client", senderName: useChatStore.getState().currentUserName })
             });
 
             if (!response.ok) {
@@ -71,17 +126,23 @@ export const useChatStore = create<ChatState>((set) => ({
             const data = await response.json();
             const newMsg = data.chat;
             
+            const senderObj = newMsg.sender || {};
+            const name = senderObj.username || senderObj.name || senderObj.firstName || senderObj.email || newMsg.senderName;
             const mappedMsg: ChatMessage = {
                 id: newMsg._id,
                 text: newMsg.message,
-                senderId: newMsg.sender?._id || newMsg.sender,
-                senderName: newMsg.sender?.username,
+                senderId: senderObj._id || newMsg.sender,
+                senderName: name,
                 timestamp: newMsg.createdAt
             };
 
-            set((state) => ({ messages: [...state.messages, mappedMsg] }));
+            set((state) => ({ 
+                messages: [...state.messages, mappedMsg],
+                currentUserId: state.currentUserId || mappedMsg.senderId 
+            }));
             
             const { useSocketStore } = await import("./socketstore");
+            newMsg.senderName = useChatStore.getState().currentUserName;
             useSocketStore.getState().sendMessage({
                 type: "chat_message",
                 roomName: roomId,

@@ -147,15 +147,16 @@ export const Gridspancomponenet = () => {
             </div>
 
             {/* Right Column: Overlapping Cards Visualization */}
-            <div className="lg:col-span-7 relative h-[400px] flex items-center justify-center group perspective-1000">
+            {/* Right Column: Overlapping Cards Visualization */}
+            <div className="lg:col-span-7 relative flex flex-col md:block items-center justify-center gap-6 md:gap-0 md:h-[400px] group perspective-1000 mt-12 md:mt-0">
               
               {/* Left Card (Behind) */}
               <motion.div 
                 initial={{ x: 0, y: 0, rotate: 0, scale: 0.9 }}
-                whileInView={{ x: "-40%", y: "10%", rotate: -12, scale: 0.9 }}
+                whileInView={{ x: typeof window !== 'undefined' && window.innerWidth >= 768 ? "-40%" : 0, y: typeof window !== 'undefined' && window.innerWidth >= 768 ? "10%" : 0, rotate: typeof window !== 'undefined' && window.innerWidth >= 768 ? -12 : 0, scale: typeof window !== 'undefined' && window.innerWidth >= 768 ? 0.9 : 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, type: "spring" }}
-                className="absolute w-64 h-80 rounded-3xl bg-zinc-900/80 backdrop-blur-md border border-white/10 shadow-2xl p-6 flex flex-col z-10 group-hover:-translate-x-[60%] group-hover:rotate-[-20deg] group-hover:scale-95 transition-all duration-500 ease-out"
+                className="relative md:absolute w-64 h-80 rounded-3xl bg-zinc-900/80 backdrop-blur-md border border-white/10 shadow-2xl p-6 flex flex-col z-10 md:group-hover:-translate-x-[60%] md:group-hover:rotate-[-20deg] md:group-hover:scale-95 transition-all duration-500 ease-out"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
@@ -175,12 +176,10 @@ export const Gridspancomponenet = () => {
               {/* Right Card (Behind) */}
               <motion.div 
                 initial={{ x: 0, y: 0, rotate: 0, scale: 0.9 }}
-                whileInView={{ x: "40%", y: "10%", rotate: 12, scale: 0.9 }}
+                whileInView={{ x: typeof window !== 'undefined' && window.innerWidth >= 768 ? "40%" : 0, y: typeof window !== 'undefined' && window.innerWidth >= 768 ? "10%" : 0, rotate: typeof window !== 'undefined' && window.innerWidth >= 768 ? 12 : 0, scale: typeof window !== 'undefined' && window.innerWidth >= 768 ? 0.9 : 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, type: "spring" }}
-                className="absolute w-64 h-80 rounded-3xl bg-zinc-900/80 backdrop-blur-md border
-                 border-white/10 shadow-2xl p-6 flex flex-col z-10 group-hover:translate-x-[60%] 
-                 group-hover:rotate-[20deg] group-hover:scale-95 transition-all duration-500 ease-out"
+                className="relative md:absolute w-64 h-80 rounded-3xl bg-zinc-900/80 backdrop-blur-md border border-white/10 shadow-2xl p-6 flex flex-col z-10 md:group-hover:translate-x-[60%] md:group-hover:rotate-[20deg] md:group-hover:scale-95 transition-all duration-500 ease-out"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
@@ -203,7 +202,7 @@ export const Gridspancomponenet = () => {
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="absolute w-72 h-96 rounded-3xl bg-zinc-800/90 backdrop-blur-2xl border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)] p-6 flex flex-col z-20 group-hover:-translate-y-4 group-hover:shadow-[0_40px_80px_rgba(255,255,255,0.05)] transition-all duration-500 ease-out"
+                className="relative md:absolute w-72 h-96 rounded-3xl bg-zinc-800/90 backdrop-blur-2xl border border-white/20 shadow-[0_30px_60px_rgba(0,0,0,0.6)] p-6 flex flex-col z-20 md:group-hover:-translate-y-4 md:group-hover:shadow-[0_40px_80px_rgba(255,255,255,0.05)] transition-all duration-500 ease-out"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">

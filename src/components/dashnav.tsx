@@ -2,10 +2,8 @@ import { Search as SearchIcon, Bell as NotificationsNoneIcon, Plus as AddIcon, M
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Modal } from "./modal";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Alerttdot } from "./alertdot";
-import { Loading } from "./loading";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { BACKEND_URL, API_URL } from "../config";
@@ -16,36 +14,7 @@ interface DashnavProps {
 
 export const Dashnav = ({ toggleSidebar }: DashnavProps) => {
    const [open, setClose] = useState(false);
-   const [profilepic, setProfilePic] = useState<string | null>(null);
    const navigate = useNavigate();
-
-   useEffect(() => {
-      const fetchUser = async () => {
-         try {
-            const token = localStorage.getItem("Authorization");
-            if (!token) {
-               setProfilePic("");
-               return;
-            }
-            const res = await axios.get(`${API_URL}/me`, {
-               headers: {
-                  Authorization: token
-               }
-            });
-            if (res.data?.User?.url) {
-               setProfilePic(`${BACKEND_URL}${res.data.User.url}`);
-            } else {
-               setProfilePic("");
-            }
-         } catch (e) {
-            console.error("Failed to fetch user profile", e);
-            setProfilePic("");
-         }
-      };
-      fetchUser();
-   }, []);
-
-   if (profilepic === null) return <div><Loading /></div>;
 
    return (
       <header className="sticky top-0 z-40 w-full bg-surface-0/90 backdrop-blur-md text-on-surface">

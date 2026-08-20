@@ -1,4 +1,4 @@
-import { Search, Plus, Pin as PinIcon, Sparkles } from "lucide-react";
+import { Search, Plus, Pin as PinIcon, Sparkles, MessageSquare, Trash2 } from "lucide-react";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
@@ -14,7 +14,7 @@ export const Pin = () => {
     const { pins, fetchPins, addPin, isAdmin } = pincardset();
     const roomId = useRoomStore((state) => state.roomId);
     const [searchQuery, setSearchQuery] = useState("");
-    const [setchat ,closechat ]=  useState(true)
+    const [isChatOpen, setIsChatOpen] = useState(true);
     
     const titleRef = useRef<HTMLInputElement>(null);
     const linkRef = useRef<HTMLInputElement>(null);
@@ -53,6 +53,30 @@ export const Pin = () => {
         if (priorityRef.current) priorityRef.current.value = "low";
     };
 
+    const handleDeleteRoom = () => {
+        if (!confirm("Are you sure you want to delete this room? Everyone will be kicked out.")) return;
+        
+        // Broadcast the delete signal to everyone else in the room
+        useSocketStore.getState().sendMessage({
+            type: "delete_room",
+            roomName: roomId
+        });
+        
+        // Also send as a chat message as a reliable fallback
+        useSocketStore.getState().sendMessage({
+            type: "chat_message",
+            roomName: roomId,
+            message: {
+                _id: "system-delete",
+                message: "ROOM_DELETED_BY_ADMIN",
+                sender: { username: "System" }
+            }
+        });
+        
+        alert("Room deleted.");
+        window.location.href = "/dashboard";
+    };
+
     const pinnedCards = pins.filter(c => c.type !== "youtube" && c.type !== "twitter");
     const filteredCards = pinnedCards.filter(c => 
         c.title?.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -61,7 +85,7 @@ export const Pin = () => {
 
     return (
         <div className="min-h-screen bg-surface-0 p-6 md:p-10 max-w-7xl mx-auto space-y-8">
-            <ChatModal isOpen ={setchat } onClose={closechat}/>
+            <ChatModal isOpen={isChatOpen} onClose={setIsChatOpen}/>
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8">
                 <div className="space-y-3">
@@ -126,15 +150,34 @@ export const Pin = () => {
                         </Badge>
                     </div>
 
-                    {/* Search Bar */}
-                    <div className="relative w-full sm:w-72">
-                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 w-4 h-4" />
-                        <Input 
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search pinned links & titles..." 
-                            className="pl-10 h-10 bg-surface-2 border-ui-border focus-visible:ring-secondary rounded-full"
-                        />
+                    {/* Search & Chat Toggle */}
+                    <div className="flex items-center gap-3 w-full sm:w-auto">
+                        <div className="relative flex-1 sm:flex-none sm:w-72">
+                            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 w-4 h-4" />
+                            <Input 
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="Search pinned links & titles..." 
+                                className="pl-10 h-10 bg-surface-2 border-ui-border focus-visible:ring-secondary rounded-full"
+                            />
+                        </div>
+                        {isAdmin && (
+                            <Button 
+                                onClick={handleDeleteRoom}
+                                variant="destructive"
+                                className="h-10 px-4 rounded-full flex items-center gap-2 shadow-md bg-red-600 hover:bg-red-700 text-white"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                                <span className="hidden sm:inline">Delete Room</span>
+                            </Button>
+                        )}
+                        <Button 
+                            onClick={() => setIsChatOpen(!isChatOpen)}
+                            className={`h-10 px-4 rounded-full flex items-center gap-2 ${isChatOpen ? 'bg-surface-2 text-white hover:bg-surface-3' : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md'}`}
+                        >
+                            <MessageSquare className="w-4 h-4" />
+                            <span className="hidden sm:inline">{isChatOpen ? 'Close Chat' : 'Open Chat'}</span>
+                        </Button>
                     </div>
                 </div>
             </div>
