@@ -25,33 +25,15 @@ interface ChatState {
     fetchCurrentUser: () => Promise<void>;
 }
 
-function extractUserFromToken(): { id: string | null, name: string | null } {
-    if (!token) return { id: null, name: null };
-    try {
-        const parts = token.split('.');
-        if (parts.length !== 3) return { id: null, name: null };
-        const base64Url = parts[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-        const payload = JSON.parse(jsonPayload);
-        const id = payload.id || payload.userId || payload._id || payload.sub || null;
-        const name = payload.username || payload.name || payload.email || null;
-        return { id, name };
-    } catch (e) {
-        return { id: null, name: null };
-    }
-}
 
-const initialUser = extractUserFromToken();
+
+
 
 export const useChatStore = create<ChatState>((set) => ({
     messages: [],
-    currentUserId: initialUser.id,
-    currentUserName: initialUser.name,
+    currentUserId: null,
+    currentUserName: null,
     fetchCurrentUser: async () => {
-        if (!token) return;
         try {
             const response = await fetch(`${API_URL}/me`, {
                 headers: {},
