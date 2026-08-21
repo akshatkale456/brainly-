@@ -19,14 +19,11 @@ export const pincardset = create<PinGlobalState>((set) => ({
   isAdmin: false,
   fetchPins: async () => {
     const roomId = useRoomStore.getState().roomId;
-    const token = localStorage.getItem("Authorization") || "";
     try {
       const response = await fetch(`${API_URL}/livepin/cards/${roomId}`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "authorization": token,
-        },
+        headers: {"Content-Type": "application/json"},
+                credentials: "include",
       });
       const data = await response.json();
       const pinsList = Array.isArray(data.cards) ? data.cards : (Array.isArray(data) ? data : []);
@@ -45,14 +42,11 @@ export const pincardset = create<PinGlobalState>((set) => ({
     const tempPin = { ...newPin, id: tempid };
     set((state) => ({ pins: [...state.pins, tempPin] }));
 
-    const token = localStorage.getItem("Authorization");
     try {
       const response = await fetch(`${API_URL}/livepin/cards`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "authorization": token || ""
-        },
+        headers: {"Content-Type": "application/json"},
+                credentials: "include",
         body: JSON.stringify({
           cardId: tempid,
           roomId: roomId,
@@ -95,14 +89,11 @@ export const pincardset = create<PinGlobalState>((set) => ({
       pins: state.pins.filter((p) => String(p.id) !== String(id))
     }));
 
-    const token = localStorage.getItem("Authorization");
     try {
       const response = await fetch(`${API_URL}/livepin/cards/${id}`, {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "authorization": token || ""
-        }
+        headers: {"Content-Type": "application/json"},
+                credentials: "include"
       });
 
       if (!response.ok) {
@@ -122,14 +113,11 @@ export const pincardset = create<PinGlobalState>((set) => ({
       })
     }));
 
-    const token = localStorage.getItem("Authorization");
     try {
       const response = await fetch(`${API_URL}/livepin/cards/${id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "authorization": token || ""
-        },
+        headers: {"Content-Type": "application/json"},
+                credentials: "include",
         body: JSON.stringify(updatedData)
       });
 

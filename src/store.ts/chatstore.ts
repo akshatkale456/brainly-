@@ -26,7 +26,6 @@ interface ChatState {
 }
 
 function extractUserFromToken(): { id: string | null, name: string | null } {
-    const token = localStorage.getItem("Authorization");
     if (!token) return { id: null, name: null };
     try {
         const parts = token.split('.');
@@ -52,11 +51,11 @@ export const useChatStore = create<ChatState>((set) => ({
     currentUserId: initialUser.id,
     currentUserName: initialUser.name,
     fetchCurrentUser: async () => {
-        const token = localStorage.getItem("Authorization");
         if (!token) return;
         try {
             const response = await fetch(`${API_URL}/me`, {
-                headers: { "authorization": token }
+                headers: {},
+                credentials: "include"
             });
             if (response.ok) {
                 const data = await response.json();
@@ -77,14 +76,11 @@ export const useChatStore = create<ChatState>((set) => ({
         }
         
         const roomId = useRoomStore.getState().roomId;
-        const token = localStorage.getItem("Authorization") || "";
         try {
             const response = await fetch(`${API_URL}/chat/${roomId}`, {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token,
-                },
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
             });
             const data = await response.json();
             
@@ -107,15 +103,12 @@ export const useChatStore = create<ChatState>((set) => ({
     },
     addMessage: async (text: string) => {
         const roomId = useRoomStore.getState().roomId;
-        const token = localStorage.getItem("Authorization") || "";
         // Optimistic UI update could go here if we know the senderId
         try {
             const response = await fetch(`${API_URL}/chat`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token
-                },
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
                 body: JSON.stringify({ roomId, message: text, type: "client", senderName: useChatStore.getState().currentUserName })
             });
 
@@ -158,14 +151,11 @@ export const useChatStore = create<ChatState>((set) => ({
             messages: state.messages.filter((m) => String(m.id) !== String(id))
         }));
 
-        const token = localStorage.getItem("Authorization");
         try {
             const response = await fetch(`${API_URL}/chat/${id}`, {
                 method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token || ""
-                }
+                headers: {"Content-Type": "application/json"},
+                credentials: "include"
             });
 
             if (!response.ok) {
@@ -185,14 +175,11 @@ export const useChatStore = create<ChatState>((set) => ({
             })
         }));
 
-        const token = localStorage.getItem("Authorization");
         try {
             const response = await fetch(`${API_URL}/chat/${id}`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token || ""
-                },
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
                 body: JSON.stringify({ message: text })
             });
 

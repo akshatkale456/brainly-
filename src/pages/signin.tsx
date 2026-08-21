@@ -32,10 +32,9 @@ export const Signin = () => {
             const response = await axios.post(`${API_URL}/signin`, {
                 email,
                 password
+            }, {
+                withCredentials: true
             });
-            if (response.data?.token) {
-                localStorage.setItem("Authorization", response.data.token)
-            }
             navigate("/dashboard")
             setLoading(false);
         } catch (e) {

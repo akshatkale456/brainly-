@@ -5,14 +5,11 @@ import { API_URL } from "../config";
 export const useEventStore = create<EventGlobalState>((set, get) => ({
     events: [],
     fetchEvents: async () => {
-        const token = localStorage.getItem("Authorization") || "";
         try {
             const response = await fetch(`${API_URL}/event/get`, {
                 method: "get",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token,
-                },
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
             });
             const data = await response.json();
             
@@ -41,14 +38,11 @@ export const useEventStore = create<EventGlobalState>((set, get) => ({
             events: [...state.events, temporaryEvent]
         }));
 
-        const token = localStorage.getItem("Authorization");
         try {
             const response = await fetch(`${API_URL}/event`, {
                 method: "post",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token || ""
-                },
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
                 body: JSON.stringify(newEvent)
             });
             
@@ -74,14 +68,11 @@ export const useEventStore = create<EventGlobalState>((set, get) => ({
     },
     
     deleteEvent: async (id) => {
-        const token = localStorage.getItem("Authorization");
         try {
             const response = await fetch(`${API_URL}/event/${id}`, {
                 method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token || ""
-                }
+                headers: {"Content-Type": "application/json"},
+                credentials: "include"
             });
             if (!response.ok) {
                 throw new Error("Failed to delete event");
@@ -105,14 +96,11 @@ export const useEventStore = create<EventGlobalState>((set, get) => ({
             })
         }));
 
-        const token = localStorage.getItem("Authorization");
         try {
             await fetch(`${API_URL}/event/${id}`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token || ""
-                },
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
                 body: JSON.stringify(updatedData)
             });
         } catch (e) {

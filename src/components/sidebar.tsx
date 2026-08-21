@@ -13,16 +13,13 @@ export const Sidebar = ({ isOpen, close }: SidebarProps) => {
     const navigate = useNavigate();
     
     const handleShareBrain = async () => {
-        const token = localStorage.getItem("Authorization");
-        if (!token) return alert("Please log in first");
-        
         try {
             const response = await fetch(`${API_URL}/brain/share`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization": token
-                }
+                },
+                credentials: "include"
             });
             
             if (response.ok) {
@@ -36,7 +33,7 @@ export const Sidebar = ({ isOpen, close }: SidebarProps) => {
                 await navigator.clipboard.writeText(shareLink);
                 alert("Share link copied to clipboard!");
             } else {
-                alert("Failed to generate share link");
+                alert("Failed to generate share link. Please log in.");
             }
         } catch (e) {
             console.error(e);
@@ -46,8 +43,15 @@ export const Sidebar = ({ isOpen, close }: SidebarProps) => {
         if (close) close();
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("Authorization");
+    const handleLogout = async () => {
+        try {
+            await fetch(`${API_URL}/logout`, {
+                method: "POST",
+                credentials: "include"
+            });
+        } catch(e) {
+            console.error("Logout failed", e);
+        }
         navigate("/signin");
         if (close) close();
     };

@@ -10,19 +10,15 @@ const useCardset = create<cardGlobalState>((set, get) => ({
         try {
             const responseyoutube = await fetch(`${API_URL}/youtube/get`, {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token,
-                },
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
             });
             const datayoutube = await responseyoutube.json();
             
             const responsetweet = await fetch(`${API_URL}/twitter/get`, {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token,
-                },
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
             });
             const datatweet = await responsetweet.json();
             
@@ -63,10 +59,8 @@ const useCardset = create<cardGlobalState>((set, get) => ({
         try {
             const response = await fetch(`${API_URL}/${endpoint}`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token || ""
-                },
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
                 body: JSON.stringify(backendPayload)
             });
 
@@ -109,10 +103,8 @@ const useCardset = create<cardGlobalState>((set, get) => ({
         try {
             const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
                 method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token || ""
-                }
+                headers: {"Content-Type": "application/json"},
+                credentials: "include"
             });
 
             if (!response.ok) {
@@ -157,10 +149,8 @@ const useCardset = create<cardGlobalState>((set, get) => ({
         try {
             const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token || ""
-                },
+                headers: {"Content-Type": "application/json"},
+                credentials: "include",
                 body: JSON.stringify(backendPayload)
             });
 

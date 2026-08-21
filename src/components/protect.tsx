@@ -1,10 +1,11 @@
-import  type{ ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export const Protected = ({ children }: { children: ReactNode }) => {
-    const token = localStorage.getItem("Authorization");
+    const isAuthenticated = Cookies.get("isAuthenticated");
 
-    if (!token) {
+    if (!isAuthenticated) {
         return <Navigate to="/signin" replace />;
     }
 

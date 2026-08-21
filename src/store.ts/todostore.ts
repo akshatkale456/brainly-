@@ -8,10 +8,8 @@ export const useTodoStore =  create<TodoGlobalState>((set,get) => ({
         const token = localStorage.getItem("Authorization") || "";
         const response = await fetch(`${API_URL}/todo/get`,{
             "method": "get",
-            headers: {
-          "Content-Type": "application/json",
-          "authorization" : token,
-        },
+            headers: {"Content-Type": "application/json"},
+                credentials: "include",
         
             
         })
@@ -52,10 +50,8 @@ export const useTodoStore =  create<TodoGlobalState>((set,get) => ({
         const token = localStorage.getItem("Authorization");
         const response = await fetch(`${API_URL}/todo`,{
             "method": "post",
-            headers: {
-          "Content-Type": "application/json",
-          "authorization" : token || ""
-        },
+            headers: {"Content-Type": "application/json"},
+                credentials: "include",
             body:JSON.stringify(backendPayload)
             
         })
@@ -94,10 +90,8 @@ export const useTodoStore =  create<TodoGlobalState>((set,get) => ({
          try {
              const response = await fetch(`${API_URL}/todo/${id}`, {
                  method: "DELETE",
-                 headers: {
-                     "Content-Type": "application/json",
-                     "authorization": token || ""
-                 }
+                 headers: {"Content-Type": "application/json"},
+                credentials: "include"
              });
              if (!response.ok) {
                  const error = await response.json();
@@ -133,10 +127,8 @@ export const useTodoStore =  create<TodoGlobalState>((set,get) => ({
          try{
              const response = await fetch(`${API_URL}/todo/${id}`,{
             "method": "put",
-            headers: {
-          "Content-Type": "application/json",
-          "authorization" : token || ""
-        },
+            headers: {"Content-Type": "application/json"},
+                credentials: "include",
             body:JSON.stringify(load)
             
         })

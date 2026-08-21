@@ -17,10 +17,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
         const { socket } = get();
         if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) return;
 
-        const token = localStorage.getItem("Authorization");
-        if (!token) return;
-
-        const wsUrl = `${BACKEND_URL.replace("http", "ws")}/ws?token=${token}`;
+        const wsUrl = `${BACKEND_URL.replace("http", "ws")}/ws`;
         const newSocket = new WebSocket(wsUrl);
 
         newSocket.addEventListener("open", () => {

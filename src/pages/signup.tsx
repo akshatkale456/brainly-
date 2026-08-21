@@ -46,6 +46,8 @@ export const Signup = () => {
                 email,
                 password,
                 confirmPassword
+            }, {
+                withCredentials: true
             });
             
             setLoading(false);
